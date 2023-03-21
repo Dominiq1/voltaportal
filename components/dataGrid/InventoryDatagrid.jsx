@@ -184,7 +184,7 @@ export default function IntenvtoryDatagrid(props) {
 
 
   return (
-    <Box sx={{ height: 520, width: 'fit-content', backgroundColor: 'red'}}>
+    <Box sx={{ height: 520, width: 'fit-content'}}>
 
 
 <Box sx={{display: 'flex', flexDirection:'row'}}>

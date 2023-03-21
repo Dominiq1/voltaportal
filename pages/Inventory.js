@@ -80,20 +80,20 @@ export default function Inventory() {
 
 
   return (
-    <Box sx={{width: '100vw', height: '100vh', backgroundColor: 'blue', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+    <Box sx={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
    
 
       <Container>
     
 
-      <Box sx={{width: '100%', display: 'flex', backgroundColor: 'yellow', justifyContent: 'center'}}> 
+      <Box sx={{width: '100%', display: 'flex',justifyContent: 'center'}}> 
       <AddVanItem/>
 <OrderInventory/>
 
 </Box>
       
     
-<Box sx={{width: '100%', display: 'flex', backgroundColor: 'yellow', justifyContent: 'center'}}> 
+<Box sx={{width: '100%', display: 'flex',justifyContent: 'center'}}> 
 
 <IntenvtoryDatagrid onRowSelectionChange={(selectedRows) => setSelectedRows(selectedRows)} 
      UserData={users}/>
