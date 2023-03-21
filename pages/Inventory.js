@@ -88,7 +88,7 @@ export default function Inventory() {
 
       <Box sx={{width: '100%', display: 'flex',justifyContent: 'center'}}> 
       <AddVanItem/>
-    
+    <OrderInventory/>
 
     </Box>
       
