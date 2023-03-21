@@ -44,7 +44,7 @@ export default function App({ Component, pageProps }) {
 
 
  const client = new ApolloClient({
-  uri: '/graphql',
+  uri: 'https://voltaicapiio.herokuapp.com/graphql',
   cache,
 })
 
