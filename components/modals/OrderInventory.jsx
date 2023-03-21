@@ -14,8 +14,7 @@ import { ADD_ORDER } from '@/gql/mutations/addOrder';
 
 export default function OrderInventory() {
  
-
-    const [addOrder, { data }] = useMutation(ADD_ORDER);
+  const [addOrder, { data }] = useMutation(ADD_ORDER);
 
   const [uploadInProcess, setUploaded] = useState(false);
 
@@ -69,7 +68,7 @@ export default function OrderInventory() {
     <>
       {uploadInProcess ? (
         <div>
-          <Button variant="outlined" onClick={handleClickOpen}>
+          <Button variant="outlined" onClick={handleClickOpen} >
             Order Item!
           </Button>
           <Dialog open={open} onClose={handleClose}>
@@ -119,8 +118,8 @@ export default function OrderInventory() {
         </div>
       ) : (
         <div>
-          <Button variant="outlined" onClick={handleClickOpen}>
-            Order Item!
+          <Button variant="outlined" onClick={handleClickOpen} sx={{marginLeft: '10px'}}>
+            Order Inventory
           </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Order Summary</DialogTitle>
