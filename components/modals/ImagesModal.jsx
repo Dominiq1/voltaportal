@@ -42,8 +42,8 @@ function ImageUpload() {
       // const storageRef = ref(storage, `images/${uuid()}`);
 
 
-const preUri = 'images/stars.jpg'
-      const pathReference = ref(storage, preUri);
+const preUri = 'images/item.jpg' + uuid();
+      const pathReference = ref(storage,preUri);
 
 
       // 'file' comes from the Blob or File API
@@ -283,8 +283,8 @@ export default function OrderInventory() {
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleLeadSubmit}>Upload Image</Button>
+                <Button onClick={handleClose}>Confirm</Button>
+               
                 </DialogActions>
                 </Dialog>
                 </div>
