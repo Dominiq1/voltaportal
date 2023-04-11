@@ -82,7 +82,7 @@ export default function Inventory() {
 
 
   return (
-    <Box sx={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+    <Box sx={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor:'white', color: 'black'}}>
    
 
       <Container>
