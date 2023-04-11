@@ -70,8 +70,9 @@ export default function InventoryDatagrid(props) {
     { id: 2, images: '', itemName: 'Steel Rod', itemQuantity: '9' },
     { id: 3, images: '', itemName: 'Mallet', itemQuantity: '3' },
     { id: 4, images: '', itemName: '4x8 Pannel', itemQuantity: '5' },
-   
   ];
+
+
 
   const handleSendEmails = async (Emails, Subject, Body) => {
     try {
@@ -101,7 +102,6 @@ export default function InventoryDatagrid(props) {
 
   useEffect(() => {
 
-   
     if(props.UserData){ 
       // console.log(props.UserData)
       
