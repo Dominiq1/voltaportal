@@ -10,6 +10,8 @@ import { useState, useMemo } from 'react';
 import { GET_LEADS, NEW_LEAD_SUBSCRIPTION } from '@/gql/queries/leadQueries';
 
 import UsersActions from '@/components/UserActions';
+import { GET_ORDERS } from '@/gql/queries/orderQueries';
+import { GET_VAN_ITEMS } from '@/gql/queries/VanQuery';
 
 import IntenvtoryDatagrid from '../components/dataGrid/InventoryDatagrid';
 // ----------------------------------------------------------------------
@@ -41,9 +43,9 @@ export default function Inventory() {
         setUsers((prevUsers) => [...prevUsers, newLead]);
       },
     });
- 
-
-  const { loading, error, data } = useQuery(GET_LEADS);
+    const {loading: graphQLClientsLoading, error: graphQLClientsError, data  } = useQuery(GET_VAN_ITEMS, {
+      variables: { vanId: "64067ba9d93b3428a600075a" },
+    });
 
   // const { data } = useDemoData({
   //   dataSet: 'Employee',
@@ -62,8 +64,8 @@ export default function Inventory() {
 
  if(data){
       console.log(data);
-  const { leads } = data;
-  setUsers(leads);
+  const { VanItems } = data;
+  setUsers(VanItems);
 
  }else{
     setUsers([]);
@@ -89,7 +91,7 @@ export default function Inventory() {
       <Box sx={{width: '100%', display: 'flex',justifyContent: 'center'}}> 
       
       <AddVanItem/>
-      <OrderInventory/>
+      {/* <OrderInventory/> */}
 
       </Box>
       
@@ -97,6 +99,7 @@ export default function Inventory() {
 <Box sx={{width: '100%', display: 'flex',justifyContent: 'center'}}> 
 
 <IntenvtoryDatagrid onRowSelectionChange={(selectedRows) => setSelectedRows(selectedRows)} 
+
      UserData={users}/>
 
 </Box>

@@ -12,18 +12,23 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { ADD_VAN_ITEM } from '@/gql/mutations/addVanItem';
 
 
+
 export default function AddVanItem() {
 
 //   const [addLead, { loading, error, data }] = useMutation(ADD_LEAD);
+
+
   const [addVanItem, {vanLoading, vanError, vanData}] = useMutation(ADD_VAN_ITEM);
 
+
+
   const [formData, setFormData] = useState({
-    itemId: "",
+    itemId: "23",
     itemName: "",
     itemDescription: "",
     itemQuantity: "",
-    itemImage: "",
-    vanId: "",
+    itemImage: "HTTP://",
+    vanId: "64067ba9d93b3428a600075a",
   });
 
   const [uploadInProcess, setUploaded] = useState(false);
@@ -75,12 +80,12 @@ export default function AddVanItem() {
 
     addVanItem({
     variables: {
-        itemId: "Hello", 
-        itemName: "Hello", 
-        itemDescription: "Hello",
-        itemQuantity: "Hello", 
-        itemImage: "Hello",
-        vanId: "64064e66fe9b22647414a812"
+        itemId: formData.itemId, 
+        itemName: formData.itemName, 
+        itemDescription: formData.itemDescription,
+        itemQuantity: formData.itemQuantity, 
+        itemImage: formData.itemImage,
+        vanId: "64067ba9d93b3428a600075a"
         
     }
    
@@ -196,7 +201,7 @@ onChange={handleChange}
    </DialogContent>
    <DialogActions>
      <Button onClick={handleClose}>Cancel</Button>
-     <Button onClick={handleLeadSubmit}> Request Inventory</Button>
+     <Button onClick={handleLeadSubmit}> Add Item</Button>
    </DialogActions>
  </Dialog>
 </div>)}
