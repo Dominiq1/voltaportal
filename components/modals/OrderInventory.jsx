@@ -40,6 +40,7 @@ export default function OrderInventory({ params}) {
 
     // console.log(formData)
     e.preventDefault();
+    setUploaded(true);
 
 
     addOrder({
@@ -54,7 +55,8 @@ export default function OrderInventory({ params}) {
       }
       }).then((res) => {
          console.log("Order Submitted");
-    console.log(res);
+         setUploaded(false);
+    console.log(true);
     // setUploaded(false);
    
 
@@ -77,7 +79,7 @@ export default function OrderInventory({ params}) {
             <DialogTitle>Order Receipt</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                <Box display="flex" flexDirection="column">
+                {/* <Box display="flex" flexDirection="column">
                   <Box display="flex" justifyContent="space-between" mb={1}>
 
                   <span>Image</span>
@@ -101,7 +103,7 @@ export default function OrderInventory({ params}) {
                     <span>Aluminum Foil</span>
                     <span>5</span>
                   </Box>
-                </Box>
+                </Box> */}
               </DialogContentText>
               <Box display="flex" justifyContent="center">
                 <img
@@ -121,7 +123,7 @@ export default function OrderInventory({ params}) {
       ) : (
         <div>
           <Button variant="outlined" onClick={handleClickOpen} sx={{marginLeft: '10px'}}>
-            Order Inventory
+            Update Van Item
           </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Order Summary</DialogTitle>
@@ -149,7 +151,7 @@ export default function OrderInventory({ params}) {
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleLeadSubmit}>Request Inventory</Button>
+                <Button onClick={handleLeadSubmit}>Update Update</Button>
                 </DialogActions>
                 </Dialog>
                 </div>
