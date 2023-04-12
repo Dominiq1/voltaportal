@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -10,7 +10,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ADD_VAN_ITEM } from '@/gql/mutations/addVanItem';
-
+import ImagesModal from './ImagesModal';
 
 
 export default function AddVanItem() {
@@ -36,7 +36,6 @@ export default function AddVanItem() {
 
 
  const [open, setOpen] = React.useState(false);
-
 
 
 
@@ -82,7 +81,7 @@ export default function AddVanItem() {
     variables: {
         itemId: formData.itemId, 
         itemName: formData.itemName, 
-        itemDescription: formData.itemDescription,
+        itemDescription: "",
         itemQuantity: formData.itemQuantity, 
         itemImage: formData.itemImage,
         vanId: "64067ba9d93b3428a600075a"
@@ -173,7 +172,7 @@ name="itemName"
 value={formData.itemName}
 onChange={handleChange}
 />
-<TextField
+{/* <TextField
 autoFocus
 margin="dense"
 id="itemDescription"
@@ -184,7 +183,7 @@ variant="standard"
 name="itemDescription"
 value={formData.itemDescription}
 onChange={handleChange}
-/>
+/> */}
 <TextField
 autoFocus
 margin="dense"
@@ -197,6 +196,8 @@ name="itemQuantity"
 value={formData.licensePlate}
 onChange={handleChange}
 />
+
+<ImagesModal/>
 
    </DialogContent>
    <DialogActions>

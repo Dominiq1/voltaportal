@@ -12,7 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import { ADD_ORDER } from '@/gql/mutations/addOrder';
 
-export default function OrderInventory() {
+export default function OrderInventory({ params}) {
  
   const [addOrder, { data }] = useMutation(ADD_ORDER);
 
@@ -36,6 +36,8 @@ export default function OrderInventory() {
 
   const handleLeadSubmit = (e) => {
 
+    const {itemImage,itemQuantity, itemName} = params.row
+
     // console.log(formData)
     e.preventDefault();
 
@@ -43,11 +45,11 @@ export default function OrderInventory() {
     addOrder({
     variables: {
       orderId: "123",
-      itemName: "james",
-      itemDescription: "444",
-      itemImages: "http:.",
-      quantity: "47",
-      status: "inQue",
+      itemName: itemName,
+      itemDescription: "null",
+      itemImages: itemImage,
+      quantity: itemQuantity,
+      status: "inQueue",
       vanId: "64064e66fe9b22647414a812"
       }
       }).then((res) => {
@@ -134,10 +136,10 @@ export default function OrderInventory() {
 
 
                 <Box display="flex" justifyContent="space-between" mb={1}>
-                <img style={{width: '50px', height: '50px'}} src="https://m.media-amazon.com/images/I/71JDRw5DTxL._AC_UF894,1000_QL80_.jpg" alt=''/>
+                <img style={{width: '50px', height: '50px'}} src={params.row.itemImage} alt=''/>
 
-                <span>Copper Wire</span>
-                <span>10</span>
+                <span>{params.row.itemName}</span>
+                <span>{params.row.itemQuantity}</span>
                 </Box>
 
 

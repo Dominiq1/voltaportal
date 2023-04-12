@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/client';
 import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/system';
 import { Checkbox, CircularProgress, Fab } from '@mui/material';
-
+import { UPDATE_VAN_ITEM } from '@/gql/mutations/addVanItem';
 function CellBox({params, rowId, setRowId, item }) {
   
     const [loading, setLoading] = useState(false);
@@ -13,9 +13,48 @@ function CellBox({params, rowId, setRowId, item }) {
     const [highlighted, setHighlighted] = useState(false);
     const [highlightField, setHighlightField] = useState(null);
 
-
+ //  / 
     const [arrayCell, setArrayCell] = useState([]);
+    const [updateVanItem, { Leadloading, error, Leaddata }] = useMutation(UPDATE_VAN_ITEM);
 
+
+
+    const handleUpdateLead = async (id, name, desc, quant, image) => {
+        try {
+            // setHighlighted(true);
+         const result = await updateVanItem({
+            variables: {
+              itemId: id,
+              itemName: name,
+              itemDescription: desc,
+              itemQuantity: quant,
+              itemImage: image,
+              vanId: "64067ba9d93b3428a600075a"
+            }
+          }).then((res) => {
+
+         successCheck();
+          // console.log(result.data.updateLead);
+            console.log(res)
+          }).catch((err) => {
+            console.log("error updating lead.");
+        console.log(err)
+            console.log(err)
+          });
+
+     
+          return result
+        // return result.data.updateLead;
+        } catch (error) {
+          console.log("Failed updating the lead");
+          console.log(error);
+          return null;
+        }finally{
+            console.log("Lead Updated");
+            setHighlighted(false);
+        }
+      };
+      
 
 
 
@@ -26,29 +65,16 @@ function CellBox({params, rowId, setRowId, item }) {
         
 
         // TODO : ADD TAGS TO THE RENDER
-        const {firstName, id, email ,
-           lastName, phone, phoneStatus, 
-           emailInvalid, GLoballyOptedOutOfEmail, 
-           GloballyOptedOutOfBuyerAgentEmail, 
-          GloballyOptedOutOfBuyerListingAgentEmail, 
-          GloballyOptedOutOfLenderEmail, GloballyOptedOutOfAlerts,
-          OptInDate,BuyerAgentCategory,ListingAgentCategory, 
-          LenderCategory,BuyerAgent,ListingAgent,Lender,
-          OriginalSource,OriginalCampaign,LastAgentNote, 
-          eAlerts, VisitTotal, listingviewcount, AvgListingPrice, 
-          NextCallDue, LastAgentCallDate, LastLenderCallDate, 
-          FirstVisitDate, LastVisitDate, RegisterDate, LeadType, 
-          AgentSelected, LenderOptIn, Address , City, State, 
-          ZipCode, Link, Birthday, HomeClosingDate 
+        const {id, itemName, itemQuantity, itemImage
           } = params.row;
 
 
         
-    //    handleUpdateLead(id, firstName,email , lastName, [] ,phone ).then((res) => {
+       handleUpdateLead(id, itemName, "Successful description",itemQuantity, itemImage ).then((res) => {
             // alert("Lead Updated")
-        //     setHighlighted(true);
-        //    console.log("Lead Updated")
-        //          console.log(res)
+            setHighlighted(true);
+           console.log("Lead Updated")
+                 console.log(res)
 
                  if (item === 1) {
                     const {images} = params.row;
@@ -235,9 +261,9 @@ function CellBox({params, rowId, setRowId, item }) {
 
               
                 setHighlighted(false);
-        //         }).catch((err) => {
-        //     console.log(err)
-        //  })
+                }).catch((err) => {
+            console.log(err)
+         })
 
       
 

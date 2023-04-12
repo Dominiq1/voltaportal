@@ -12,7 +12,6 @@ import { DataGridPro, GridToolbar } from '@mui/x-data-grid-pro';
 import CellBox from '../CellBox';
 import PhotoBox from '../PhotoBox';
 
-import ImageBox from '../ImageBox';
 
 import { GET_VAN, GET_VAN_ITEMS } from '@/gql/queries/VanQuery';
 import OrderInventory from '../modals/OrderInventory';
@@ -121,8 +120,8 @@ export default function InventoryDatagrid(props) {
 
   const columns = useMemo(
     () => [
-  
-      {field: 'itemImage', headerName: 'Item Image', width: 150,  editable: true, renderCell: (params) =>  <PhotoBox item={15} {...{params, rowId, setRowId }}/>  },
+  { field: 'id', headerName: 'ID', width: 70 },
+      {field: 'itemImage', headerName: 'Item Image', width: 250,  editable: true, renderCell: (params) =>  <PhotoBox item={15} {...{params, rowId, setRowId }}/>  },
       { field: 'itemName', headerName: 'Item Name', width: 180, editable: true , renderCell: (params) =>  <CellBox item={2} {...{params, rowId, setRowId }}/>, hide: true },
       { field: 'itemQuantity', headerName: 'Item Quantity', width: 100, editable: true, renderCell: (params) =>  <CellBox item={3} {...{params, rowId, setRowId }}/> },
       { field: 'itemDescription', headerName: 'Order Inventory', width: 250, editable: true, renderCell: (params) =>  <OrderInventory item={4} {...{params, rowId, setRowId }}/> },

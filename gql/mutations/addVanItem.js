@@ -21,4 +21,37 @@ const ADD_VAN_ITEM = gql`
   }
 `;
 
-export  {ADD_VAN_ITEM};
+
+
+const UPDATE_VAN_ITEM = gql`
+  mutation UpdateVanItem(
+    $itemId: String!,
+    $itemName: String!,
+    $itemDescription: String!,
+    $itemQuantity: String!,
+    $itemImage: String,
+    $vanId: String!
+  ) {
+    updateVanItem(
+      itemId: $itemId
+      itemName: $itemName
+      itemDescription: $itemDescription
+      itemQuantity: $itemQuantity
+      itemImage: $itemImage
+      vanId: $vanId
+   
+    ) {
+      itemId
+    itemDescription
+    itemQuantity
+    itemImage
+    vanId {
+      id
+      licensePlate
+    } 
+     
+    }
+  }
+`;
+
+export  {ADD_VAN_ITEM, UPDATE_VAN_ITEM};

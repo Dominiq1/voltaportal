@@ -14,13 +14,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { ADD_ORDER } from '@/gql/mutations/addOrder';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { IconButton } from '@mui/material';
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes , getDownloadURL} from "firebase/storage";
 import { storage } from '../../API/firebase';
 import { uuid } from 'uuidv4';
 
+  import { UPDATE_VAN_ITEM } from '@/gql/mutations/addVanItem';
 
 
-function ImageUpload() {
+
+function ImageUpload({params, setUploaded}) {
   const [preview, setPreview] = useState(null);
   const [preview2, setPreview2] = useState(null);
   const [preview3, setPreview3] = useState(null);
@@ -28,7 +30,11 @@ function ImageUpload() {
   const [preview5, setPreview5] = useState(null);
   const [preview6, setPreview6] = useState(null);
 
+  const [updateVanItem, { Leadloading, error, Leaddata }] = useMutation(UPDATE_VAN_ITEM);
+
+
   const handleImageChange = async (e) => {
+    setUploaded(true);
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -49,42 +55,77 @@ const preUri = 'images/item.jpg' + uuid();
       // 'file' comes from the Blob or File API
      uploadBytes(pathReference, file).then((snapshot) => {
       console.log('Uploaded a blob or file!');
-
-
       console.log(snapshot.metadata.fullPath);
-
-
-      const gsReference = ref(storage, 'gs://bucket/images/stars.jpg');
-
+      const gsReference = ref(storage, 'gs://bucket' + preUri);
 
       
+   // Create a reference from an HTTPS URL
+// Note that in the URL, characters are URL escaped!
+const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/' + encodeURIComponent(preUri));  
 
-      // pathReference.getDownloadURL().then((url) => {
-      //   console.log('Download URL:', url);
+getDownloadURL(httpsReference).then((url) => {
+  // `url` is the download URL for 'images/stars.jpg'
+  console.log(url);
 
-      //   // Here is the image URI that you can use to display or download the image:
-      //   const imageURI = url;
+  handleUpdateLead(url);
+  
+})
 
-      //   console.log(imageURI);
-      //   alert("success!");
-      // });
+
+
 
     });
-
-
-
-
-
-
-
-
-
 
 
 
       
     } else {
       setPreview(null);
+    }
+  };
+
+
+
+const handleUpdateLead = async (image) => {
+    try {
+      console.log("Updating Lead");
+      console.log(image);
+      console.log(params.row.id);
+      console.log(params.row.itemName);
+      console.log(params.row.itemQuantity);
+      console.log(params.row.itemDescription);
+
+     const result = await updateVanItem({
+        variables: {
+          itemId: params.row.id,
+          itemName: params.row.itemName,
+          itemDescription: 'null',
+          itemQuantity: params.row.itemQuantity,
+          itemImage: image,
+          vanId: "64067ba9d93b3428a600075a"
+        }
+      }).then((res) => {
+
+     successCheck();
+      // console.log(result.data.updateLead);
+        console.log(res)
+      }).catch((err) => {
+        console.log("error updating lead.");
+    console.log(err)
+        console.log(err)
+      });
+
+ 
+      return result
+    // return result.data.updateLead;
+    } catch (error) {
+      console.log("Failed updating the lead");
+      console.log(error);
+      return null;
+    }finally{
+      setUploaded(false);
+        console.log("Lead Updated");
+        // setHighlighted(false);
     }
   };
 
@@ -116,7 +157,7 @@ const preUri = 'images/item.jpg' + uuid();
 }
 
 
-export default function OrderInventory() {
+export default function ImagesModal({params}) {
  
 
   // INSTEAD O ADDING ORDER, UPDATE THE VANITEMS IMAGE. 
@@ -162,7 +203,9 @@ export default function OrderInventory() {
       console.log('Uploaded a blob or file!');
       console.log(snapshot);
       console.log(snapshot.metadata.fullPath);
-      alert("success!");    
+
+  
+
       //push full path to database by updating vanItem with it and making it the latest pic for preview at order.
 
 
@@ -186,10 +229,6 @@ export default function OrderInventory() {
 
     // console.log(formData)
     e.preventDefault();
-
-
-
-
 
 
 
@@ -220,6 +259,7 @@ export default function OrderInventory() {
 
   };
 
+
   return (
     <Box  >
       {uploadInProcess ? (
@@ -233,9 +273,7 @@ export default function OrderInventory() {
               <DialogContentText>
                 <Box display="flex" flexDirection="column">
 
-
  {/* 3 X 3 IMAGE DROPPERS HERE WITH OPTIONAL IMAGE PREVIEW */}
-
 
                     
                 </Box>
@@ -259,8 +297,8 @@ export default function OrderInventory() {
         </div>
       ) : (
         <div>
-          <Button variant="outlined" onClick={handleClickOpen} sx={{marginLeft: '10px'}}>
-            Add Images
+          <Button variant="outlined" onClick={handleClickOpen} sx={{width: '25px', height: '25px'}}>
+            +
           </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Order Summary</DialogTitle>
@@ -274,7 +312,7 @@ export default function OrderInventory() {
   {[...Array(3)].map((_, rowIndex) => (
     <Box key={rowIndex} display="flex" justifyContent="space-between" sx={{ width: '25%'}}>
       {[...Array(3)].map((_, colIndex) => (
-        <ImageUpload key={`${rowIndex}-${colIndex}`} />
+        <ImageUpload  setUploaded={setUploaded} params={params}  key={`${rowIndex}-${colIndex}`} />
       ))}
     </Box>
   ))}
