@@ -1,3 +1,5 @@
+
+
 import { useState, useEffect } from 'react'
 import { Box } from '@mui/system';
 import { CircularProgress, Fab , Button} from '@mui/material';
@@ -5,13 +7,6 @@ import { BsCamera } from 'react-icons/bs';
 import { useDropzone } from 'react-dropzone';
 import Modal from '@mui/material';
 import ImagesModal from './modals/ImagesModal';
-
-// import { useState, useEffect } from 'react'
-// import { Box } from '@mui/system'
-// import { CircularProgress, Fab, Button } from '@mui/material'
-// import { BsCamera } from 'react-icons/bs'
-// import { useDropzone } from 'react-dropzone'
-
 
 function PhotoBox({params, rowId, setRowId, item }) {
 const [uploadedFile, setUploadedFile] = useState(null);
@@ -47,7 +42,7 @@ return (
   >
 
     <Box sx={{ width: '55px', height: '55px'}}> 
-        <img src={image} style={{width: '100%', height: '100%'}}/>
+        <img src={image} style={{width: '100%', height: '100%', objectFit: 'contain'}}/>
  
     </Box>
 

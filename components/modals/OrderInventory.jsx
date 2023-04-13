@@ -51,7 +51,7 @@ export default function OrderInventory({ params}) {
       itemImages: itemImage,
       quantity: itemQuantity,
       status: "inQueue",
-      vanId: "64064e66fe9b22647414a812"
+      vanId: "64067ba9d93b3428a600075a"
       }
       }).then((res) => {
          console.log("Order Submitted");
@@ -151,7 +151,7 @@ export default function OrderInventory({ params}) {
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleLeadSubmit}>Update Update</Button>
+                <Button onClick={handleLeadSubmit}>Update Van</Button>
                 </DialogActions>
                 </Dialog>
                 </div>
