@@ -112,7 +112,7 @@ export default function AddVanItem() {
         ) : (
 <div>
 <Button variant="outlined" onClick={handleClickOpen}>
-Order Item
+Add Van Item
 </Button>
 <Dialog open={open} onClose={handleClose}>
 <DialogTitle>New Item Info</DialogTitle>
@@ -171,7 +171,7 @@ null
 </DialogContent>
 <DialogActions>
 <Button onClick={handleClose}>Cancel</Button>
-<Button onClick={handleLeadSubmit}> Order Item</Button>
+<Button onClick={handleLeadSubmit}> Add Van Item</Button>
 </DialogActions>
 </Dialog>
 </div>
