@@ -123,7 +123,7 @@ export default function OrderInventory({ params}) {
       ) : (
         <div>
           <Button variant="outlined" onClick={handleClickOpen} sx={{marginLeft: '10px'}}>
-            Update Van Item
+            Order
           </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Order Summary</DialogTitle>
@@ -151,7 +151,7 @@ export default function OrderInventory({ params}) {
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleLeadSubmit}>Update Van</Button>
+                <Button onClick={handleLeadSubmit}>Order</Button>
                 </DialogActions>
                 </Dialog>
                 </div>
