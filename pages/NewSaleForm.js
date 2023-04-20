@@ -272,10 +272,10 @@ sx={{ width: '20em' , marginBottom: '20px'}}
   ) : null}
 </Box>
 
-<InputLabel sx={{ marginBottom: '20px', color: 'red' }}>Driver's License *</InputLabel>
+<InputLabel sx={{ marginBottom: '20px', color: 'red' }}>Drivers License </InputLabel>
 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '2px dashed #333', borderRadius: '5px', padding: '1rem', cursor: 'pointer' }} {...getLicenseProps()}>
   <input {...getLicenseInputProps()} />
-  <Typography variant="body1" sx={{ color: '#333' }}>Drag and drop your Driver's License file here, or click to select a file</Typography>
+  <Typography variant="body1" sx={{ color: '#333' }}>Drag and drop your Drivers License file here, or click to select a file</Typography>
   {licenseFile ? (
     <Typography variant="body1" sx={{ color: '#333' }}>{licenseFile.name}</Typography>
   ) : null}
