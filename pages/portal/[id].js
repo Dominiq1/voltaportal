@@ -4,14 +4,18 @@ import InstallMaps from '@/components/InstallMaps'
 import { Box, Grid } from '@mui/material'
 import requestData from '@/API/Quickbase'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 const API_URL = "https://api.quickbase.com/v1/records/query";
 const USER_TOKEN = "QB-USER-TOKEN b7738j_qjt3_0_dkaew43bvzcxutbu9q4e6crw3ei3";
 const QB_DOMAIN = "voltaic.quickbase.com";
 
-export default function Home() {
+export default function Portal() {
 
+  const router = useRouter()
+  const {id} = router.query;
 
+  
   const handleButtonClick = async () => {
     try {
       const response = await requestData();
@@ -22,13 +26,6 @@ export default function Home() {
   };
 
   const [data, setData] = useState([]);
-
-
-  
-
-
-
-
 
 
 
@@ -42,7 +39,10 @@ export default function Home() {
       </Head>
 
       <Box sx={{ height: '100vh', width:'100vw', backgroundColor: 'black', p: 2, color: 'white' }}>
-        <InstallMaps />
+        {/* <InstallMaps /> */}
+        <h1>
+         Portal # {id}
+        </h1>
       </Box>
 
     </>

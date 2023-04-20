@@ -21,7 +21,6 @@ import { uuid } from 'uuidv4';
   import { UPDATE_VAN_ITEM } from '@/gql/mutations/addVanItem';
 
 
-
 function ImageUpload({params, setUploaded}) {
   const [preview, setPreview] = useState(null);
   const [preview2, setPreview2] = useState(null);

@@ -145,7 +145,6 @@ export default function OrderInventory({ params}) {
                 </Box>
 
 
-
                 </Box>
                 </DialogContentText>
                 </DialogContent>

@@ -40,13 +40,14 @@ export default function App({ Component, pageProps }) {
     }
   });
   
+ // uri: ' https://vcinventory.herokuapp.com/graphql',
  //      uri: 'http://localhost:5000/graphql',
 //  https://voltaicinventory.herokuapp.com/graphql
 //  uri: 'https://voltaicapiio.herokuapp.com/graphql',
 
 
  const client = new ApolloClient({
-  uri: ' https://vcinventory.herokuapp.com/graphql',
+  uri: 'http://localhost:5000/graphql',
   cache,
 })
 
