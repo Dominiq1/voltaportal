@@ -8,9 +8,11 @@ import Image from 'next/image';
 import backgroundImage from './images/VC.png';
 import Alert from '@mui/material/Alert';
 import { storage } from '@/API/firebase';
-import { v4 } from 'uuid';
 import { PUSH_NEW_SALE_MUTATION } from '@/gql/mutations/CRM';
 import { getStorage, ref, uploadBytes , getDownloadURL} from "firebase/storage";
+
+import { v4 as uuidv4 } from 'uuid';
+import { uuid } from 'uuidv4';
 
 const MyForm = () => {
 
@@ -58,11 +60,11 @@ const [licenseImage, setLicenseImage] = React.useState(null);
 const [depositImage, setDepositImage] = React.useState(null);
 
 const [ownerName, setOwnerName] = React.useState('');
-
-
-
 const [notes, setNotes] = React.useState('');
 const [program, setProgram] = React.useState('');
+
+
+
 //   const [installer, setInstaller] = React.useState('');
 
 //   const [installer, setInstaller] = React.useState('');
@@ -125,7 +127,7 @@ const [program, setProgram] = React.useState('');
 
         // const storageRef = ref(storage, `images/${uuid()}`);
 
-        const preUri = 'images/item.jpg' + '12';
+        const preUri = 'images/item.jpg' +  uuidv4();
         const pathReference = ref(storage,preUri);
         // 'file' comes from the Blob or File API
        uploadBytes(pathReference, file).then((snapshot) => {
@@ -145,7 +147,7 @@ const [program, setProgram] = React.useState('');
     console.log(url);
     setAtticImage(url);
   
-   alert("url");
+
     
   })
   
@@ -178,7 +180,7 @@ const [program, setProgram] = React.useState('');
 
         // const storageRef = ref(storage, `images/${uuid()}`);
 
-        const preUri = 'images/item.jpg' + '12';
+        const preUri = 'images/item.jpg' + uuidv4();
         const pathReference = ref(storage,preUri);
         // 'file' comes from the Blob or File API
        uploadBytes(pathReference, file).then((snapshot) => {
@@ -234,7 +236,7 @@ const [program, setProgram] = React.useState('');
 
         // const storageRef = ref(storage, `images/${uuid()}`);
 
-        const preUri = 'images/item.jpg' + '12';
+        const preUri = 'images/item.jpg' + uuidv4();
         const pathReference = ref(storage,preUri);
         // 'file' comes from the Blob or File API
        uploadBytes(pathReference, file).then((snapshot) => {
@@ -288,7 +290,7 @@ setLicenseImage(url);
 
         // const storageRef = ref(storage, `images/${uuid()}`);
 
-        const preUri = 'images/item.jpg' + '12';
+        const preUri = 'images/item.jpg' + uuidv4();
         const pathReference = ref(storage,preUri);
         // 'file' comes from the Blob or File API
        uploadBytes(pathReference, file).then((snapshot) => {
@@ -364,6 +366,7 @@ setLicenseImage(url);
           program: program.name,
           adders: adders[0].name,
           notes: notes,
+          repEmail: rep.email,
 
         }
       }).then((result) => {

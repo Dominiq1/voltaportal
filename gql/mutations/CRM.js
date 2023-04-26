@@ -21,6 +21,7 @@ mutation PushNewSale(
   $program: String!,
   $notes: String!,
   $adders: String!
+  $repEmail: String!
 
 ) {
   pushNewSale(
@@ -33,8 +34,13 @@ mutation PushNewSale(
     installer: $installer,
     program: $program,
     notes: $notes,
-    adders: $adders
+    adders: $adders,
+    repEmail: $repEmail
   )
 }
 `;
+
+
+
+
 export { GET_CRM_USERS, PUSH_NEW_SALE_MUTATION};
