@@ -256,7 +256,7 @@ setLicenseImage(url);
 
     console.log(url);
   
-   alert("url");
+
     
   })
   
@@ -370,6 +370,23 @@ setLicenseImage(url);
 
         }
       }).then((result) => {
+
+        setOwnerName('');
+        setAtticImage(null);
+        setElectricalImage(null);
+        setLicenseImage(null);
+        setDepositImage(null);
+        setInstaller(null);
+        setProgram(null);
+        setAdder([]);
+        setNotes('');
+        setRep(null);
+        setAtticFile(null);
+        setElectricalFile(null);
+        setLicenseFile(null);
+        setDepositFile(null);
+        
+
         // Handle successful mutation result here
       }).catch((error) => {
         // Handle error here
