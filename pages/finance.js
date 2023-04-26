@@ -6,6 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import {GET_VOLTAIC_INSTALLS} from '../gql/mutations/VoltaicApp';
 import { useMutation } from '@apollo/client';
 import {PUSH_VOLTAIC_COGS} from '../gql/mutations/VoltaicFinance'
+import { uuid } from 'uuidv4';
 
 
 const columns = [
@@ -20,12 +21,13 @@ function parseTotals(arr) {
     const totalObjects = []
 
     for(let i = 0; i < arr.length; i++) {
-        if(arr[i].Name.startsWith("Total ")  ) {
-            totalObjects.push(arr[i])
-        }
+      if((arr[i].Name.startsWith("Total ") || arr[i].Name.indexOf(',') === -1)) {
+        totalObjects.push(arr[i]);
+    }
+    
     }
 
-
+console.log("totalObjects")
     console.log(totalObjects)
     return totalObjects
 }
@@ -48,7 +50,7 @@ function getObjectAtIndexN(arr) {
       const Cogs = arr[7];
       const DirectMaterials = arr[8];
       const Modules = arr[9];
-      const Racking = arr[9];
+      const Racking = arr[10];
       const Inverter = arr[11];
       const Balance = arr[12];
       const MainServicePannel = arr[13];
@@ -112,7 +114,6 @@ function getObjectAtIndexN(arr) {
       const RentAndLease = arr[71];
       const Utilities = arr[72];
       const TotalGeneralAdminExpenses = arr[73];
-
       const TotalExpenses = arr[74];
       const NetOperatingIncome = arr[75];
       const NetIncome = arr[76];
@@ -258,6 +259,13 @@ function App() {
         console.log("Voltaic Projects");
         console.log(voltaicProjects);
 
+
+
+
+
+        console.log("Quickbooks Projects Length");
+        console.log(quickbooksPorjects.length);
+
         for (let i = 0; i < quickbooksPorjects.length; i++) {
             let isMatchFound = false;
           
@@ -268,7 +276,7 @@ function App() {
               const secondLastSpaceIndex = str.lastIndexOf(' ', lastSpaceIndex - 1);
               const ownerName = secondLastSpaceIndex === -1 ? str : str.substring(secondLastSpaceIndex + 1);
           
-              if (ownerName === voltaicProjects[j].ownerName) {
+              if (ownerName === voltaicProjects[j].ownerName && quickbooksPorjects[i].Name.startsWith("Total")) {
                 console.log("Match Found");
                 console.log(ownerName);
                 console.log(voltaicProjects[j].ownerName);
@@ -289,7 +297,7 @@ function App() {
           }
           
 
-        // for(let i = 0; i < quickbooksPorjects.length; i++) {
+        // for(let i = 0; i < readyCOGs.length; i++) {
 
         //     const namedProject = {}
 
@@ -324,25 +332,77 @@ function App() {
             
         //     }}
 
+
+
             console.log("Named Projects");
             console.log(NamedProjects);
             
 
-            // for(let i = 0; i < NamedProjects.length; i++) {
+            console.log("Nameless Projects");
+            console.log(NamelessProjects);
+
+            // Check which are non duplicated 
+
+       // Create a new array to store non-duplicated projects
+const nonDuplicatedProjects = [];
+
+// Loop through NamelessProjects
+for (let i = 0; i < NamelessProjects.length; i++) {
+    const nameless = NamelessProjects[i].Name;
+    let isMatch = false;
+
+    // Loop through NamedProjects
+    for (let j = 0; j < NamedProjects.length; j++) {
+        const named = NamedProjects[j].ownerName;
+
+        // If there is a match, set isMatch to true and break the loop
+        if (nameless == named) {
+            console.log("Match Found");
+            console.log(nameless);
+            console.log(named);
+            isMatch = true;
+            break;
+        }
+    }
+
+    // If there was no match found, add the current NamelessProjects[i] to the nonDuplicatedProjects array
+    if (!isMatch) {
+        nonDuplicatedProjects.push(NamelessProjects[i]);
+    }
+}
+
+      // Now, add all NamedProjects to the nonDuplicatedProjects array
+       nonDuplicatedProjects.push(...NamedProjects);
 
 
-            //   for (let key in NamedProjects[i]) {
-            //     if (typeof NamedProjects[i][key] === "string" && /\d/.test(NamedProjects[i][key])) {
-            //       const dollarStripped = NamedProjects[i][key].replace(/[^\d.-]/g, "");
-            //       const dollarsCents = Math.round(parseFloat(dollarStripped) * 100);
-            //       NamedProjects[i][key] = dollarsCents;
-                 
-            //     }
-            //   }
 
-            //   readyCOGs.push(NamedProjects[i]);
+               console.log("Non Duplicated Projects");
+               console.log(nonDuplicatedProjects);
 
-            // }
+
+
+
+
+
+            for(let i = 0; i < NamedProjects.length; i++) {
+
+
+              for (let key in NamedProjects[i]) {
+                if (typeof NamedProjects[i][key] === "string" && /\d/.test(NamedProjects[i][key])) {
+                  const dollarStripped = NamedProjects[i][key].replace(/[^\d.-]/g, "");
+                  const wholeDollars = Math.round(parseFloat(dollarStripped));
+                  NamedProjects[i][key] = wholeDollars;
+
+              }
+              
+              
+              }
+
+
+              readyCOGs.push(NamedProjects[i]);
+          
+
+            }
 
 
 
@@ -356,10 +416,74 @@ function App() {
             // console.log(NamelessProjects);
 
             console.log("Ready COGs");
+
+
+
             console.log(readyCOGs);
 
+
+
+
+
+            //push cogs to voltaic
+
+
+            for(let i = 0; i < readyCOGs.length; i++) {
+
+              const readyCog = readyCOGs[i];
+                 
+              await pushCogs({ variables: {
+                HomeownerName:readyCog.ownerName.toString(),
+                HardModules :readyCog.Modules.toString(),
+                HardRacking : readyCog.Racking.toString(),
+                HardInverter : readyCog.Racking.toString(),
+                Balance: readyCog.Balance.toString(),
+                MainServicePannel: readyCog.MainServicePannel.toString(),
+                SalesTax: readyCog.SalesTax.toString(),
+                Tools: readyCog.SmallToolsAndEquipment.toString(),
+                QuietCool: readyCog.QuietCool.toString(),
+                SiteSurveys: readyCog.SiteSurveys.toString(),
+                Engineering: readyCog.Engineering.toString(),
+                RoofPermitting: "0",
+                SolarPermitting: readyCog.SolarPermitting.toString(),
+                Inspections:  readyCog.Inspections.toString(),
+                Interconnection: readyCog.Interconnection.toString(),
+                DirectContractLabor: readyCog.DirectContractLabor.toString(),
+                DirectStaffLabor: readyCog.DirectStaffLabor.toString(),
+                DirectTravel : readyCog.DirectTravel.toString(),
+                DirectCommissions: readyCog.DirectCommissions.toString(),
+                CostHomeownerIncentives:readyCog.HomeownerIncentives.toString(),
+                DirectSolarCommissions: readyCog.DirectSolarCommissions.toString(),
+                DirectNonSolarCommissions: readyCog.DirectNonSolarCommissions.toString(),
+                HomeownerReimbursements: readyCog.HomeownerReimbursements.toString(),
+                SoftCostHomeownerIncentives: readyCog.HomeownerIncentives.toString(),
+            
+              }}).then((response) => {
+                console.log(response.data.PushVoltaicCogs);
+              }).catch((error) => {
+                console.log(error);
+            
+            });
+
+
+          }
+
+
+
+
+          //add uid to readyCOGs
+
+          for(let i = 0; i < readyCOGs.length; i++) {
+
+            const readyCog = readyCOGs[i];
+            readyCog.id = i;
+            readyCOGs[i] = readyCog;
+          }
+
+          
+
       
-      setCsvData(rows);
+      setCsvData(readyCOGs);
     },
   });
 

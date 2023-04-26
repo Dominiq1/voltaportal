@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }) {
 
 
  const client = new ApolloClient({
- uri: ' https://vcinventory.herokuapp.com/graphql',
+  uri: 'http://localhost:5000/graphql',
   cache,
 })
 

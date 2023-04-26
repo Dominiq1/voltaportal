@@ -36,10 +36,17 @@ function ImageUpload({params, setUploaded}) {
     setUploaded(true);
     const file = e.target.files[0];
     if (file) {
+
+      
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
       };
+
+
+
+
+
       reader.readAsDataURL(file);
 
 

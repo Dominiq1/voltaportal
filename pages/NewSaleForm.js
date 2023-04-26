@@ -8,10 +8,14 @@ import Image from 'next/image';
 import backgroundImage from './images/VC.png';
 import Alert from '@mui/material/Alert';
 import { storage } from '@/API/firebase';
+import { v4 } from 'uuid';
+import { PUSH_NEW_SALE_MUTATION } from '@/gql/mutations/CRM';
+import { getStorage, ref, uploadBytes , getDownloadURL} from "firebase/storage";
 
 const MyForm = () => {
 
     const [ CRMusers, setCRMusers ] = useState([ ]);
+    const [pushNewSale, { newSaleloading, error }] = useMutation(PUSH_NEW_SALE_MUTATION);
 
 
     const [loading, setLoading] = useState(false);
@@ -21,17 +25,44 @@ const MyForm = () => {
         { id: 4,name: 'AC/DC' }
       ] );
 
+
+
+
+   const [programs, setPrograms] = useState([ { id: 0, name: 'Financing' }, { id: 1,name: 'Program 2' },  {id: 2, name: 'Program 3' },
+        { id: 3,name: 'Program 4' },
+        { id: 4,name: 'Program 5' },
+        { id: 5,name: 'Program 6' }
+      ] );
+
+   const [adders, serAddres] = useState([ { id: 0, name: 'Quiet Cool' }, { id: 1,name: 'Roof' },  {id: 2, name: 'MPU' },
+        { id: 3,name: 'HVAC' },
+        { id: 4,name: 'Insulation' },
+        { id: 5,name: 'Sub Pannel' }
+      ] );
+
+
   const [getCRMusers, { data }] = useMutation(GET_CRM_USERS);
   const [atticFile, setAtticFile] = React.useState(null);
   const [electricalFile, setElectricalFile] = React.useState(null);
   const [licenseFile, setLicenseFile] = React.useState(null);
   const [depositFile, setDepositFile] = React.useState(null);
   const [formValid, setFormValid] = React.useState(true);
-
   const [installer, setInstaller] = React.useState('');
 
+  const [adder, setAdder] = React.useState([]);
   const [rep, setRep] = React.useState('');
 
+  const [atticImage, setAtticImage] = React.useState(null);
+const [electricalImage, setElectricalImage] = React.useState(null);
+const [licenseImage, setLicenseImage] = React.useState(null);
+const [depositImage, setDepositImage] = React.useState(null);
+
+const [ownerName, setOwnerName] = React.useState('');
+
+
+
+const [notes, setNotes] = React.useState('');
+const [program, setProgram] = React.useState('');
 //   const [installer, setInstaller] = React.useState('');
 
 //   const [installer, setInstaller] = React.useState('');
@@ -47,6 +78,13 @@ const MyForm = () => {
     setInstaller(event.target.value);
   };
 
+  const handleProgramChange = (event) => {
+    setProgram(event.target.value);
+  };
+
+ const handleAdderChange = (event) => {
+    setAdder(event.target.value);
+  };
 
 
   const handleRepChange = (event) => {
@@ -54,7 +92,16 @@ const MyForm = () => {
     };
 
 
+    const handleOwnerChange = (event) => {
+      setOwnerName(event.target.value);
+      };
 
+    const handleNoteChange = (event) => {
+
+        setNotes(event.target.value);
+        };
+
+  
 
 
 
@@ -70,28 +117,16 @@ const MyForm = () => {
       const file = acceptedFiles[0];
 
       if (file) {
-
-      
         const reader = new FileReader();
         reader.onloadend = () => {
         //   setPreview(reader.result);
         };
-  
-  
-  
-  
-  
         reader.readAsDataURL(file);
-  
-  
-  
+
         // const storageRef = ref(storage, `images/${uuid()}`);
-  
-  
-  const preUri = 'images/item.jpg' + uuid();
+
+        const preUri = 'images/item.jpg' + '12';
         const pathReference = ref(storage,preUri);
-  
-  
         // 'file' comes from the Blob or File API
        uploadBytes(pathReference, file).then((snapshot) => {
         console.log('Uploaded a blob or file!');
@@ -105,9 +140,12 @@ const MyForm = () => {
   
   getDownloadURL(httpsReference).then((url) => {
     // `url` is the download URL for 'images/stars.jpg'
+
+
     console.log(url);
+    setAtticImage(url);
   
-    handleUpdateLead(url);
+   alert("url");
     
   })
   
@@ -128,18 +166,162 @@ const MyForm = () => {
   const { getRootProps: getElectricalProps, getInputProps: getElectricalInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
       setElectricalFile(acceptedFiles[0]);
+
+      const file = acceptedFiles[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+        //   setPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+
+        // const storageRef = ref(storage, `images/${uuid()}`);
+
+        const preUri = 'images/item.jpg' + '12';
+        const pathReference = ref(storage,preUri);
+        // 'file' comes from the Blob or File API
+       uploadBytes(pathReference, file).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        console.log(snapshot.metadata.fullPath);
+        const gsReference = ref(storage, 'gs://bucket' + preUri);
+  
+        
+     // Create a reference from an HTTPS URL
+  // Note that in the URL, characters are URL escaped!
+  const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/' + encodeURIComponent(preUri));  
+  
+  getDownloadURL(httpsReference).then((url) => {
+    // `url` is the download URL for 'images/stars.jpg'
+
+
+    console.log(url);
+    setElectricalImage(url);
+  
+    
+  })
+  
+  
+  
+  
+      });
+  
+  
+  
+        
+      } else {
+    console.log('no file');
+      }
+
+
+
     },
   });
+
 
   const { getRootProps: getLicenseProps, getInputProps: getLicenseInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
       setLicenseFile(acceptedFiles[0]);
+
+      const file = acceptedFiles[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+        //   setPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+
+        // const storageRef = ref(storage, `images/${uuid()}`);
+
+        const preUri = 'images/item.jpg' + '12';
+        const pathReference = ref(storage,preUri);
+        // 'file' comes from the Blob or File API
+       uploadBytes(pathReference, file).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        console.log(snapshot.metadata.fullPath);
+        const gsReference = ref(storage, 'gs://bucket' + preUri);
+  
+        
+     // Create a reference from an HTTPS URL
+  // Note that in the URL, characters are URL escaped!
+  const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/' + encodeURIComponent(preUri));  
+  
+  getDownloadURL(httpsReference).then((url) => {
+    // `url` is the download URL for 'images/stars.jpg'
+
+setLicenseImage(url);
+
+    console.log(url);
+  
+   alert("url");
+    
+  })
+  
+  
+  
+  
+      });
+  
+  
+  
+        
+      } else {
+    console.log('no file');
+      }
     },
   });
+
 
   const { getRootProps: getDepositProps, getInputProps: getDepositInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
       setDepositFile(acceptedFiles[0]);
+
+      const file = acceptedFiles[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+        //   setPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+
+        // const storageRef = ref(storage, `images/${uuid()}`);
+
+        const preUri = 'images/item.jpg' + '12';
+        const pathReference = ref(storage,preUri);
+        // 'file' comes from the Blob or File API
+       uploadBytes(pathReference, file).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        console.log(snapshot.metadata.fullPath);
+        const gsReference = ref(storage, 'gs://bucket' + preUri);
+  
+        
+     // Create a reference from an HTTPS URL
+    // Note that in the URL, characters are URL escaped!
+    const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/' + encodeURIComponent(preUri));  
+  
+    getDownloadURL(httpsReference).then((url) => {
+    // `url` is the download URL for 'images/stars.jpg'
+
+    setDepositImage(url);
+    console.log(url);
+  
+  //  alert("url");
+    
+  })
+  
+  
+  
+  
+      });
+  
+  
+  
+        
+      } else {
+    console.log('no file');
+      }
     },
   });
 
@@ -158,13 +340,42 @@ const MyForm = () => {
     }
     if (formIsValid) {
       setFormValid(true);
-       
-        console.log('Installer:', installer);
-        console.log('Rep:', rep);
-      console.log('Attic File:', atticFile);
-      console.log('Electrical File:', electricalFile);
-      console.log("Driver's License File:", licenseFile);
-      console.log('Deposit File:', depositFile);
+       console.log('ownerName:', ownerName);
+        console.log('Installer:', installer.name);
+        console.log('Rep:', rep.name);
+      console.log('Attic File:', atticImage);
+      console.log('Electrical File:', electricalImage);
+      console.log("Driver's License File:", licenseImage);
+      console.log('Deposit File:', depositImage);
+      console.log('adders:', adders[0].name);
+      console.log('program:', program.name);
+      console.log('notes:', notes);
+
+
+      pushNewSale({
+        variables: {
+          ownerName: ownerName,
+          saleRep: rep.name,
+          atticImage: String(atticImage),
+          electricalImage: String(electricalImage),
+          LicenseImage: String(licenseImage),
+          depositImage: String(depositImage),
+          installer: installer.name,
+          program: program.name,
+          adders: adders[0].name,
+          notes: notes,
+
+        }
+      }).then((result) => {
+        // Handle successful mutation result here
+      }).catch((error) => {
+        // Handle error here
+      });
+
+
+
+
+      
     } else {
       setFormValid(false);
     }
@@ -205,7 +416,22 @@ const MyForm = () => {
           <form onSubmit={handleSubmit}>
 
 
-          <InputLabel sx={{ marginBottom: '20px', color: 'red' }}>Installer *</InputLabel>
+
+
+          <InputLabel sx={{ marginBottom: '20px', color: 'red' }}>Home Owner Name *</InputLabel>
+<TextField 
+id="outlined-basic"
+label="ownerName"
+variant="outlined"
+name="ownerName"
+value={ownerName}
+onChange={handleOwnerChange}
+sx={{ width: '20em' , marginBottom: '20px'}}
+
+/>
+
+
+          <InputLabel sx={{ marginBottom: '20px', color: 'red' }}>Sales Rep *</InputLabel>
 
 <Select
 labelId="demo-simple-select-helper-label"
@@ -220,7 +446,7 @@ sx={{ width: '20em' , marginBottom: '20px'}}
 </MenuItem>
 
 {data && data.GetCRMusers.map((user) => (
-    <MenuItem key={user.id} value={user}>{user.name}</MenuItem>
+    <MenuItem key={user.id} value={user}>{user.email}</MenuItem>
 
 
 
@@ -250,6 +476,63 @@ sx={{ width: '20em' , marginBottom: '20px'}}
   ))}
     
         </Select>
+
+
+
+
+
+            <InputLabel sx={{ marginBottom: '20px', color: 'red' }}>Program *</InputLabel>
+
+            <Select
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          value={program}
+          label="Program"
+          onChange={handleProgramChange}
+          sx={{ width: '15em' , marginBottom: '20px'}}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+    
+     
+{programs.map(installMarket => (
+   <MenuItem key={installMarket.id} value={installMarket}>{installMarket.name}</MenuItem>
+
+  ))}
+    
+        </Select>
+
+
+
+
+
+
+
+
+            <InputLabel sx={{ marginBottom: '20px', color: 'red' }}>Adders *</InputLabel>
+
+            <Select
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          value={adder}
+          multiple
+          label="Adder"
+          onChange={handleAdderChange}
+          sx={{ width: '15em' , marginBottom: '20px'}}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+    
+     
+{adders.map(installMarket => (
+   <MenuItem key={installMarket.id} value={installMarket}>{installMarket.name}</MenuItem>
+
+  ))}
+    
+        </Select>
+
 
 
 
@@ -289,6 +572,28 @@ sx={{ width: '20em' , marginBottom: '20px'}}
     <Typography variant="body1" sx={{ color: '#333' }}>{depositFile.name}</Typography>
   ) : null}
 </Box>
+
+
+          <InputLabel sx={{ marginBottom: '20px', color: 'red' }}>Notes </InputLabel>
+        <TextField 
+        id="outlined-basic"
+        label="notes"
+        variant="outlined"
+        name="notes"
+        value={notes}
+        onChange={handleNoteChange}
+        sx={{ width: '20em' , marginBottom: '20px'}}
+
+        />
+
+
+
+
+
+
+
+
+
 
 {!formValid && (
   <Alert severity="error" sx={{ marginTop: '1rem' }}>Please fill out all required fields and upload all required files</Alert>
