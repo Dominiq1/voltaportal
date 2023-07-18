@@ -8,6 +8,11 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import DateTimePicker from "react-datetime-picker";
+import "react-datetime-picker/dist/DateTimePicker.css";
+import "react-calendar/dist/Calendar.css";
+import "react-clock/dist/Clock.css";
+
 import { useDropzone } from "react-dropzone";
 import { useMutation } from "@apollo/client";
 import circularProgressClasses from "@mui/material";
@@ -19,6 +24,9 @@ import { storage } from "@/API/firebase";
 import { PUSH_NEW_SALE_MUTATION } from "@/gql/mutations/CRM";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+
 import { v4 as uuidv4 } from "uuid";
 import { uuid } from "uuidv4";
 
@@ -27,6 +35,16 @@ const LeadIntake = () => {
   const [pushNewSale, { newSaleloading, error }] = useMutation(
     PUSH_NEW_SALE_MUTATION
   );
+
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [value, onChange] = useState(new Date());
+
+  const [utilityBillFile, setUtilityBillFile] = React.useState(null);
+  const [utilityBillImage, setUtilityBillImage] = React.useState(null);
+
+  const handleDateChange = (newValue) => {
+    setSelectedDate(newValue);
+  };
 
   const [loading, setLoading] = useState(false);
 
@@ -113,6 +131,50 @@ const LeadIntake = () => {
   const handleNoteChange = (event) => {
     setNotes(event.target.value);
   };
+
+  const {
+    getRootProps: getUtilityBillProps,
+    getInputProps: getUtilityBillInputProps,
+  } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      setUtilityBillFile(acceptedFiles[0]);
+
+      const file = acceptedFiles[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          // setPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+
+        const preUri = "images/item.jpg" + uuidv4();
+        const pathReference = ref(storage, preUri);
+        // 'file' comes from the Blob or File API
+        uploadBytes(pathReference, file).then((snapshot) => {
+          console.log("Uploaded a blob or file!");
+          console.log(snapshot.metadata.fullPath);
+          const gsReference = ref(storage, "gs://bucket" + preUri);
+
+          // Create a reference from an HTTPS URL
+          // Note that in the URL, characters are URL escaped!
+          const httpsReference = ref(
+            storage,
+            "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+              encodeURIComponent(preUri)
+          );
+
+          getDownloadURL(httpsReference).then((url) => {
+            // `url` is the download URL for 'images/stars.jpg'
+            console.log(url);
+            setUtilityBillImage(url);
+          });
+        });
+      } else {
+        console.log("no file");
+      }
+    },
+  });
 
   const { getRootProps: getAtticProps, getInputProps: getAtticInputProps } =
     useDropzone({
@@ -314,54 +376,19 @@ const LeadIntake = () => {
     }
     if (formIsValid) {
       setFormValid(true);
+      console.log("Form is valid");
       console.log("ownerName:", ownerName);
-      console.log("Installer:", installer.name);
-      console.log("Rep:", rep.name);
-      console.log("Attic File:", atticImage);
-      console.log("Electrical File:", electricalImage);
-      console.log("Driver's License File:", licenseImage);
-      console.log("Deposit File:", depositImage);
-      console.log("adders:", adders[0].name);
-      console.log("program:", program.name);
-      console.log("notes:", notes);
+      console.log("Ambassador:", Ambassador);
+      console.log("Address:", Address);
+      console.log("Phone:", Phone);
+      console.log("Email:", email);
+      console.log("Date:", selectedDate);
+      console.log("Utility Bill File:", utilityBillImage);
 
-      pushNewSale({
-        variables: {
-          ownerName: ownerName,
-          saleRep: rep.name,
-          atticImage: String(atticImage),
-          electricalImage: String(electricalImage),
-          LicenseImage: String(licenseImage),
-          depositImage: String(depositImage),
-          installer: installer.name,
-          program: program.name,
-          adders: adders[0].name,
-          notes: notes,
-          repEmail: rep.email,
-        },
-      })
-        .then((result) => {
-          setOwnerName("");
-          setAtticImage(null);
-          setElectricalImage(null);
-          setLicenseImage(null);
-          setDepositImage(null);
-          setInstaller(null);
-          setProgram(null);
-          setAdder([]);
-          setNotes("");
-          setRep(null);
-          setAtticFile(null);
-          setElectricalFile(null);
-          setLicenseFile(null);
-          setDepositFile(null);
-
-          // Handle successful mutation result here
-        })
-        .catch((error) => {
-          // Handle error here
-        });
+      // Rest of your code
     } else {
+      console.log("Form is invalid");
+      console.log("Utility Bill File:", utilityBillImage);
       setFormValid(false);
     }
   };
@@ -423,7 +450,6 @@ const LeadIntake = () => {
         >
           <form onSubmit={handleSubmit}>
             {/* HOME OWNER NAME */}
-
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
               Home Owner Name *
             </InputLabel>
@@ -436,9 +462,7 @@ const LeadIntake = () => {
               onChange={handleOwnerChange}
               sx={{ width: "20em", marginBottom: "20px" }}
             />
-
             {/* SALES REP NAME */}
-
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
               Ambassador Name
             </InputLabel>
@@ -446,14 +470,12 @@ const LeadIntake = () => {
               id="outlined-basic"
               label="Ambassador"
               variant="outlined"
-              name="ownerName"
+              name="Ambassador"
               value={Ambassador}
-              onChange={handleOwnerChange}
+              onChange={(event) => setAmbassador(event.target.value)}
               sx={{ width: "20em", marginBottom: "20px" }}
             />
-
             {/* INSTALLER  */}
-
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
               Address
             </InputLabel>
@@ -462,12 +484,11 @@ const LeadIntake = () => {
               id="outlined-basic"
               label="Address"
               variant="outlined"
-              name="ownerName"
-              value={ownerName}
-              onChange={handleOwnerChange}
+              name="Address"
+              value={Address}
+              onChange={(event) => setAddress(event.target.value)}
               sx={{ width: "20em", marginBottom: "20px" }}
             />
-
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
               Phone
             </InputLabel>
@@ -476,12 +497,11 @@ const LeadIntake = () => {
               id="outlined-basic"
               label="Phone"
               variant="outlined"
-              name="ownerName"
-              value={ownerName}
-              onChange={handleOwnerChange}
+              name="Phone"
+              value={Phone}
+              onChange={(event) => setPhone(event.target.value)}
               sx={{ width: "20em", marginBottom: "20px" }}
             />
-
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
               Email
             </InputLabel>
@@ -490,11 +510,28 @@ const LeadIntake = () => {
               id="outlined-basic"
               label="Email"
               variant="outlined"
-              name="ownerName"
-              value={ownerName}
-              onChange={handleOwnerChange}
+              name="Email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               sx={{ width: "20em", marginBottom: "20px" }}
             />
+            {/* Date and Time */}
+            <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
+              Date
+            </InputLabel>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                border: "2px dashed #333",
+                borderRadius: "5px",
+                padding: "1rem",
+                cursor: "pointer",
+              }}
+            >
+              <DateTimePicker onChange={onChange} value={value} />
+            </Box>
 
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
               Utility Bill
@@ -509,15 +546,16 @@ const LeadIntake = () => {
                 padding: "1rem",
                 cursor: "pointer",
               }}
-              {...getAtticProps()}
+              {...getUtilityBillProps()}
             >
-              <input {...getAtticInputProps()} />
+              <input {...getUtilityBillInputProps()} />
               <Typography variant="body1" sx={{ color: "#333" }}>
-                Drag and drop your Attic file here, or click to select a file
+                Drag and drop your Utility Bill file here, or click to select a
+                file
               </Typography>
-              {atticFile ? (
+              {utilityBillFile ? (
                 <Typography variant="body1" sx={{ color: "#333" }}>
-                  {atticFile.name}
+                  {utilityBillFile.name}
                 </Typography>
               ) : null}
             </Box>
