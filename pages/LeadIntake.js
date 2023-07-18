@@ -66,7 +66,6 @@ const LeadIntake = () => {
 
   const [adder, setAdder] = React.useState([]);
   const [rep, setRep] = React.useState("");
-
   const [atticImage, setAtticImage] = React.useState(null);
   const [electricalImage, setElectricalImage] = React.useState(null);
   const [licenseImage, setLicenseImage] = React.useState(null);
@@ -388,7 +387,7 @@ const LeadIntake = () => {
     <Box
       sx={{
         width: "100vw",
-        height: "100%",
+        height: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -441,103 +440,64 @@ const LeadIntake = () => {
             {/* SALES REP NAME */}
 
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
-              Sales Rep *
+              Ambassador Name
             </InputLabel>
-
-            <Select
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
-              value={rep}
-              label="Sale Rep"
-              onChange={handleRepChange}
+            <TextField
+              id="outlined-basic"
+              label="Ambassador"
+              variant="outlined"
+              name="ownerName"
+              value={Ambassador}
+              onChange={handleOwnerChange}
               sx={{ width: "20em", marginBottom: "20px" }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-
-              {data &&
-                data.GetCRMusers.map((user) => (
-                  <MenuItem key={user.id} value={user}>
-                    {user.email}
-                  </MenuItem>
-                ))}
-            </Select>
+            />
 
             {/* INSTALLER  */}
 
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
-              Installer *
+              Address
             </InputLabel>
 
-            <Select
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
-              value={installer}
-              label="Age"
-              onChange={handleChange}
-              sx={{ width: "15em", marginBottom: "20px" }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-
-              {installMarkets.map((installMarket) => (
-                <MenuItem key={installMarket.id} value={installMarket}>
-                  {installMarket.name}
-                </MenuItem>
-              ))}
-            </Select>
+            <TextField
+              id="outlined-basic"
+              label="Address"
+              variant="outlined"
+              name="ownerName"
+              value={ownerName}
+              onChange={handleOwnerChange}
+              sx={{ width: "20em", marginBottom: "20px" }}
+            />
 
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
-              Program *
+              Phone
             </InputLabel>
 
-            <Select
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
-              value={program}
-              label="Program"
-              onChange={handleProgramChange}
-              sx={{ width: "15em", marginBottom: "20px" }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-
-              {programs.map((installMarket) => (
-                <MenuItem key={installMarket.id} value={installMarket}>
-                  {installMarket.name}
-                </MenuItem>
-              ))}
-            </Select>
+            <TextField
+              id="outlined-basic"
+              label="Phone"
+              variant="outlined"
+              name="ownerName"
+              value={ownerName}
+              onChange={handleOwnerChange}
+              sx={{ width: "20em", marginBottom: "20px" }}
+            />
 
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
-              Adders *
+              Email
             </InputLabel>
 
-            <Select
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
-              value={adder}
-              multiple
-              label="Adder"
-              onChange={handleAdderChange}
-              sx={{ width: "15em", marginBottom: "20px" }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-
-              {adders.map((installMarket) => (
-                <MenuItem key={installMarket.id} value={installMarket}>
-                  {installMarket.name}
-                </MenuItem>
-              ))}
-            </Select>
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              name="ownerName"
+              value={ownerName}
+              onChange={handleOwnerChange}
+              sx={{ width: "20em", marginBottom: "20px" }}
+            />
 
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
-              Attic *
+              Utility Bill
             </InputLabel>
             <Box
               sx={{
@@ -561,104 +521,6 @@ const LeadIntake = () => {
                 </Typography>
               ) : null}
             </Box>
-
-            <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
-              Electrical *
-            </InputLabel>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                border: "2px dashed #333",
-                borderRadius: "5px",
-                padding: "1rem",
-                cursor: "pointer",
-              }}
-              {...getElectricalProps()}
-            >
-              <input {...getElectricalInputProps()} />
-              <Typography variant="body1" sx={{ color: "#333" }}>
-                Drag and drop your Electrical file here, or click to select a
-                file
-              </Typography>
-              {electricalFile ? (
-                <Typography variant="body1" sx={{ color: "#333" }}>
-                  {electricalFile.name}
-                </Typography>
-              ) : null}
-            </Box>
-
-            <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
-              Drivers License{" "}
-            </InputLabel>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                border: "2px dashed #333",
-                borderRadius: "5px",
-                padding: "1rem",
-                cursor: "pointer",
-              }}
-              {...getLicenseProps()}
-            >
-              <input {...getLicenseInputProps()} />
-              <Typography variant="body1" sx={{ color: "#333" }}>
-                Drag and drop your Drivers License file here, or click to select
-                a file
-              </Typography>
-              {licenseFile ? (
-                <Typography variant="body1" sx={{ color: "#333" }}>
-                  {licenseFile.name}
-                </Typography>
-              ) : null}
-            </Box>
-
-            <InputLabel sx={{ marginBottom: "20px" }}>Deposit</InputLabel>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                border: "2px dashed #333",
-                borderRadius: "5px",
-                padding: "1rem",
-                cursor: "pointer",
-              }}
-              {...getDepositProps()}
-            >
-              <input {...getDepositInputProps()} />
-              <Typography variant="body1" sx={{ color: "#333" }}>
-                Drag and drop your Deposit file here, or click to select a file
-              </Typography>
-              {depositFile ? (
-                <Typography variant="body1" sx={{ color: "#333" }}>
-                  {depositFile.name}
-                </Typography>
-              ) : null}
-            </Box>
-
-            <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
-              Notes{" "}
-            </InputLabel>
-            <TextField
-              id="outlined-basic"
-              label="notes"
-              variant="outlined"
-              name="notes"
-              value={notes}
-              onChange={handleNoteChange}
-              sx={{ width: "20em", marginBottom: "20px" }}
-            />
-
-            {!formValid && (
-              <Alert severity="error" sx={{ marginTop: "1rem" }}>
-                Please fill out all required fields and upload all required
-                files
-              </Alert>
-            )}
 
             <Button
               variant="contained"
