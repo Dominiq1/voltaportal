@@ -307,7 +307,7 @@ export default function ImagesModal({params}) {
             +
           </Button>
           <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Order Summary</DialogTitle>
+            <DialogTitle>Images</DialogTitle>
             <DialogContent sx={{  width: '100%', display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
               <DialogContentText>
 

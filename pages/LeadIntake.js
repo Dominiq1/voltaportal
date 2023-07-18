@@ -22,7 +22,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { uuid } from "uuidv4";
 
-const MyForm = () => {
+const LeadIntake = () => {
   const [CRMusers, setCRMusers] = useState([]);
   const [pushNewSale, { newSaleloading, error }] = useMutation(
     PUSH_NEW_SALE_MUTATION
@@ -73,6 +73,13 @@ const MyForm = () => {
   const [depositImage, setDepositImage] = React.useState(null);
 
   const [ownerName, setOwnerName] = React.useState("");
+
+  const [Ambassador, setAmbassador] = React.useState("");
+  const [Address, setAddress] = React.useState("");
+
+  const [Phone, setPhone] = React.useState("");
+  const [email, setEmail] = React.useState("");
+
   const [notes, setNotes] = React.useState("");
   const [program, setProgram] = React.useState("");
 
@@ -667,4 +674,4 @@ const MyForm = () => {
   );
 };
 
-export default MyForm;
+export default LeadIntake;

@@ -230,155 +230,132 @@ function App() {
 
   const [pushCogs, {cogData}] = useMutation(PUSH_VOLTAIC_COGS);
 
- 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: '.csv',
-    onDrop: async (acceptedFiles) => {
-      const file = acceptedFiles[0];
-      const text = await file.text();
-      const { data } = Papa.parse(text, { header: true });
-      const rows = data.map((row, index) => ({ ...row, id: index }));
-
-      console.log(rows);
       
+        const { getRootProps, getInputProps } = useDropzone({
+          accept: '.csv',
+          onDrop: async (acceptedFiles) => {
+            const file = acceptedFiles[0];
+            const text = await file.text();
+            const { data } = Papa.parse(text, { header: true });
+            const rows = data.map((row, index) => ({ ...row, id: index }));
+
+            console.log(rows);
+            
 
 
-      const quickbooksPorjects =  parseTotals(getObjectAtIndexN(data));
+            const quickbooksPorjects =  parseTotals(getObjectAtIndexN(data));
 
-        //Loop through projects set in useeffect and compare to quickbooks projects
-        //If they match, update the project with the quickbooks data   
-        
-        const NamelessProjects = [];
-        const NamedProjects = [];
-
-        const readyCOGs = [];
-
-        console.log("Quickbooks Projects");
-        console.log(quickbooksPorjects);
-
-        console.log("Voltaic Projects");
-        console.log(voltaicProjects);
-
-
-
-
-
-        console.log("Quickbooks Projects Length");
-        console.log(quickbooksPorjects.length);
-
-        for (let i = 0; i < quickbooksPorjects.length; i++) {
-            let isMatchFound = false;
+              //Loop through projects set in useeffect and compare to quickbooks projects
+              //If they match, update the project with the quickbooks data   
+              
           
-            for (let j = 0; j < voltaicProjects.length; j++) {
-              const str = quickbooksPorjects[i].Name;
-          
-              const lastSpaceIndex = str.lastIndexOf(' ');
-              const secondLastSpaceIndex = str.lastIndexOf(' ', lastSpaceIndex - 1);
-              const ownerName = secondLastSpaceIndex === -1 ? str : str.substring(secondLastSpaceIndex + 1);
-          
-              if (ownerName === voltaicProjects[j].ownerName && quickbooksPorjects[i].Name.startsWith("Total")) {
-                console.log("Match Found");
-                console.log(ownerName);
-                console.log(voltaicProjects[j].ownerName);
-          
-                const final = { ...voltaicProjects[j], ...quickbooksPorjects[i] };
-                NamedProjects.push(final);
-                isMatchFound = true;
-                break; // exit the inner loop since a match is found
+              const NonReadyCOGS = [];
+
+              const readyCOGs = [];
+         
+              const NamelessProjects = [];
+              const NamedProjects = [];
+              const namesThatDontMatch = [];
+              
+              for (let i = 0; i < quickbooksPorjects.length; i++) {
+                if (quickbooksPorjects[i].Name.startsWith("Total")) {
+                  const qbProjectName = quickbooksPorjects[i].Name.replace(/^Total\s/, '');
+                  let isMatchFound = false;
+                  
+                  for (let j = 0; j < voltaicProjects.length; j++) {
+                    const vcProjectName = voltaicProjects[j].ownerName;
+                    
+                    if (qbProjectName === vcProjectName) {
+                      console.log("Match Found");
+                      console.log(qbProjectName);
+                      console.log(vcProjectName);
+                
+                      const final = { ...voltaicProjects[j], ...quickbooksPorjects[i] };
+                      NamedProjects.push(final);
+                      isMatchFound = true;
+                      break;
+                    }
+                  }
+                  
+                  if (!isMatchFound) {
+                    console.log("No VC Name Found for Quickbooks Project:");
+                    console.log(quickbooksPorjects[i].Name);
+                    const noNamedMatch = { QBNAME: quickbooksPorjects[i].Name, VCNAME: "N/A" };
+                    namesThatDontMatch.push(noNamedMatch);
+                  }
+                } else {
+                  NamelessProjects.push(quickbooksPorjects[i]);
+                }
               }
-            }
-          
-            // If no match is found for the current quickbooksPorjects item
-            if (!isMatchFound) {
-              console.log("No Match Found");
-              console.log(quickbooksPorjects[i].Name);
-              NamelessProjects.push(quickbooksPorjects[i]);
-            }
+              
+              console.log("Named Projects:");
+              console.log(NamedProjects);
+              console.log("Nameless Projects:");
+              console.log(NamelessProjects);
+              console.log("Names That Don't Match:");
+              console.log(namesThatDontMatch);
+              
+
+
+                      console.log("Named Projects");
+                      console.log(NamedProjects);
+                      
+
+                      console.log("Nameless Projects");
+                      console.log(NamelessProjects);
+
+                      // Check which are non duplicated 
+
+                // Create a new array to store non-duplicated projects
+                    const nonDuplicatedProjects = [];
+
+          // Loop through NamelessProjects
+          for (let i = 0; i < NamelessProjects.length; i++) {
+              const nameless = NamelessProjects[i].Name;
+              let isMatch = false;
+
+              // Loop through NamedProjects
+              for (let j = 0; j < NamedProjects.length; j++) {
+                  const named = NamedProjects[j].ownerName;
+
+                  // If there is a match, set isMatch to true and break the loop
+                  if (nameless == named) {
+                      console.log("Match Found");
+                      console.log(nameless);
+                      console.log(named);
+                      isMatch = true;
+                      break;
+                  }
+              }
+
+              // If there was no match found, add the current NamelessProjects[i] to the nonDuplicatedProjects array
+              if (!isMatch) {
+                      nonDuplicatedProjects.push(NamelessProjects[i]);
+              }
           }
-          
 
-        // for(let i = 0; i < readyCOGs.length; i++) {
-
-        //     const namedProject = {}
-
-
-        //     for(let j = 0; j < voltaicProjects.length; j++) {
-
-        //         const str = quickbooksPorjects[i].Name;
-
-        //         const lastSpaceIndex = str.lastIndexOf(' ');
-        //      //   const ownerName = str.substring(lastSpaceIndex + 1);
-        //         const secondLastSpaceIndex = str.lastIndexOf(' ', lastSpaceIndex - 1);
-        //         const ownerName = secondLastSpaceIndex === -1 ? str : str.substring(secondLastSpaceIndex + 1);
-               
-        //         if(ownerName == voltaicProjects[j].ownerName) {
-        //             console.log("Match Found");
-        //             console.log(ownerName);
-        //             console.log(voltaicProjects[j].ownerName);
-
-        //             const final = {...voltaicProjects[j], ...quickbooksPorjects[i]};
-        //             NamedProjects.push(final);
-
-        //         }else if(ownerName != voltaicProjects[j].ownerName && j == voltaicProjects.length - 1) {
-        //             console.log("No Match Found");
-        //             console.log(ownerName);
-        //             NamelessProjects.push(voltaicProjects[j]);
-                   
-        //         }
-
-
-
-
-            
-        //     }}
-
-
-
-            console.log("Named Projects");
-            console.log(NamedProjects);
-            
-
-            console.log("Nameless Projects");
-            console.log(NamelessProjects);
-
-            // Check which are non duplicated 
-
-       // Create a new array to store non-duplicated projects
-const nonDuplicatedProjects = [];
-
-// Loop through NamelessProjects
-for (let i = 0; i < NamelessProjects.length; i++) {
-    const nameless = NamelessProjects[i].Name;
-    let isMatch = false;
-
-    // Loop through NamedProjects
-    for (let j = 0; j < NamedProjects.length; j++) {
-        const named = NamedProjects[j].ownerName;
-
-        // If there is a match, set isMatch to true and break the loop
-        if (nameless == named) {
-            console.log("Match Found");
-            console.log(nameless);
-            console.log(named);
-            isMatch = true;
-            break;
-        }
-    }
-
-    // If there was no match found, add the current NamelessProjects[i] to the nonDuplicatedProjects array
-    if (!isMatch) {
-        nonDuplicatedProjects.push(NamelessProjects[i]);
-    }
-}
-
-      // Now, add all NamedProjects to the nonDuplicatedProjects array
-       nonDuplicatedProjects.push(...NamedProjects);
+              // Now, add all NamedProjects to the nonDuplicatedProjects array
+              nonDuplicatedProjects.push(...NamedProjects);
 
 
 
                console.log("Non Duplicated Projects");
                console.log(nonDuplicatedProjects);
 
+
+               
+
+
+              
+
+               //Only print if it starts with "total"
+
+               for (let i = 0; i < nonDuplicatedProjects.length; i++) {
+                if (nonDuplicatedProjects[i].Name.startsWith("Total") ) {
+                    console.log(nonDuplicatedProjects[i]);
+                    NonReadyCOGS.push(nonDuplicatedProjects[i]);
+                }
+              }
 
 
 
@@ -415,6 +392,9 @@ for (let i = 0; i < NamelessProjects.length; i++) {
             // console.log("Nameless Projects");
             // console.log(NamelessProjects);
 
+
+
+
             console.log("Ready COGs");
 
 
@@ -422,6 +402,9 @@ for (let i = 0; i < NamelessProjects.length; i++) {
             console.log(readyCOGs);
 
 
+
+            console.log("Names That Dont Match");
+            console.log(namesThatDontMatch);
 
 
 

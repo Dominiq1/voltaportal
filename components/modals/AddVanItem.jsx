@@ -1,8 +1,3 @@
-
-
-
-
-
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
@@ -24,14 +19,14 @@ export default function AddVanItem() {
   const [quantUnits, setQuantUnits] = useState("")
 
   const [addVanItem, {vanLoading, vanError, vanData}] = useMutation(ADD_VAN_ITEM);
-  const [vanItemImage, setVanItemImage] = useState("no image");
+  const [vanItemImage, setVanItemImage] = useState([]);
 
   const [formData, setFormData] = useState({
     itemId: "23",
     itemName: "",
     itemDescription: "",
     itemQuantity: "",
-    itemImage: "HTTP://",
+    itemImage: ["image"],
     vanId: "64067ba9d93b3428a600075a",
   });
 
@@ -142,7 +137,7 @@ Tell us about your new item!
            fullWidth
            variant="standard"
            name="itemQuantity"
-           value={formData.licensePlate}
+           value={formData.itemQuantity}
            onChange={handleChange}
          />
 <FormControl fullWidth>

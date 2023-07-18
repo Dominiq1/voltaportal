@@ -1,5 +1,3 @@
-
-
 import * as React from 'react';
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
@@ -17,72 +15,62 @@ import { IconButton } from '@mui/material';
 import { getStorage, ref, uploadBytes , getDownloadURL} from "firebase/storage";
 import { storage } from '../../API/firebase';
 import { uuid } from 'uuidv4';
-
-  import { UPDATE_VAN_ITEM } from '@/gql/mutations/addVanItem';
+import { UPDATE_VAN_ITEM } from '@/gql/mutations/addVanItem';
 
 
 
 function ImageUpload({setImage, setUploaded}) {
-  const [preview, setPreview] = useState(null);
-  const [preview2, setPreview2] = useState(null);
-  const [preview3, setPreview3] = useState(null);
-  const [preview4, setPreview4] = useState(null);
-  const [preview5, setPreview5] = useState(null);
-  const [preview6, setPreview6] = useState(null);
+  const [preview, setPreview] = useState([]);
+  const [preview2, setPreview2] = useState([]);
+  const [preview3, setPreview3] = useState([]);
+  const [preview4, setPreview4] = useState([]);
+  const [preview5, setPreview5] = useState([]);
+  const [preview6, setPreview6] = useState([]);
 
   const [updateVanItem, { Leadloading, error, Leaddata }] = useMutation(UPDATE_VAN_ITEM);
 
 
   const handleImageChange = async (e) => {
     setUploaded(true);
-    const file = e.target.files[0];
-    if (file) {
+    const files = e.target.files;
+    const previews = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreview(reader.result);
+        previews.push(reader.result);
+        setPreview(previews);
       };
       reader.readAsDataURL(file);
-
-
-
-      // const storageRef = ref(storage, `images/${uuid()}`);
-
-
-const preUri = 'images/item.jpg' + uuid();
-      const pathReference = ref(storage,preUri);
-
-
-      // 'file' comes from the Blob or File API
-     uploadBytes(pathReference, file).then((snapshot) => {
-      console.log('Uploaded a blob or file!');
-      console.log(snapshot.metadata.fullPath);
-      const gsReference = ref(storage, 'gs://bucket' + preUri);
-
-      
-   // Create a reference from an HTTPS URL
-// Note that in the URL, characters are URL escaped!
-const httpsReference = ref(storage, 'https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/' + encodeURIComponent(preUri));  
-
-getDownloadURL(httpsReference).then((url) => {
-  // `url` is the download URL for 'images/stars.jpg'
-  console.log(url);
-  setImage(url);
-//   handleUpdateLead(url);
   
-})
-
-
-
-
-    });
-
-
-
-      
-    } else {
-      setPreview(null);
+      const preUri = 'images/item.jpg' + uuid();
+      const pathReference = ref(storage, preUri);
+  
+      uploadBytes(pathReference, file).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        console.log(snapshot.metadata.fullPath);
+        const gsReference = ref(storage, 'gs://bucket' + preUri);
+  
+        // Create a reference from an HTTPS URL
+        // Note that in the URL, characters are URL escaped!
+        const httpsReference = ref(
+          storage,
+          'https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/' +
+            encodeURIComponent(preUri)
+        );
+  
+        getDownloadURL(httpsReference).then((url) => {
+          // `url` is the download URL for 'images/stars.jpg'
+          console.log(url);
+          setImage(url);
+          //   handleUpdateLead(url);
+  
+          // you may want to store the download URL in an array so you can send them to the backend together
+        });
+      });
     }
   };
+  
 
 
 
@@ -160,104 +148,81 @@ const handleUpdateLead = async (image) => {
 export default function ImageStage({setImage}) {
  
 
-  // INSTEAD O ADDING ORDER, UPDATE THE VANITEMS IMAGE. 
-  const [addOrder, { data }] = useMutation(ADD_ORDER);
+    // INSTEAD O ADDING ORDER, UPDATE THE VANITEMS IMAGE. 
+    const [addOrder, { data }] = useMutation(ADD_ORDER);
 
-  const [uploadInProcess, setUploaded] = useState(false);
+    const [uploadInProcess, setUploaded] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
 
-  const handleChange = (event) => {
-    event.persist();
+    const handleChange = (event) => {
+      event.persist();
 
-  };
+    };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+    const handleClose = () => {
+      setOpen(false);
+    };
 
-
-
-  const handleUpload = (acceptedFiles, index) => {
-    setUploadedFiles((prevFiles) => {
-      const newFiles = [...prevFiles];
-      newFiles[index] = acceptedFiles[0];
-      setImageUpload(acceptedFiles[0]);
-      return newFiles;
-    });
-
-    const storage = getStorage();
-
-    const imageRef = storage.ref(`images/${imageUpload.name + uuid()}}`);
-
-
-    alert("uploading image");
-    // 'file' comes from the Blob or File API
-
-
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      console.log('Uploaded a blob or file!');
-      console.log(snapshot);
-      console.log(snapshot.metadata.fullPath);
-
-  
-
-      //push full path to database by updating vanItem with it and making it the latest pic for preview at order.
-
-
-    });
+    const handleUpload = (acceptedFiles, index) => {
+      const storage = getStorage();
+      const imageUrls = [];
+    
+      for (let i = 0; i < acceptedFiles.length; i++) {
+        const file = acceptedFiles[i];
+        const imageRef = storage.ref(`images/${file.name + uuid()}`);
+        uploadBytes(imageRef, file).then((snapshot) => {
+          console.log('Uploaded a blob or file!');
+          console.log(snapshot.metadata.fullPath);
+          const gsReference = ref(storage, snapshot.metadata.fullPath);
+          const httpsReference = ref(storage, `https://firebasestorage.googleapis.com/v0/b/${storage.app.options.storageBucket}/o/${encodeURIComponent(snapshot.metadata.fullPath)}?alt=media`);
+          getDownloadURL(httpsReference).then((url) => {
+            console.log(url);
+            imageUrls.push(url);
+            setImageUrls(imageUrls); // set the state to store all image urls
+          });
+        });
+      }
+    };
     
 
+      const handleLeadSubmit = (e) => {
+
+        // console.log(formData)
+        e.preventDefault();
 
 
 
 
 
 
+        addOrder({
+        variables: {
+          orderId: "123",
+          itemName: "james",
+          itemDescription: "444",
+          itemImages: "http:.",
+          quantity: "47",
+          status: "inQue",
+          vanId: "64064e66fe9b22647414a812"
+          }
+          }).then((res) => {
+            console.log("Order Submitted");
+        console.log(res);
+        // setUploaded(false);
+      
+
+        }).catch((err) => {
+          console.log("Order Not Submitted");
+          console.log(err);
+        });
 
 
-  };
-
-
-
-
-  const handleLeadSubmit = (e) => {
-
-    // console.log(formData)
-    e.preventDefault();
-
-
-
-
-
-
-    addOrder({
-    variables: {
-      orderId: "123",
-      itemName: "james",
-      itemDescription: "444",
-      itemImages: "http:.",
-      quantity: "47",
-      status: "inQue",
-      vanId: "64064e66fe9b22647414a812"
-      }
-      }).then((res) => {
-         console.log("Order Submitted");
-    console.log(res);
-    // setUploaded(false);
-   
-
-    }).catch((err) => {
-      console.log("Order Not Submitted");
-      console.log(err);
-    });
-
-
-  };
+      };
 
 
   return (
@@ -301,7 +266,7 @@ export default function ImageStage({setImage}) {
             +
           </Button>
           <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Order Summary</DialogTitle>
+            <DialogTitle>Image Uploads</DialogTitle>
             <DialogContent sx={{  width: '100%', display: 'flex', justifyContent: 'center', alignContent: 'center'}}>
               <DialogContentText>
 
