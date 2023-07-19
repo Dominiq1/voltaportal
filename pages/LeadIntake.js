@@ -399,7 +399,7 @@ const LeadIntake = () => {
           Address: Address,
           Phone: Phone,
           Email: email,
-          DateString: selectedDate,
+          DateString: "selectedDate",
           UtilityBill: utilityBillImage,
         },
       }).catch(console.error);
@@ -414,22 +414,22 @@ const LeadIntake = () => {
     }
   };
 
-  useEffect(() => {
-    getCRMusers().then((response) => {
-      //   alert("Data has been sent to the server");
+  // useEffect(() => {
+  //   getCRMusers().then((response) => {
+  //     //   alert("Data has been sent to the server");
 
-      console.log(response.data.GetCRMusers);
+  //     console.log(response.data.GetCRMusers);
 
-      const usersWithIds = response.data.GetCRMusers.map((user, index) => {
-        return {
-          ...user,
-          id: index,
-        };
-      });
+  //     const usersWithIds = response.data.GetCRMusers.map((user, index) => {
+  //       return {
+  //         ...user,
+  //         id: index,
+  //       };
+  //     });
 
-      setCRMusers(usersWithIds);
-    });
-  }, []);
+  //     setCRMusers(usersWithIds);
+  //   });
+  // }, []);
 
   return (
     <Box
