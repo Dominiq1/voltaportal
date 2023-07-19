@@ -16,7 +16,7 @@ import "react-clock/dist/Clock.css";
 import { useDropzone } from "react-dropzone";
 import { useMutation } from "@apollo/client";
 import circularProgressClasses from "@mui/material";
-import { GET_CRM_USERS } from "@/gql/mutations/CRM";
+import { GET_CRM_USERS, PUSH_NEW_LEAD } from "@/gql/mutations/CRM";
 import Image from "next/image";
 import backgroundImage from "./images/VC.png";
 import Alert from "@mui/material/Alert";
@@ -31,6 +31,8 @@ import { v4 as uuidv4 } from "uuid";
 import { uuid } from "uuidv4";
 
 const LeadIntake = () => {
+  const [pushNewLead, { Leadloading, Leaderror }] = useMutation(PUSH_NEW_LEAD);
+
   const [CRMusers, setCRMusers] = useState([]);
   const [pushNewSale, { newSaleloading, error }] = useMutation(
     PUSH_NEW_SALE_MUTATION
@@ -365,15 +367,20 @@ const LeadIntake = () => {
     event.preventDefault();
     const formData = new FormData(event.target);
     let formIsValid = true;
+
+    // Validate form fields
     for (let [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
       if (!value) {
         formIsValid = false;
       }
     }
-    if (!atticFile || !electricalFile || !licenseFile) {
+
+    // Validate file inputs
+    if (!utilityBillFile) {
       formIsValid = false;
     }
+
     if (formIsValid) {
       setFormValid(true);
       console.log("Form is valid");
@@ -384,6 +391,20 @@ const LeadIntake = () => {
       console.log("Email:", email);
       console.log("Date:", selectedDate);
       console.log("Utility Bill File:", utilityBillImage);
+
+      pushNewLead({
+        variables: {
+          HomeownerName: ownerName,
+          AmbassadorName: Ambassador,
+          Address: Address,
+          Phone: Phone,
+          Email: email,
+          DateString: selectedDate,
+          UtilityBill: utilityBillImage,
+        },
+      }).catch(console.error);
+
+      console.log("Pushed lead record to qb.");
 
       // Rest of your code
     } else {
@@ -435,17 +456,19 @@ const LeadIntake = () => {
       >
         <Image
           src={backgroundImage}
-          style={{ width: "25rem", height: "9.5em" }}
+          sx={{
+            width: { xs: "100%", md: "2rem" },
+            height: ".5em",
+          }}
         />
       </Box>
-      <Box sx={{ backgroundColor: "#fff", p: "2rem" }}>
-        {/* <Typography variant="h5" sx={{ mb: '2rem', fontFamily: 'Montserrat', fontWeight: 'bold', color: '#333' }}>Solar Sale Form</Typography> */}
+      <Box sx={{ backgroundColor: "#fff", p: "2rem", marginTop: "20vh" }}>
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: { xs: "column", md: "row" },
             gap: "1rem",
-            width: "60vw",
+            width: { xs: "80vw", md: "60vw" },
           }}
         >
           <form onSubmit={handleSubmit}>
