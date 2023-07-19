@@ -8,10 +8,10 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import DateTimePicker from "react-datetime-picker";
-import "react-datetime-picker/dist/DateTimePicker.css";
-import "react-calendar/dist/Calendar.css";
-import "react-clock/dist/Clock.css";
+
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 import { useDropzone } from "react-dropzone";
 import { useMutation } from "@apollo/client";
@@ -24,13 +24,11 @@ import { storage } from "@/API/firebase";
 import { PUSH_NEW_SALE_MUTATION } from "@/gql/mutations/CRM";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-
 import { v4 as uuidv4 } from "uuid";
 import { uuid } from "uuidv4";
 
 const LeadIntake = () => {
+  const [submitted, setSubmitted] = useState(false); // New state variable
   const [pushNewLead, { Leadloading, Leaderror }] = useMutation(PUSH_NEW_LEAD);
 
   const [CRMusers, setCRMusers] = useState([]);
@@ -392,19 +390,36 @@ const LeadIntake = () => {
       console.log("Date:", selectedDate);
       console.log("Utility Bill File:", utilityBillImage);
 
-      pushNewLead({
-        variables: {
-          HomeownerName: ownerName,
-          AmbassadorName: Ambassador,
-          Address: Address,
-          Phone: Phone,
-          Email: email,
-          DateString: "selectedDate",
-          UtilityBill: utilityBillImage,
-        },
-      }).catch(console.error);
+      try {
+        pushNewLead({
+          variables: {
+            HomeownerName: ownerName,
+            AmbassadorName: Ambassador,
+            Address: Address,
+            Phone: Phone,
+            Email: email,
+            DateString: selectedDate.toISOString(),
+            UtilityBill: utilityBillImage,
+          },
+        });
 
-      console.log("Pushed lead record to qb.");
+        console.log("Pushed lead record to qb.");
+        setSubmitted(true); // Update the submitted state variable
+      } catch (error) {
+        console.error(error);
+      }
+
+      // pushNewLead({
+      //   variables: {
+      //     HomeownerName: ownerName,
+      //     AmbassadorName: Ambassador,
+      //     Address: Address,
+      //     Phone: Phone,
+      //     Email: email,
+      //     DateString: selectedDate.toISOString(),
+      //     UtilityBill: utilityBillImage,
+      //   },
+      // }).catch(console.error);
 
       // Rest of your code
     } else {
@@ -426,10 +441,29 @@ const LeadIntake = () => {
   //         id: index,
   //       };
   //     });
-
   //     setCRMusers(usersWithIds);
   //   });
   // }, []);
+
+  // Render the Success page if the form is submitted
+  if (submitted) {
+    return (
+      <Box
+        sx={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <Typography variant="h3">Form Submitted Successfully!</Typography>
+        {/* Add any additional content you want to display on the success page */}
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -542,6 +576,7 @@ const LeadIntake = () => {
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
               Date
             </InputLabel>
+
             <Box
               sx={{
                 display: "flex",
@@ -553,7 +588,14 @@ const LeadIntake = () => {
                 cursor: "pointer",
               }}
             >
-              <DateTimePicker onChange={onChange} value={value} />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  disableDay={(date) => date.getDay() === 0}
+                  minutesStep={0}
+                />
+              </LocalizationProvider>
             </Box>
 
             <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
