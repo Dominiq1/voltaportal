@@ -443,7 +443,7 @@ const LeadIntake = () => {
         backgroundColor: "white",
       }}
     >
-      <Box
+      {/* <Box
         sx={{
           width: "100%",
           height: "20vh",
@@ -461,7 +461,7 @@ const LeadIntake = () => {
             height: ".5em",
           }}
         />
-      </Box>
+      </Box> */}
       <Box sx={{ backgroundColor: "#fff", p: "2rem", marginTop: "20vh" }}>
         <Box
           sx={{
