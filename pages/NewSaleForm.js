@@ -704,14 +704,14 @@ const MyForm = () => {
                 files
               </Alert>
             )}
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: "#333", color: "#fff", marginTop: "1rem" }}
+              type="submit"
+            >
+              Submit
+            </Button>
           </form>
-          <Button
-            variant="contained"
-            sx={{ backgroundColor: "#333", color: "#fff", marginTop: "1rem" }}
-            type="submit"
-          >
-            Submit
-          </Button>
         </Box>
       </Box>
     </Box>
