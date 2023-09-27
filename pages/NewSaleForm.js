@@ -62,6 +62,11 @@ const MyForm = () => {
     { id: 3, name: "HVAC" },
     { id: 4, name: "Insulation" },
     { id: 5, name: "Sub Pannel" },
+    { id: 6, name: "Solar" },
+    { id: 7, name: "Battery" },
+    { id: 8, name: "Critter Guard" },
+    { id: 9, name: "Derate" },
+    { id: 10, name: "EV Charger" },
   ]);
 
   const [getCRMusers, { data }] = useMutation(GET_CRM_USERS);
@@ -334,7 +339,7 @@ const MyForm = () => {
       pushNewSale({
         variables: {
           ownerName: ownerName,
-          leadGen: leadgen,
+          leadGen: leadgen.name,
           saleRep: rep.name,
           atticImage: String(atticImage),
           electricalImage: String(electricalImage),
@@ -456,7 +461,7 @@ const MyForm = () => {
               labelId="demo-simple-select-helper-label"
               id="demo-simple-select-helper"
               value={leadgen}
-              label="Sale Rep"
+              label="Lead Gen"
               onChange={handleLeadgenChange}
               sx={{ width: "20em", marginBottom: "20px" }}
             >
