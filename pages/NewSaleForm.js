@@ -334,6 +334,7 @@ const MyForm = () => {
       pushNewSale({
         variables: {
           ownerName: ownerName,
+          leadGen: leadgen,
           saleRep: rep.name,
           atticImage: String(atticImage),
           electricalImage: String(electricalImage),

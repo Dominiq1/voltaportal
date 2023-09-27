@@ -34,6 +34,7 @@ const PUSH_NEW_SALE_MUTATION = gql`
   mutation PushNewSale(
     $ownerName: String!
     $saleRep: String!
+    $leadGen: String!
     $atticImage: String!
     $electricalImage: String!
     $LicenseImage: String!
@@ -49,6 +50,7 @@ const PUSH_NEW_SALE_MUTATION = gql`
       saleRep: $saleRep
       atticImage: $atticImage
       electricalImage: $electricalImage
+      leadGen: $leadGen
       LicenseImage: $LicenseImage
       depositImage: $depositImage
       installer: $installer
