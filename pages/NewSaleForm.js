@@ -70,8 +70,16 @@ const MyForm = () => {
   ]);
 
   const [getCRMusers, { data }] = useMutation(GET_CRM_USERS);
+
   const [atticFile, setAtticFile] = React.useState(null);
   const [electricalFile, setElectricalFile] = React.useState(null);
+  const [atticFile2, setAtticFile2] = React.useState(null);
+  const [electricalFile2, setElectricalFile2] = React.useState(null);
+
+
+
+
+
   const [licenseFile, setLicenseFile] = React.useState(null);
   const [depositFile, setDepositFile] = React.useState(null);
   const [formValid, setFormValid] = React.useState(true);
@@ -81,8 +89,11 @@ const MyForm = () => {
   const [rep, setRep] = React.useState("");
   const [leadgen, setLeadgen] = React.useState("");
 
-  const [atticImage, setAtticImage] = React.useState(null);
+  const [atticImagesURL, setAtticImagesUrl] = React.useState(null);
   const [electricalImage, setElectricalImage] = React.useState(null);
+
+  const [atticImagesURL2, setAtticImagesUrl2] = React.useState(null);
+  const [electricalImage2, setElectricalImage2] = React.useState(null);
   const [licenseImage, setLicenseImage] = React.useState(null);
   const [depositImage, setDepositImage] = React.useState(null);
 
@@ -128,6 +139,13 @@ const MyForm = () => {
   const { getRootProps: getAtticProps, getInputProps: getAtticInputProps } =
     useDropzone({
       onDrop: (acceptedFiles) => {
+
+
+
+
+        // console.log(acceptedFiles)
+
+        // alert("Accepted files here")
         setAtticFile(acceptedFiles[0]);
 
         const file = acceptedFiles[0];
@@ -161,7 +179,7 @@ const MyForm = () => {
               // `url` is the download URL for 'images/stars.jpg'
 
               console.log(url);
-              setAtticImage(url);
+              setAtticImagesUrl(url);
             });
           });
         } else {
@@ -170,6 +188,57 @@ const MyForm = () => {
       },
     });
 
+    const { getRootProps: getAtticProps2, getInputProps: getAtticInputProps2 } =
+    useDropzone({
+      onDrop: (acceptedFiles) => {
+
+
+
+
+        console.log(acceptedFiles)
+
+        alert("Accepted files here")
+        setAtticFile2(acceptedFiles[0]);
+
+        const file = acceptedFiles[0];
+
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            //   setPreview(reader.result);
+          };
+          reader.readAsDataURL(file);
+
+          // const storageRef = ref(storage, `images/${uuid()}`);
+
+          const preUri = "images/item.jpg" + uuidv4();
+          const pathReference = ref(storage, preUri);
+          // 'file' comes from the Blob or File API
+          uploadBytes(pathReference, file).then((snapshot) => {
+            console.log("Uploaded a blob or file!");
+            console.log(snapshot.metadata.fullPath);
+            const gsReference = ref(storage, "gs://bucket" + preUri);
+
+            // Create a reference from an HTTPS URL
+            // Note that in the URL, characters are URL escaped!
+            const httpsReference = ref(
+              storage,
+              "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+                encodeURIComponent(preUri)
+            );
+
+            getDownloadURL(httpsReference).then((url) => {
+              // `url` is the download URL for 'images/stars.jpg'
+
+              console.log(url);
+              setAtticImagesUrl2(url);
+            });
+          });
+        } else {
+          console.log("no file");
+        }
+      },
+    });
   const {
     getRootProps: getElectricalProps,
     getInputProps: getElectricalInputProps,
@@ -217,6 +286,54 @@ const MyForm = () => {
     },
   });
 
+
+  
+  const {
+    getRootProps: getElectricalProps2,
+    getInputProps: getElectricalInputProps2,
+  } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      setElectricalFile2(acceptedFiles[0]);
+
+      const file = acceptedFiles[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          //   setPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+
+        // const storageRef = ref(storage, `images/${uuid()}`);
+
+        const preUri = "images/item.jpg" + uuidv4();
+        const pathReference = ref(storage, preUri);
+        // 'file' comes from the Blob or File API
+        uploadBytes(pathReference, file).then((snapshot) => {
+          console.log("Uploaded a blob or file!");
+          console.log(snapshot.metadata.fullPath);
+          const gsReference = ref(storage, "gs://bucket" + preUri);
+
+          // Create a reference from an HTTPS URL
+          // Note that in the URL, characters are URL escaped!
+          const httpsReference = ref(
+            storage,
+            "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+              encodeURIComponent(preUri)
+          );
+
+          getDownloadURL(httpsReference).then((url) => {
+            // `url` is the download URL for 'images/stars.jpg'
+
+            console.log(url);
+            setElectricalImage2(url);
+          });
+        });
+      } else {
+        console.log("no file");
+      }
+    },
+  });
   const { getRootProps: getLicenseProps, getInputProps: getLicenseInputProps } =
     useDropzone({
       onDrop: (acceptedFiles) => {
@@ -328,8 +445,10 @@ const MyForm = () => {
       console.log("ownerName:", ownerName);
       console.log("Installer:", installer.name);
       console.log("Rep:", rep.name);
-      console.log("Attic File:", atticImage);
+      console.log("Attic File:", atticImagesURL); 
+       console.log("Attic File:", atticImagesURL2);
       console.log("Electrical File:", electricalImage);
+      console.log("Electrical File:", electricalImage2);
       console.log("Driver's License File:", licenseImage);
       console.log("Deposit File:", depositImage);
       console.log("adders:", adders[0].name);
@@ -341,7 +460,7 @@ const MyForm = () => {
           ownerName: ownerName,
           leadGen: leadgen.name,
           saleRep: rep.name,
-          atticImage: String(atticImage),
+          atticImage: String(atticImagesURL),
           electricalImage: String(electricalImage),
           LicenseImage: String(licenseImage),
           depositImage: String(depositImage),
@@ -354,7 +473,7 @@ const MyForm = () => {
       })
         .then((result) => {
           setOwnerName("");
-          setAtticImage(null);
+          setAtticImagesUrl(null);
           setElectricalImage(null);
           setLicenseImage(null);
           setDepositImage(null);
@@ -365,7 +484,9 @@ const MyForm = () => {
           setRep(null);
           setLeadgen(null);
           setAtticFile(null);
+          setAtticFile2(null)
           setElectricalFile(null);
+          setElectricalFile2(null)
           setLicenseFile(null);
           setDepositFile(null);
 
@@ -434,7 +555,7 @@ const MyForm = () => {
             width: "60vw",
           }}
         >
-          <h1> New Sale Form</h1>
+          <h1 style={{ fontFamily: 'sans-serif', fontWeight: 'bold' , color: 'black' }} > New Sale Form</h1>
           <form onSubmit={handleSubmit}>
             {/* HOME OWNER NAME */}
 
@@ -575,55 +696,135 @@ const MyForm = () => {
               ))}
             </Select>
 
-            <InputLabel
+
+
+
+
+            {/* Working Utility Bill Image */}
+
+
+           <InputLabel
               sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
             >
               Utility Bill *
             </InputLabel>
+
+
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                border: "2px dashed #333",
-                borderRadius: "5px",
-                padding: "1rem",
-                cursor: "pointer",
+                flexDirection: "row",
+                justifyContent: "space-between",  // added to space out the boxes
               }}
+            >
+
+               
+            {/* Utility Bill 1     */}
+            <Box
+             sx={{
+              flex: "1 1 calc(33% - 10px)", // take up 1/3 of the width minus a small margin
+              border: "2px dashed #333",
+              borderRadius: "5px",
+              padding: "1rem",
+              cursor: "pointer",
+              margin: "0 5px",  // added a small margin to space out the boxes
+            }}
               {...getAtticProps()}
             >
               <input {...getAtticInputProps()} />
               <Typography variant="body1" sx={{ color: "#333" }}>
                 Drag and drop your Attic file here, or click to select a file
               </Typography>
+
+
+
               {atticFile ? (
                 <Typography variant="body1" sx={{ color: "#333" }}>
                   {atticFile.name}
                 </Typography>
               ) : null}
+
             </Box>
 
+
+            {/* Utility Bill 2     */}
+            <Box
+             sx={{
+              flex: "1 1 calc(33% - 10px)", // take up 1/3 of the width minus a small margin
+              border: "2px dashed #333",
+              borderRadius: "5px",
+              padding: "1rem",
+              cursor: "pointer",
+              margin: "0 5px",  // added a small margin to space out the boxes
+            }}
+              {...getAtticProps2()}
+            >
+              <input {...getAtticInputProps2()} />
+              <Typography variant="body1" sx={{ color: "#333" }}>
+                Drag and drop your Attic file here, or click to select a file
+              </Typography>
+
+
+
+              {atticFile2 ? (
+                <Typography variant="body1" sx={{ color: "#333" }}>
+                  {atticFile2.name}
+                </Typography>
+              ) : null}
+
+            </Box>
+
+
+
+            </Box>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {/* Attic Image * */}
             <InputLabel
               sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
             >
               Attic *
             </InputLabel>
+
+
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                border: "2px dashed #333",
-                borderRadius: "5px",
-                padding: "1rem",
-                cursor: "pointer",
+                flexDirection: "row",
+                justifyContent: "space-between",  // added to space out the boxes
               }}
+            >
+       
+
+       {/* Attic Pic 1 */}
+
+            <Box
+             sx={{
+              flex: "1 1 calc(33% - 10px)", // take up 1/3 of the width minus a small margin
+              border: "2px dashed #333",
+              borderRadius: "5px",
+              padding: "1rem",
+              cursor: "pointer",
+              margin: "0 5px",  // added a small margin to space out the boxes
+            }}
               {...getElectricalProps()}
             >
               <input {...getElectricalInputProps()} />
               <Typography variant="body1" sx={{ color: "#333" }}>
-                Drag and drop your Electrical file here, or click to select a
-                file
+              Drag and drop your Atic PDF/PNG file here
               </Typography>
               {electricalFile ? (
                 <Typography variant="body1" sx={{ color: "#333" }}>
@@ -632,6 +833,31 @@ const MyForm = () => {
               ) : null}
             </Box>
 
+             {/* Attic Pic 2 */}
+            <Box
+             sx={{
+              flex: "1 1 calc(33% - 10px)", // take up 1/3 of the width minus a small margin
+              border: "2px dashed #333",
+              borderRadius: "5px",
+              padding: "1rem",
+              cursor: "pointer",
+              margin: "0 5px",  // added a small margin to space out the boxes
+            }}
+              {...getElectricalProps2()}
+            >
+              <input {...getElectricalInputProps2()} />
+              <Typography variant="body1" sx={{ color: "#333" }}>
+                Drag and drop your Atic PDF/PNG file here
+              </Typography>
+              {electricalFile2 ? (
+                <Typography variant="body1" sx={{ color: "#333" }}>
+                  {electricalFile2.name}
+                </Typography>
+              ) : null}
+            </Box>
+
+
+            </Box>
             <InputLabel
               sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
             >
