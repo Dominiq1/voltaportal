@@ -127,6 +127,8 @@ const MyForm = () => {
 
   const handleLeadgenChange = (event) => {
     setLeadgen(event.target.value);
+    //  console.log(event.target.value)
+    // alert("Lead change")
   };
   const handleOwnerChange = (event) => {
     setOwnerName(event.target.value);
@@ -605,7 +607,7 @@ const MyForm = () => {
               {data &&
                 data.GetCRMusers.map((user) => (
                   <MenuItem key={user.id} value={user}>
-                    {user.email}
+                    {user.name}
                   </MenuItem>
                 ))}
             </Select>
@@ -631,7 +633,7 @@ const MyForm = () => {
               {data &&
                 data.GetCRMusers.map((user) => (
                   <MenuItem key={user.id} value={user}>
-                    {user.email}
+                    {user.name}
                   </MenuItem>
                 ))}
             </Select>
