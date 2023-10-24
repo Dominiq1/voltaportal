@@ -8,6 +8,9 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { CircularProgress } from '@mui/material'; // Make sure to import CircularProgress
+
+
 import { useDropzone } from "react-dropzone";
 import { useMutation } from "@apollo/client";
 import circularProgressClasses from "@mui/material";
@@ -27,6 +30,7 @@ const MyForm = () => {
   const [pushNewSale, { newSaleloading, error }] = useMutation(
     PUSH_NEW_SALE_MUTATION
   );
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -39,6 +43,27 @@ const MyForm = () => {
     { id: 4, name: "Ascension" },
     { id: 4, name: "LGCY" },
   ]);
+
+
+
+
+  const [uploadingUtility1, setUploadingUtility1] = useState(false);
+  const [progressUtility1, setProgressUtility1] = useState(0);
+  const [uploadingUtility2, setUploadingUtility2] = useState(false);
+  const [progressUtility2, setProgressUtility2] = useState(0);
+  
+
+  const [uploadingLicense1, setUploadingLicense1] = useState(false);
+  const [progressLicense1, setProgressLicense1] = useState(0);
+  
+
+  const [uploadingAttic1, setUploadingAttic1] = useState(false);
+  const [progressAttic1, setProgressAttic1] = useState(0);
+  
+  const [uploadingAttic2, setUploadingAttic2] = useState(false);
+  const [progressAttic2, setProgressAttic2] = useState(0);
+  
+
 
   const [programs, setPrograms] = useState([
     { id: 0, name: "Cash" },
@@ -143,8 +168,8 @@ const MyForm = () => {
       onDrop: (acceptedFiles) => {
 
 
-
-
+        setUploadingUtility1(true)
+        setProgressUtility1(35)
         // console.log(acceptedFiles)
 
         // alert("Accepted files here")
@@ -164,7 +189,13 @@ const MyForm = () => {
           const preUri = "images/item.jpg" + uuidv4();
           const pathReference = ref(storage, preUri);
           // 'file' comes from the Blob or File API
-          uploadBytes(pathReference, file).then((snapshot) => {
+          uploadBytes(pathReference, file,  {
+              onProgress: (snapshot) => {
+                const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setProgressUtility1(percentage);
+              },
+            }).then((snapshot) => {
+            
             console.log("Uploaded a blob or file!");
             console.log(snapshot.metadata.fullPath);
             const gsReference = ref(storage, "gs://bucket" + preUri);
@@ -181,210 +212,243 @@ const MyForm = () => {
               // `url` is the download URL for 'images/stars.jpg'
 
               console.log(url);
-              setUtilityImagesUrl(url);
+              setUtilityImagesUrl(url); 
+              setUploadingUtility1(false);
             });
+          }).catch(error => {
+            setUploadingUtility1(false); // Finish uploading even on error
+            console.error("Upload error:", error);
           });
+
+
+
+
+
         } else {
           console.log("no file");
         }
       },
     });
 
-    const { getRootProps: getUtilityProps2, getInputProps: getUtilityInputProps2 } =
-    useDropzone({
+    const { getRootProps: getUtilityProps2, getInputProps: getUtilityInputProps2 } = useDropzone({
       onDrop: (acceptedFiles) => {
-
-
-
-
-        console.log(acceptedFiles)
-
-        // alert("Accepted files here")
-        setutilityFile2(acceptedFiles[0]);
-
+        setUploadingUtility2(true); // Start uploading
+        setProgressUtility2(35); // Initialize progress to 0
+        
         const file = acceptedFiles[0];
-
+        setutilityFile2(file);
+    
         if (file) {
           const reader = new FileReader();
-          reader.onloadend = () => {
-            //   setPreview(reader.result);
-          };
           reader.readAsDataURL(file);
-
-          // const storageRef = ref(storage, `images/${uuid()}`);
-
+    
           const preUri = "images/item.jpg" + uuidv4();
           const pathReference = ref(storage, preUri);
-          // 'file' comes from the Blob or File API
-          uploadBytes(pathReference, file).then((snapshot) => {
-            console.log("Uploaded a blob or file!");
-            console.log(snapshot.metadata.fullPath);
-            const gsReference = ref(storage, "gs://bucket" + preUri);
-
-            // Create a reference from an HTTPS URL
-            // Note that in the URL, characters are URL escaped!
+    
+          uploadBytes(pathReference, file, {
+            onProgress: (snapshot) => {
+              const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              setProgressUtility2(percentage);
+            },
+          }).then((snapshot) => {
             const httpsReference = ref(
               storage,
               "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
                 encodeURIComponent(preUri)
             );
-
+    
             getDownloadURL(httpsReference).then((url) => {
-              // `url` is the download URL for 'images/stars.jpg'
-
-              console.log(url);
               setUtilityImagesUrl2(url);
+              setUploadingUtility2(false); // Finish uploading
             });
+          }).catch(error => {
+            setUploadingUtility2(false); // Handle error but finish uploading process visually
+            console.error("Upload error:", error);
           });
         } else {
           console.log("no file");
         }
       },
     });
+    
 
 
-  const {
-    getRootProps: getAtticProps,
-    getInputProps: getAtticInputProps,
-  } = useDropzone({
-    onDrop: (acceptedFiles) => {
-      setAtticFile(acceptedFiles[0]);
-
-      const file = acceptedFiles[0];
-
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          //   setPreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-
-        // const storageRef = ref(storage, `images/${uuid()}`);
-
-        const preUri = "images/item.jpg" + uuidv4();
-        const pathReference = ref(storage, preUri);
-        // 'file' comes from the Blob or File API
-        uploadBytes(pathReference, file).then((snapshot) => {
-          console.log("Uploaded a blob or file!");
-          console.log(snapshot.metadata.fullPath);
-          const gsReference = ref(storage, "gs://bucket" + preUri);
-
-          // Create a reference from an HTTPS URL
-          // Note that in the URL, characters are URL escaped!
-          const httpsReference = ref(
-            storage,
-            "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
-              encodeURIComponent(preUri)
-          );
-
-          getDownloadURL(httpsReference).then((url) => {
-            // `url` is the download URL for 'images/stars.jpg'
-
-            console.log(url);
-            setAtticImage(url);
-          });
-        });
-      } else {
-        console.log("no file");
-      }
-    },
-  });
-
-
-
-  const {
-    getRootProps: getAtticProps2,
-    getInputProps: getAtticInputProps2,
-  } = useDropzone({
-    onDrop: (acceptedFiles) => {
-      setAtticFile2(acceptedFiles[0]);
-
-      const file = acceptedFiles[0];
-
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          //   setPreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-
-        // const storageRef = ref(storage, `images/${uuid()}`);
-
-        const preUri = "images/item.jpg" + uuidv4();
-        const pathReference = ref(storage, preUri);
-        // 'file' comes from the Blob or File API
-        uploadBytes(pathReference, file).then((snapshot) => {
-          console.log("Uploaded a blob or file!");
-          console.log(snapshot.metadata.fullPath);
-          const gsReference = ref(storage, "gs://bucket" + preUri);
-
-          // Create a reference from an HTTPS URL
-          // Note that in the URL, characters are URL escaped!
-          const httpsReference = ref(
-            storage,
-            "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
-              encodeURIComponent(preUri)
-          );
-
-          getDownloadURL(httpsReference).then((url) => {
-            // `url` is the download URL for 'images/stars.jpg'
-
-            console.log(url);
-            setAtticImage2(url);
-          });
-        });
-      } else {
-        console.log("no file");
-      }
-    },
-  });
-
-
-  const { getRootProps: getLicenseProps, getInputProps: getLicenseInputProps } =
-    useDropzone({
+    const { getRootProps: getAtticProps, getInputProps: getAtticInputProps } = useDropzone({
       onDrop: (acceptedFiles) => {
-        setLicenseFile(acceptedFiles[0]);
-
+        setUploadingAttic1(true); // Start uploading
+        setProgressAttic1(35); // Initialize progress to 0
+        setAtticFile(acceptedFiles[0]);
+    
         const file = acceptedFiles[0];
-
+    
         if (file) {
           const reader = new FileReader();
-          reader.onloadend = () => {
-            //   setPreview(reader.result);
-          };
           reader.readAsDataURL(file);
-
-          // const storageRef = ref(storage, `images/${uuid()}`);
-
+    
           const preUri = "images/item.jpg" + uuidv4();
           const pathReference = ref(storage, preUri);
-          // 'file' comes from the Blob or File API
-          uploadBytes(pathReference, file).then((snapshot) => {
-            console.log("Uploaded a blob or file!");
-            console.log(snapshot.metadata.fullPath);
-            const gsReference = ref(storage, "gs://bucket" + preUri);
-
-            // Create a reference from an HTTPS URL
-            // Note that in the URL, characters are URL escaped!
+    
+          uploadBytes(pathReference, file, {
+            onProgress: (snapshot) => {
+              const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              setProgressAttic1(percentage);
+            },
+          }).then((snapshot) => {
             const httpsReference = ref(
               storage,
               "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
                 encodeURIComponent(preUri)
             );
-
+    
             getDownloadURL(httpsReference).then((url) => {
-              // `url` is the download URL for 'images/stars.jpg'
-
-              setLicenseImage(url);
-
-              console.log(url);
+              setAtticImage(url);
+              setUploadingAttic1(false); // Finish uploading
             });
+          }).catch(error => {
+            setUploadingAttic1(false); // Handle error but finish uploading process visually
+            console.error("Upload error:", error);
           });
         } else {
           console.log("no file");
         }
       },
     });
+    
+
+
+
+
+  const { getRootProps: getAtticProps2, getInputProps: getAtticInputProps2 } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      setUploadingAttic2(true); // Start uploading
+      setProgressAttic2(35); // Initialize progress to 0
+      
+      const file = acceptedFiles[0];
+      setAtticFile2(file);
+  
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+  
+        const preUri = "images/item.jpg" + uuidv4();
+        const pathReference = ref(storage, preUri);
+  
+        uploadBytes(pathReference, file, {
+          onProgress: (snapshot) => {
+            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setProgressAttic2(percentage);
+          },
+        }).then((snapshot) => {
+          const httpsReference = ref(
+            storage,
+            "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+              encodeURIComponent(preUri)
+          );
+  
+          getDownloadURL(httpsReference).then((url) => {
+            setAtticImage2(url);
+            setUploadingAttic2(false); // Finish uploading
+          });
+        }).catch(error => {
+          setUploadingAttic2(false); // Handle error but finish uploading process visually
+          console.error("Upload error:", error);
+        });
+      } else {
+        console.log("no file");
+      }
+    },
+  });
+  
+
+
+  // const { getRootProps: getLicenseProps, getInputProps: getLicenseInputProps } =
+  //   useDropzone({
+  //     onDrop: (acceptedFiles) => {
+  //       setLicenseFile(acceptedFiles[0]);
+
+  //       const file = acceptedFiles[0];
+
+  //       if (file) {
+  //         const reader = new FileReader();
+  //         reader.onloadend = () => {
+  //           //   setPreview(reader.result);
+  //         };
+  //         reader.readAsDataURL(file);
+
+  //         // const storageRef = ref(storage, `images/${uuid()}`);
+
+  //         const preUri = "images/item.jpg" + uuidv4();
+  //         const pathReference = ref(storage, preUri);
+  //         // 'file' comes from the Blob or File API
+  //         uploadBytes(pathReference, file).then((snapshot) => {
+  //           console.log("Uploaded a blob or file!");
+  //           console.log(snapshot.metadata.fullPath);
+  //           const gsReference = ref(storage, "gs://bucket" + preUri);
+
+  //           // Create a reference from an HTTPS URL
+  //           // Note that in the URL, characters are URL escaped!
+  //           const httpsReference = ref(
+  //             storage,
+  //             "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+  //               encodeURIComponent(preUri)
+  //           );
+
+  //           getDownloadURL(httpsReference).then((url) => {
+  //             // `url` is the download URL for 'images/stars.jpg'
+
+  //             setLicenseImage(url);
+
+  //             console.log(url);
+  //           });
+  //         });
+  //       } else {
+  //         console.log("no file");
+  //       }
+  //     },
+  //   });
+
+
+  const { getRootProps: getLicenseProps, getInputProps: getLicenseInputProps } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      setUploadingLicense1(true); // Start uploading
+      setProgressLicense1(35); // Initialize progress to 0
+      setLicenseFile(acceptedFiles[0]);
+  
+      const file = acceptedFiles[0];
+  
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+  
+        const preUri = "images/item.jpg" + uuidv4();
+        const pathReference = ref(storage, preUri);
+  
+        uploadBytes(pathReference, file, {
+          onProgress: (snapshot) => {
+            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setProgressLicense1(percentage);
+          },
+        }).then((snapshot) => {
+          const httpsReference = ref(
+            storage,
+            "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+              encodeURIComponent(preUri)
+          );
+  
+          getDownloadURL(httpsReference).then((url) => {
+            setLicenseImage(url);
+            setUploadingLicense1(false); // Finish uploading
+          });
+        }).catch(error => {
+          setUploadingLicense1(false); // Handle error but finish uploading process visually
+          console.error("Upload error:", error);
+        });
+      } else {
+        console.log("no file");
+      }
+    },
+  });
+  
 
   const { getRootProps: getDepositProps, getInputProps: getDepositInputProps } =
     useDropzone({
@@ -481,6 +545,7 @@ const MyForm = () => {
           adders: addersNameList,
           notes: notes,
           repEmail: rep.email,
+          leadgenEmail: leadgen.email,
         },
       })
         .then((result) => {
@@ -503,7 +568,7 @@ const MyForm = () => {
           setAtticFile2(null)
           setLicenseFile(null);
           setDepositFile(null);
-
+          setIsSubmitted(true)
           // Handle successful mutation result here
         })
         .catch((error) => {
@@ -531,7 +596,32 @@ const MyForm = () => {
     });
   }, []);
 
-  return (
+
+
+
+  if (isSubmitted) {
+    return (
+      <Box
+        sx={{
+          width: "100vw",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "white",
+        }}
+      >
+        <h1>Thank you for submitting!</h1>
+      </Box>
+    );
+  }else{
+
+    return (
+
+
+
+
     <Box
       sx={{
         width: "100vw",
@@ -733,36 +823,53 @@ const MyForm = () => {
             >
 
                
-            {/* Utility Bill 1     */}
-            <Box
-             sx={{
-              flex: "1 1 calc(33% - 10px)", // take up 1/3 of the width minus a small margin
-              border: "2px dashed #333",
-              borderRadius: "5px",
-              padding: "1rem",
-              cursor: "pointer",
-              margin: "0 5px",  // added a small margin to space out the boxes
-            }}
-              {...getUtilityProps()}
-            >
-              <input {...getUtilityInputProps()} />
-              <Typography variant="body1" sx={{ color: "#333" }}>
-                Drag and drop your Attic file here, or click to select a file
-              </Typography>
+        {/* Utility Bill 1 */}
+        <Box
+  sx={{
+    flex: "1 1 calc(33% - 10px)", 
+    border: "2px dashed #333",
+    borderRadius: "5px",
+    padding: "1rem",
+    cursor: "pointer",
+    margin: "0 5px",  
+    position: 'relative' 
+  }}
+  {...getUtilityProps()}
+>
+{/* uploadingUtility1 */}
+  {uploadingUtility1 ? (
+    <CircularProgress 
+      variant={progressUtility1 < 100 ? "determinate" : "indeterminate"}
+      value={progressUtility1}
+      size={50}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+    
+      }}
+    />
+  ) : (
+    <>
+      <input {...getUtilityInputProps()} />
+      <Typography variant="body1" sx={{ color: "#333" }}>
+        Drag and drop your Utility file here, or click to select a file
+      </Typography>
 
+      {UtilityFile && (
+        <Typography variant="body1" sx={{ color: "#333" }}>
+          {UtilityFile.name}
+        </Typography>
+      )}
+    </>
+  )}
+</Box>
 
-
-              {UtilityFile ? (
-                <Typography variant="body1" sx={{ color: "#333" }}>
-                  {UtilityFile.name}
-                </Typography>
-              ) : null}
-
-            </Box>
 
 
             {/* Utility Bill 2     */}
-            <Box
+            {/* <Box
              sx={{
               flex: "1 1 calc(33% - 10px)", // take up 1/3 of the width minus a small margin
               border: "2px dashed #333",
@@ -786,26 +893,60 @@ const MyForm = () => {
                 </Typography>
               ) : null}
 
+            </Box> */}
+
+
+{/* Utility Bill 2 */}
+<Box
+  sx={{
+    flex: "1 1 calc(33% - 10px)", 
+    border: "2px dashed #333",
+    borderRadius: "5px",
+    padding: "1rem",
+    cursor: "pointer",
+    margin: "0 5px", 
+    position: 'relative' // Added this for absolute positioning of CircularProgress
+  }}
+  {...getUtilityProps2()}
+>
+  {uploadingUtility2 && (
+    <CircularProgress 
+      variant={progressUtility2 < 100 ? "determinate" : "indeterminate"}
+      value={progressUtility2}
+      size={50}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}
+    />
+  )}
+  
+  <input {...getUtilityInputProps2()} />
+  {!uploadingUtility2 && (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      Drag and drop your Utility file here, or click to select a file
+    </Typography>
+  )}
+  {UtilityFile2 && !uploadingUtility2 ? (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      {UtilityFile2.name}
+    </Typography>
+  ) : null}
+</Box>
+
+
+
+
+
+
+
+
+
+
+
             </Box>
-
-
-
-            </Box>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/* Attic Image * */}
             <InputLabel
               sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
@@ -824,59 +965,98 @@ const MyForm = () => {
        
 
        {/* Attic Pic 1 */}
+{/* Attic Pic 1 */}
+<Box
+  sx={{
+    flex: "1 1 calc(33% - 10px)", 
+    border: "2px dashed #333",
+    borderRadius: "5px",
+    padding: "1rem",
+    cursor: "pointer",
+    margin: "0 5px", 
+    position: 'relative' // Added this for absolute positioning of CircularProgress
+  }}
+  {...getAtticProps()}
+>
+  {uploadingAttic1 && (
+    <CircularProgress 
+      variant={progressAttic1 < 100 ? "determinate" : "indeterminate"}
+      value={progressAttic1}
+      size={50}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}
+    />
+  )}
+  
+  <input {...getAtticInputProps()} />
+  {!uploadingAttic1 && (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      Drag and drop your Attic PDF/PNG file here
+    </Typography>
+  )}
+  {AtticFile && !uploadingAttic1 ? (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      {AtticFile.name}
+    </Typography>
+  ) : null}
+</Box>
 
-            <Box
-             sx={{
-              flex: "1 1 calc(33% - 10px)", // take up 1/3 of the width minus a small margin
-              border: "2px dashed #333",
-              borderRadius: "5px",
-              padding: "1rem",
-              cursor: "pointer",
-              margin: "0 5px",  // added a small margin to space out the boxes
-            }}
-              {...getAtticProps()}
-            >
-              <input {...getAtticInputProps()} />
-              <Typography variant="body1" sx={{ color: "#333" }}>
-              Drag and drop your Atic PDF/PNG file here
-              </Typography>
-              {AtticFile ? (
-                <Typography variant="body1" sx={{ color: "#333" }}>
-                  {AtticFile.name}
-                </Typography>
-              ) : null}
+   {/* Attic Pic 2 */}
+<Box
+  sx={{
+    flex: "1 1 calc(33% - 10px)", 
+    border: "2px dashed #333",
+    borderRadius: "5px",
+    padding: "1rem",
+    cursor: "pointer",
+    margin: "0 5px",
+    position: 'relative' // For absolute positioning of CircularProgress
+  }}
+  {...getAtticProps2()}
+>
+  {uploadingAttic2 && (
+    <CircularProgress 
+      variant={progressAttic2 < 100 ? "determinate" : "indeterminate"}
+      value={progressAttic2}
+      size={50}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}
+    />
+  )}
+  
+  <input {...getAtticInputProps2()} />
+  {!uploadingAttic2 && (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      Drag and drop your Attic PDF/PNG file here
+    </Typography>
+  )}
+  {AtticFile2 && !uploadingAttic2 ? (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      {AtticFile2.name}
+    </Typography>
+  ) : null}
+</Box>
+
+
+
+
+
             </Box>
 
-             {/* Attic Pic 2 */}
-            <Box
-             sx={{
-              flex: "1 1 calc(33% - 10px)", // take up 1/3 of the width minus a small margin
-              border: "2px dashed #333",
-              borderRadius: "5px",
-              padding: "1rem",
-              cursor: "pointer",
-              margin: "0 5px",  // added a small margin to space out the boxes
-            }}
-              {...getAtticProps2()}
-            >
-              <input {...getAtticInputProps2()} />
-              <Typography variant="body1" sx={{ color: "#333" }}>
-                Drag and drop your Atic PDF/PNG file here
-              </Typography>
-              {AtticFile2 ? (
-                <Typography variant="body1" sx={{ color: "#333" }}>
-                  {AtticFile2.name}
-                </Typography>
-              ) : null}
-            </Box>
 
-
-            </Box>
-            <InputLabel
-              sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
-            >
-              Drivers License{" "}
+            {/* // Drivers License Section */}
+            <InputLabel sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}>
+              Drivers License
             </InputLabel>
+
             <Box
               sx={{
                 display: "flex",
@@ -886,15 +1066,32 @@ const MyForm = () => {
                 borderRadius: "5px",
                 padding: "1rem",
                 cursor: "pointer",
+                position: 'relative' // For absolute positioning of CircularProgress
               }}
               {...getLicenseProps()}
             >
+              {uploadingLicense1 && (
+                <CircularProgress 
+                  variant={progressLicense1 < 100 ? "determinate" : "indeterminate"}
+                  value={progressLicense1}
+                  size={50}
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                />
+              )}
+              
               <input {...getLicenseInputProps()} />
-              <Typography variant="body1" sx={{ color: "#333" }}>
-                Drag and drop your Drivers License file here, or click to select
-                a file
-              </Typography>
-              {licenseFile ? (
+              {!uploadingLicense1 && ( // Only display this text if not uploading
+                <Typography variant="body1" sx={{ color: "#333" }}>
+                  Drag and drop your Drivers License file here, or click to select a file
+                </Typography>
+              )}
+
+              {licenseFile && !uploadingLicense1 ? ( // Only display file name if it exists and not uploading
                 <Typography variant="body1" sx={{ color: "#333" }}>
                   {licenseFile.name}
                 </Typography>
@@ -950,18 +1147,42 @@ const MyForm = () => {
                 files
               </Alert>
             )}
-            <Button
-              variant="contained"
-              sx={{ backgroundColor: "#333", color: "#fff", marginTop: "1rem" }}
-              type="submit"
-            >
-              Submit
-            </Button>
+
+
+
+{(rep && rep.email && leadgen && leadgen.email && UtilityImagesURL && AtticImage1 && licenseImage) ? (
+  <>
+  
+
+    <Button
+      variant="contained"
+      sx={{ backgroundColor: "#333", color: "#fff", marginTop: "1rem" }}
+      type="submit"
+    >
+      Submit
+    </Button>
+          </>
+        ) : (
+        null
+        )}
+
+  
           </form>
         </Box>
       </Box>
     </Box>
+
+
+
+
+
+
+
+
+
   );
+  }
+  
 };
 
 export default MyForm;
