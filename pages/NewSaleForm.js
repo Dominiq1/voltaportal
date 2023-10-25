@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import {
   Box,
   TextField,
+  ToggleButton, ToggleButtonGroup,
   Typography,
   Button,
   InputLabel,
   Select,
+  Paper,
   MenuItem,
 } from "@mui/material";
 import { CircularProgress } from '@mui/material'; // Make sure to import CircularProgress
-
 
 import { useDropzone } from "react-dropzone";
 import { useMutation } from "@apollo/client";
@@ -45,7 +46,9 @@ const MyForm = () => {
   ]);
 
 
-
+  const handleToggle = () => {
+    setIsSubmitted(!isSubmitted);
+  };
 
   const [uploadingUtility1, setUploadingUtility1] = useState(false);
   const [progressUtility1, setProgressUtility1] = useState(0);
@@ -599,21 +602,46 @@ const MyForm = () => {
 
 
 
-  if (isSubmitted) {
+  //if (isSubmitted) {
+    if (isSubmitted) {
     return (
       <Box
+      sx={{
+        width: "100%",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f0f0f0", // Use a light background color
+        color: "#333", // Use a dark text color
+      }}
+    >
+      <Paper
+        elevation={6} // Add a subtle shadow
         sx={{
-          width: "100vw",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "white",
+          padding: "24px",
+          textAlign: "center",
         }}
       >
-        <h1>Thank you for submitting!</h1>
-      </Box>
+        <Typography variant="h4" gutterBottom>
+          Thank you for submitting!
+        </Typography>
+
+        {isSubmitted && (
+          <ToggleButtonGroup
+            value={isSubmitted ? "on" : "off"}
+            exclusive
+            onChange={handleToggle}
+            sx={{ marginTop: "16px" }}
+          >
+            <ToggleButton value="on">
+              Submit again
+            </ToggleButton>
+          </ToggleButtonGroup>
+        )}
+      </Paper>
+    </Box>
     );
   }else{
 
