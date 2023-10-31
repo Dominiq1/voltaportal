@@ -38,6 +38,11 @@ const PUSH_NEW_SALE_MUTATION = gql`
     $leadgenEmail: String!
     $utilityImage1: String!
     $utilityImage2: String!
+    $utilityImage3: String!
+    $utilityImage4: String!
+    $utilityImage5: String!
+    $utilityImage6: String!
+    $utilityImage7: String!
     $atticImage1: String!
     $atticImage2: String!
     $LicenseImage: String!
@@ -53,6 +58,11 @@ const PUSH_NEW_SALE_MUTATION = gql`
       saleRep: $saleRep
       utilityImage1: $utilityImage1
       utilityImage2: $utilityImage2
+      utilityImage3: $utilityImage3
+      utilityImage4: $utilityImage4
+      utilityImage5: $utilityImage5
+      utilityImage6: $utilityImage6
+      utilityImage7: $utilityImage7
       atticImage1: $atticImage1
       atticImage2: $atticImage2
       leadGen: $leadGen

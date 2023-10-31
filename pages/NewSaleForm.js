@@ -54,6 +54,18 @@ const MyForm = () => {
   const [progressUtility1, setProgressUtility1] = useState(0);
   const [uploadingUtility2, setUploadingUtility2] = useState(false);
   const [progressUtility2, setProgressUtility2] = useState(0);
+
+  const [uploadingUtility3, setUploadingUtility3] = useState(false);
+  const [progressUtility3, setProgressUtility3] = useState(0);
+  const [uploadingUtility4, setUploadingUtility4] = useState(false);
+  const [progressUtility4, setProgressUtility4] = useState(0);
+  const [uploadingUtility5, setUploadingUtility5] = useState(false);
+  const [progressUtility5, setProgressUtility5] = useState(0);
+  const [uploadingUtility6, setUploadingUtility6] = useState(false);
+  const [progressUtility6, setProgressUtility6] = useState(0);
+  const [uploadingUtility7, setUploadingUtility7] = useState(false);
+  const [progressUtility7, setProgressUtility7] = useState(0);
+
   
 
   const [uploadingLicense1, setUploadingLicense1] = useState(false);
@@ -100,8 +112,14 @@ const MyForm = () => {
   const [getCRMusers, { data }] = useMutation(GET_CRM_USERS);
 
   const [UtilityFile, setUtilityFile] = React.useState(null);
-  const [AtticFile, setAtticFile] = React.useState(null);
   const [UtilityFile2, setutilityFile2] = React.useState(null);
+  const [UtilityFile3, setutilityFile3] = React.useState(null);
+  const [UtilityFile4, setutilityFile4] = React.useState(null);
+  const [UtilityFile5, setutilityFile5] = React.useState(null);
+  const [UtilityFile6, setutilityFile6] = React.useState(null);
+  const [UtilityFile7, setutilityFile7] = React.useState(null);
+  const [AtticFile, setAtticFile] = React.useState(null);
+ 
   const [AtticFile2, setAtticFile2] = React.useState(null);
 
 
@@ -120,7 +138,13 @@ const MyForm = () => {
   const [UtilityImagesURL, setUtilityImagesUrl] = React.useState(null);
   const [AtticImage1, setAtticImage] = React.useState(null);
 
-  const [UtilityImagesURL2, setUtilityImagesUrl2] = React.useState(null);
+  const [UtilityImagesURL2, setUtilityImagesUrl2] = React.useState("null");
+  const [UtilityImagesURL3, setUtilityImagesUrl3] = React.useState("null");
+  const [UtilityImagesURL4, setUtilityImagesUrl4] = React.useState("null");
+  const [UtilityImagesURL5, setUtilityImagesUrl5] = React.useState("null");
+  const [UtilityImagesURL6, setUtilityImagesUrl6] = React.useState("null");
+  const [UtilityImagesURL7, setUtilityImagesUrl7] = React.useState("null");
+
   const [AtticImage2, setAtticImage2] = React.useState(null);
   const [licenseImage, setLicenseImage] = React.useState(null);
   const [depositImage, setDepositImage] = React.useState(null);
@@ -165,6 +189,11 @@ const MyForm = () => {
   const handleNoteChange = (event) => {
     setNotes(event.target.value);
   };
+
+
+  //Utility Drop Functions
+
+  //1
 
   const { getRootProps: getUtilityProps, getInputProps: getUtilityInputProps } =
     useDropzone({
@@ -232,7 +261,7 @@ const MyForm = () => {
         }
       },
     });
-
+  //2
     const { getRootProps: getUtilityProps2, getInputProps: getUtilityInputProps2 } = useDropzone({
       onDrop: (acceptedFiles) => {
         setUploadingUtility2(true); // Start uploading
@@ -274,7 +303,240 @@ const MyForm = () => {
       },
     });
     
+  //3
 
+    const { getRootProps: getUtilityProps3, getInputProps: getUtilityInputProps3 } = useDropzone({
+      onDrop: (acceptedFiles) => {
+        setUploadingUtility3(true); // Start uploading
+        setProgressUtility3(35); // Initialize progress to 0
+        
+        const file = acceptedFiles[0];
+        setutilityFile3(file);
+    
+        if (file) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+    
+          const preUri = "images/item.jpg" + uuidv4();
+          const pathReference = ref(storage, preUri);
+    
+          uploadBytes(pathReference, file, {
+            onProgress: (snapshot) => {
+              const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              setProgressUtility3(percentage);
+            },
+          }).then((snapshot) => {
+            const httpsReference = ref(
+              storage,
+              "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+                encodeURIComponent(preUri)
+            );
+    
+            getDownloadURL(httpsReference).then((url) => {
+              setUtilityImagesUrl3(url);
+              setUploadingUtility3(false); // Finish uploading
+            });
+          }).catch(error => {
+            setUploadingUtility3(false); // Handle error but finish uploading process visually
+            console.error("Upload error:", error);
+          });
+        } else {
+          console.log("no file");
+        }
+      },
+    });
+    
+  //4
+    const { getRootProps: getUtilityProps4, getInputProps: getUtilityInputProps4 } = useDropzone({
+      onDrop: (acceptedFiles) => {
+        setUploadingUtility4(true); // Start uploading
+        setProgressUtility4(35); // Initialize progress to 0
+        
+        const file = acceptedFiles[0];
+        setutilityFile4(file);
+    
+        if (file) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+    
+          const preUri = "images/item.jpg" + uuidv4();
+          const pathReference = ref(storage, preUri);
+    
+          uploadBytes(pathReference, file, {
+            onProgress: (snapshot) => {
+              const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              setProgressUtility4(percentage);
+            },
+          }).then((snapshot) => {
+            const httpsReference = ref(
+              storage,
+              "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+                encodeURIComponent(preUri)
+            );
+    
+            getDownloadURL(httpsReference).then((url) => {
+              setUtilityImagesUrl4(url);
+              setUploadingUtility4(false); // Finish uploading
+            });
+          }).catch(error => {
+            setUploadingUtility4(false); // Handle error but finish uploading process visually
+            console.error("Upload error:", error);
+          });
+        } else {
+          console.log("no file");
+        }
+      },
+    });
+    
+  //5
+
+    const { getRootProps: getUtilityProps5, getInputProps: getUtilityInputProps5 } = useDropzone({
+      onDrop: (acceptedFiles) => {
+        setUploadingUtility5(true); // Start uploading
+        setProgressUtility5(35); // Initialize progress to 0
+        
+        const file = acceptedFiles[0];
+        setutilityFile5(file);
+    
+        if (file) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+    
+          const preUri = "images/item.jpg" + uuidv4();
+          const pathReference = ref(storage, preUri);
+    
+          uploadBytes(pathReference, file, {
+            onProgress: (snapshot) => {
+              const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              setProgressUtility4(percentage);
+            },
+          }).then((snapshot) => {
+            const httpsReference = ref(
+              storage,
+              "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+                encodeURIComponent(preUri)
+            );
+    
+            getDownloadURL(httpsReference).then((url) => {
+              setUtilityImagesUrl5(url);
+              setUploadingUtility5(false); // Finish uploading
+            });
+          }).catch(error => {
+            setUploadingUtility5(false); // Handle error but finish uploading process visually
+            console.error("Upload error:", error);
+          });
+        } else {
+          console.log("no file");
+        }
+      },
+    });
+    
+  //6
+  const { getRootProps: getUtilityProps6, getInputProps: getUtilityInputProps6 } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      setUploadingUtility6(true); // Start uploading
+      setProgressUtility6(35); // Initialize progress to 0
+      
+      const file = acceptedFiles[0];
+      setutilityFile6(file);
+  
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+  
+        const preUri = "images/item.jpg" + uuidv4();
+        const pathReference = ref(storage, preUri);
+  
+        uploadBytes(pathReference, file, {
+          onProgress: (snapshot) => {
+            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setProgressUtility6(percentage);
+          },
+        }).then((snapshot) => {
+          const httpsReference = ref(
+            storage,
+            "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+              encodeURIComponent(preUri)
+          );
+  
+          getDownloadURL(httpsReference).then((url) => {
+            setUtilityImagesUrl6(url);
+            setUploadingUtility6(false); // Finish uploading
+          });
+        }).catch(error => {
+          setUploadingUtility6(false); // Handle error but finish uploading process visually
+          console.error("Upload error:", error);
+        });
+      } else {
+        console.log("no file");
+      }
+    },
+  });
+  //7
+  const { getRootProps: getUtilityProps7, getInputProps: getUtilityInputProps7 } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      setUploadingUtility7(true); // Start uploading
+      setProgressUtility7(35); // Initialize progress to 0
+      
+      const file = acceptedFiles[0];
+      setutilityFile7(file);
+  
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+  
+        const preUri = "images/item.jpg" + uuidv4();
+        const pathReference = ref(storage, preUri);
+  
+        uploadBytes(pathReference, file, {
+          onProgress: (snapshot) => {
+            const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setProgressUtility7(percentage);
+          },
+        }).then((snapshot) => {
+          const httpsReference = ref(
+            storage,
+            "https://firebasestorage.googleapis.com/v0/b/voltaic-383203.appspot.com/o/" +
+              encodeURIComponent(preUri)
+          );
+  
+          getDownloadURL(httpsReference).then((url) => {
+            setUtilityImagesUrl7(url);
+            setUploadingUtility7(false); // Finish uploading
+          });
+        }).catch(error => {
+          setUploadingUtility7(false); // Handle error but finish uploading process visually
+          console.error("Upload error:", error);
+        });
+      } else {
+        console.log("no file");
+      }
+    },
+  });
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     const { getRootProps: getAtticProps, getInputProps: getAtticInputProps } = useDropzone({
       onDrop: (acceptedFiles) => {
@@ -510,7 +772,7 @@ const MyForm = () => {
         formIsValid = false;
       }
     }
-    if (!UtilityFile || !AtticFile || !licenseFile) {
+    if (!UtilityFile || !AtticFile || !licenseFile || !UtilityFile2) {
       formIsValid = false;
     }
     if (formIsValid) {
@@ -519,7 +781,12 @@ const MyForm = () => {
       console.log("Installer:", installer.name);
       console.log("Rep:", rep.name);
       console.log("Utility Image 1 :", UtilityImagesURL); 
-       console.log("Utility Image 2 File:", UtilityImagesURL2);
+       console.log("Utility Image 2 :", UtilityImagesURL2);
+       console.log("Utility Image 3 :", UtilityImagesURL3); 
+       console.log("Utility Image 4 :", UtilityImagesURL4);
+       console.log("Utility Image 5 File:", UtilityImagesURL5);
+       console.log("Utility Image 6 File:", UtilityImagesURL6);
+       console.log("Utility Image 7 File:", UtilityImagesURL7);
       console.log("Attic Image 1:", AtticImage1);
       console.log("Attic Image 2", AtticImage2);
       console.log("Driver's License File:", licenseImage);
@@ -539,6 +806,11 @@ const MyForm = () => {
           saleRep: rep.name,
           utilityImage1: String(UtilityImagesURL),
           utilityImage2: String(UtilityImagesURL2),
+          utilityImage3: String(UtilityImagesURL3),
+          utilityImage4: String(UtilityImagesURL4),
+          utilityImage5: String(UtilityImagesURL5),
+          utilityImage6: String(UtilityImagesURL6),
+          utilityImage7: String(UtilityImagesURL7),
           atticImage1: String(AtticImage1),
           atticImage2: String(AtticImage2),
           LicenseImage: String(licenseImage),
@@ -557,6 +829,11 @@ const MyForm = () => {
           setAtticImage(null);
           setAtticFile2(null);
           setutilityFile2(null);
+          setutilityFile3(null);
+          setutilityFile4(null);
+          setutilityFile5(null);
+          setutilityFile6(null);
+          setutilityFile7(null);
           setLicenseImage(null);
           setDepositImage(null);
           setInstaller(null);
@@ -566,7 +843,7 @@ const MyForm = () => {
           setRep(null);
           setLeadgen(null);
           setUtilityFile(null);
-          setutilityFile2(null)
+       
           setAtticFile(null);
           setAtticFile2(null)
           setLicenseFile(null);
@@ -967,11 +1244,214 @@ const MyForm = () => {
 
 
 
+{/* Utility Bill 3 */}
+<Box
+  sx={{
+    flex: "1 1 calc(33% - 10px)", 
+    border: "2px dashed #333",
+    borderRadius: "5px",
+    padding: "1rem",
+    cursor: "pointer",
+    margin: "0 5px", 
+    position: 'relative' // Added this for absolute positioning of CircularProgress
+  }}
+  {...getUtilityProps3()}
+>
+  {uploadingUtility3 && (
+    <CircularProgress 
+      variant={progressUtility3 < 100 ? "determinate" : "indeterminate"}
+      value={progressUtility3}
+      size={50}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}
+    />
+  )}
+  
+  <input {...getUtilityInputProps3()} />
+  {!uploadingUtility3 && (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      Drag and drop your Utility file here, or click to select a file
+    </Typography>
+  )}
+  {UtilityFile3 && !uploadingUtility3 ? (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      {UtilityFile3.name}
+    </Typography>
+  ) : null}
+</Box>
+
+
+
+{/* Utility Bill 4 */}
+<Box
+  sx={{
+    flex: "1 1 calc(33% - 10px)", 
+    border: "2px dashed #333",
+    borderRadius: "5px",
+    padding: "1rem",
+    cursor: "pointer",
+    margin: "0 5px", 
+    position: 'relative' // Added this for absolute positioning of CircularProgress
+  }}
+  {...getUtilityProps4()}
+>
+  {uploadingUtility4 && (
+    <CircularProgress 
+      variant={progressUtility4 < 100 ? "determinate" : "indeterminate"}
+      value={progressUtility4}
+      size={50}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}
+    />
+  )}
+  
+  <input {...getUtilityInputProps4()} />
+  {!uploadingUtility4 && (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      Drag and drop your Utility file here, or click to select a file
+    </Typography>
+  )}
+  {UtilityFile4 && !uploadingUtility4 ? (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      {UtilityFile4.name}
+    </Typography>
+  ) : null}
+</Box>
 
 
 
 
+{/* Utility Bill 5 */}
+<Box
+  sx={{
+    flex: "1 1 calc(33% - 10px)", 
+    border: "2px dashed #333",
+    borderRadius: "5px",
+    padding: "1rem",
+    cursor: "pointer",
+    margin: "0 5px", 
+    position: 'relative' // Added this for absolute positioning of CircularProgress
+  }}
+  {...getUtilityProps5()}
+>
+  {uploadingUtility5 && (
+    <CircularProgress 
+      variant={progressUtility5< 100 ? "determinate" : "indeterminate"}
+      value={progressUtility5}
+      size={50}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}
+    />
+  )}
+  
+  <input {...getUtilityInputProps5()} />
+  {!uploadingUtility5 && (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      Drag and drop your Utility file here, or click to select a file
+    </Typography>
+  )}
+  {UtilityFile5 && !uploadingUtility5 ? (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      {UtilityFile5.name}
+    </Typography>
+  ) : null}
+</Box>
 
+
+
+
+{/* Utility Bill 6*/}
+<Box
+  sx={{
+    flex: "1 1 calc(33% - 10px)", 
+    border: "2px dashed #333",
+    borderRadius: "5px",
+    padding: "1rem",
+    cursor: "pointer",
+    margin: "0 5px", 
+    position: 'relative' // Added this for absolute positioning of CircularProgress
+  }}
+  {...getUtilityProps6()}
+>
+  {uploadingUtility6 && (
+    <CircularProgress 
+      variant={progressUtility6< 100 ? "determinate" : "indeterminate"}
+      value={progressUtility6}
+      size={50}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}
+    />
+  )}
+  
+  <input {...getUtilityInputProps6()} />
+  {!uploadingUtility6 && (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      Drag and drop your Utility file here, or click to select a file
+    </Typography>
+  )}
+  {UtilityFile6 && !uploadingUtility6 ? (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      {UtilityFile6.name}
+    </Typography>
+  ) : null}
+</Box>
+
+
+{/* Utility Bill 7*/}
+<Box
+  sx={{
+    flex: "1 1 calc(33% - 10px)", 
+    border: "2px dashed #333",
+    borderRadius: "5px",
+    padding: "1rem",
+    cursor: "pointer",
+    margin: "0 5px", 
+    position: 'relative' // Added this for absolute positioning of CircularProgress
+  }}
+  {...getUtilityProps7()}
+>
+  {uploadingUtility7 && (
+    <CircularProgress 
+      variant={progressUtility7< 100 ? "determinate" : "indeterminate"}
+      value={progressUtility7}
+      size={50}
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}
+    />
+  )}
+  
+  <input {...getUtilityInputProps7()} />
+  {!uploadingUtility7 && (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      Drag and drop your Utility file here, or click to select a file
+    </Typography>
+  )}
+  {UtilityFile7 && !uploadingUtility7 ? (
+    <Typography variant="body1" sx={{ color: "#333" }}>
+      {UtilityFile7.name}
+    </Typography>
+  ) : null}
+</Box>
 
 
             </Box>
@@ -1178,7 +1658,7 @@ const MyForm = () => {
 
 
 
-{(rep && rep.email && leadgen && leadgen.email && UtilityImagesURL && AtticImage1 && licenseImage) ? (
+{(rep && rep.email && leadgen && leadgen.email && UtilityImagesURL && AtticImage1 && licenseImage &&UtilityImagesURL2) ? (
   <>
   
 
