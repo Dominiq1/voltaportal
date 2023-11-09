@@ -935,7 +935,7 @@ const MyForm = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "white",
+        paddingBottom: '10em'
       }}
     >
       <Box
@@ -947,14 +947,17 @@ const MyForm = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+        
         }}
       >
         <Image
           src={backgroundImage}
           style={{ width: "25rem", height: "9.5em" }}
         />
+
+
       </Box>
-      <Box sx={{ backgroundColor: "#fff", p: "2rem" }}>
+      <Box sx={{ backgroundColor: "#fff", width :"90%",  paddingLeft: '10%' }}>
         {/* <Typography variant="h5" sx={{ mb: '2rem', fontFamily: 'Montserrat', fontWeight: 'bold', color: '#333' }}>Solar Sale Form</Typography> */}
         <Box
           sx={{
@@ -965,6 +968,10 @@ const MyForm = () => {
           }}
         >
           <h1 style={{ fontFamily: 'sans-serif', fontWeight: 'bold' , color: 'black' }} > New Sale Form</h1>
+
+
+
+          
           <form onSubmit={handleSubmit}>
             {/* HOME OWNER NAME */}
 
@@ -1110,37 +1117,48 @@ const MyForm = () => {
 
 
             {/* Working Utility Bill Image */}
+            <Box
+  sx={{
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+  }}
+> 
 
-
-           <InputLabel
-              sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
-            >
-              Utility Bill *
+            <InputLabel
+    sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
+  >
+              Utility Bill * (1/2 Required)
             </InputLabel>
 
-
             <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",  // added to space out the boxes
-              }}
-            >
+    sx={{
+      display: "flex",
+      flexDirection: { xs: "column", sm: "row" }, // Columns on extra-small devices, rows on small devices and up
+      justifyContent: "space-between",
+      width: '100%', // Set to 100% width
+      flexWrap: { sm: 'wrap' }, // Wrap items on small devices and up
+    }}
+  >
 
                
         {/* Utility Bill 1 */}
         <Box
-  sx={{
-    flex: "1 1 calc(33% - 10px)", 
-    border: "2px dashed #333",
-    borderRadius: "5px",
-    padding: "1rem",
-    cursor: "pointer",
-    margin: "0 5px",  
-    position: 'relative' 
-  }}
-  {...getUtilityProps()}
->
+sx={{
+  flex: { xs: "1 1 100%", sm: "1 1 calc(33% - 10px)" }, // Full width on xs, 1/3 width on sm and up
+  border: "2px dashed #333",
+  borderRadius: "5px",
+  padding: "1rem",
+  cursor: "pointer",
+  margin: { xs: "10px 0", sm: "0 5px" }, // Margin adjustment for different screen sizes
+  position: 'relative',
+}}
+      {...getUtilityProps()}
+    >
 {/* uploadingUtility1 */}
   {uploadingUtility1 ? (
     <CircularProgress 
@@ -1159,7 +1177,7 @@ const MyForm = () => {
     <>
       <input {...getUtilityInputProps()} />
       <Typography variant="body1" sx={{ color: "#333" }}>
-        Drag and drop your Utility file here, or click to select a file
+         Utility file #1
       </Typography>
 
       {UtilityFile && (
@@ -1231,7 +1249,7 @@ const MyForm = () => {
   <input {...getUtilityInputProps2()} />
   {!uploadingUtility2 && (
     <Typography variant="body1" sx={{ color: "#333" }}>
-      Drag and drop your Utility file here, or click to select a file
+       Utility file #2
     </Typography>
   )}
   {UtilityFile2 && !uploadingUtility2 ? (
@@ -1274,7 +1292,7 @@ const MyForm = () => {
   <input {...getUtilityInputProps3()} />
   {!uploadingUtility3 && (
     <Typography variant="body1" sx={{ color: "#333" }}>
-      Drag and drop your Utility file here, or click to select a file
+       Utility file #3
     </Typography>
   )}
   {UtilityFile3 && !uploadingUtility3 ? (
@@ -1316,7 +1334,7 @@ const MyForm = () => {
   <input {...getUtilityInputProps4()} />
   {!uploadingUtility4 && (
     <Typography variant="body1" sx={{ color: "#333" }}>
-      Drag and drop your Utility file here, or click to select a file
+         Utility file #4
     </Typography>
   )}
   {UtilityFile4 && !uploadingUtility4 ? (
@@ -1359,7 +1377,7 @@ const MyForm = () => {
   <input {...getUtilityInputProps5()} />
   {!uploadingUtility5 && (
     <Typography variant="body1" sx={{ color: "#333" }}>
-      Drag and drop your Utility file here, or click to select a file
+        Utility file #5
     </Typography>
   )}
   {UtilityFile5 && !uploadingUtility5 ? (
@@ -1402,7 +1420,7 @@ const MyForm = () => {
   <input {...getUtilityInputProps6()} />
   {!uploadingUtility6 && (
     <Typography variant="body1" sx={{ color: "#333" }}>
-      Drag and drop your Utility file here, or click to select a file
+         Utility file #6
     </Typography>
   )}
   {UtilityFile6 && !uploadingUtility6 ? (
@@ -1443,7 +1461,7 @@ const MyForm = () => {
   <input {...getUtilityInputProps7()} />
   {!uploadingUtility7 && (
     <Typography variant="body1" sx={{ color: "#333" }}>
-      Drag and drop your Utility file here, or click to select a file
+         Utility file #7
     </Typography>
   )}
   {UtilityFile7 && !uploadingUtility7 ? (
@@ -1455,6 +1473,15 @@ const MyForm = () => {
 
 
             </Box>
+
+            </Box>
+
+
+
+
+
+
+            
             {/* Attic Image * */}
             <InputLabel
               sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
@@ -1658,6 +1685,8 @@ const MyForm = () => {
 
 
 
+
+
 {(rep && rep.email && leadgen && leadgen.email && UtilityImagesURL && AtticImage1 && licenseImage &&UtilityImagesURL2) ? (
   <>
   
@@ -1671,10 +1700,21 @@ const MyForm = () => {
     </Button>
           </>
         ) : (
-        null
+          <>
+          <Button
+          variant="contained"
+          sx={{ backgroundColor: "#333", color: "#fff", marginTop: "1rem" , width: '100%' }}
+          type="submit"
+          disabled={true}
+        >
+          Please Submit all required fields
+        </Button>
+
+  </>
+
         )}
 
-  
+     
           </form>
         </Box>
       </Box>
