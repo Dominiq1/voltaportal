@@ -218,7 +218,7 @@ const MyForm = () => {
 
           // const storageRef = ref(storage, `images/${uuid()}`);
 
-          const preUri = "images/item.jpg" + uuidv4();
+          const preUri = "images/utility"+ uuidv4() +".jpg" ;
           const pathReference = ref(storage, preUri);
           // 'file' comes from the Blob or File API
           uploadBytes(pathReference, file,  {
@@ -274,7 +274,7 @@ const MyForm = () => {
           const reader = new FileReader();
           reader.readAsDataURL(file);
     
-          const preUri = "images/item.jpg" + uuidv4();
+          const preUri = "images/utility"+ uuidv4() +".jpg" ;
           const pathReference = ref(storage, preUri);
     
           uploadBytes(pathReference, file, {
@@ -317,7 +317,8 @@ const MyForm = () => {
           const reader = new FileReader();
           reader.readAsDataURL(file);
     
-          const preUri = "images/item.jpg" + uuidv4();
+          // const preUri = "images/item.jpg" + uuidv4();
+          const preUri = "images/utility"+ uuidv4() +".jpg" ;
           const pathReference = ref(storage, preUri);
     
           uploadBytes(pathReference, file, {
@@ -359,7 +360,8 @@ const MyForm = () => {
           const reader = new FileReader();
           reader.readAsDataURL(file);
     
-          const preUri = "images/item.jpg" + uuidv4();
+          // const preUri = "images/item.jpg" + uuidv4();
+          const preUri = "images/utility"+ uuidv4() +".jpg" ;
           const pathReference = ref(storage, preUri);
     
           uploadBytes(pathReference, file, {
@@ -402,7 +404,8 @@ const MyForm = () => {
           const reader = new FileReader();
           reader.readAsDataURL(file);
     
-          const preUri = "images/item.jpg" + uuidv4();
+          // const preUri = "images/item.jpg" + uuidv4();
+          const preUri = "images/utility"+ uuidv4() +".jpg" ;
           const pathReference = ref(storage, preUri);
     
           uploadBytes(pathReference, file, {
@@ -444,7 +447,7 @@ const MyForm = () => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
   
-        const preUri = "images/item.jpg" + uuidv4();
+        const preUri = "images/utility"+ uuidv4() +".jpg" ;
         const pathReference = ref(storage, preUri);
   
         uploadBytes(pathReference, file, {
@@ -485,7 +488,7 @@ const MyForm = () => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
   
-        const preUri = "images/item.jpg" + uuidv4();
+        const preUri = "images/utility"+ uuidv4() +".jpg" ;
         const pathReference = ref(storage, preUri);
   
         uploadBytes(pathReference, file, {
@@ -514,28 +517,6 @@ const MyForm = () => {
     },
   });
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
 
     const { getRootProps: getAtticProps, getInputProps: getAtticInputProps } = useDropzone({
@@ -550,7 +531,7 @@ const MyForm = () => {
           const reader = new FileReader();
           reader.readAsDataURL(file);
     
-          const preUri = "images/item.jpg" + uuidv4();
+          const preUri = "images/attic"+ uuidv4() +".jpg" ;
           const pathReference = ref(storage, preUri);
     
           uploadBytes(pathReference, file, {
@@ -580,9 +561,6 @@ const MyForm = () => {
     });
     
 
-
-
-
   const { getRootProps: getAtticProps2, getInputProps: getAtticInputProps2 } = useDropzone({
     onDrop: (acceptedFiles) => {
       setUploadingAttic2(true); // Start uploading
@@ -595,7 +573,9 @@ const MyForm = () => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
   
-        const preUri = "images/item.jpg" + uuidv4();
+        const preUri = "images/attic"+ uuidv4() +".jpg" ;
+
+        
         const pathReference = ref(storage, preUri);
   
         uploadBytes(pathReference, file, {
@@ -685,7 +665,7 @@ const MyForm = () => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
   
-        const preUri = "images/item.jpg" + uuidv4();
+        const preUri = "images/license"+ uuidv4() +".jpg" ;
         const pathReference = ref(storage, preUri);
   
         uploadBytes(pathReference, file, {
@@ -731,7 +711,7 @@ const MyForm = () => {
 
           // const storageRef = ref(storage, `images/${uuid()}`);
 
-          const preUri = "images/item.jpg" + uuidv4();
+          const preUri = "images/deposit"+ uuidv4() +".jpg" ;
           const pathReference = ref(storage, preUri);
           // 'file' comes from the Blob or File API
           uploadBytes(pathReference, file).then((snapshot) => {
