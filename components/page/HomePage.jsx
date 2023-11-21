@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const HomeScreen = () => {
   const buttons = [
-    { label: "Inventory", link: "/Inventory" },
+    { label: "New Sale", link: "/NewSaleForm" },
     { label: "Install Map", link: "/InstallMap" },
     { label: "Button 3", link: "/" },
     { label: "Button 4", link: "/" },
