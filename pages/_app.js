@@ -47,7 +47,6 @@ export default function App({ Component, pageProps }) {
   //  https://voltaicinventory.herokuapp.com/graphql
   //  uri: 'https://voltaicapiio.herokuapp.com/graphql',
   // ' https://vcinventory.herokuapp.com/graphql',
-
   // uri: "https://vcintake-daee1e96746f.herokuapp.com/graphql",
   // uri: "https://vcintake-daee1e96746f.herokuapp.com/graphql",
   const client = new ApolloClient({

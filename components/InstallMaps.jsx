@@ -1,10 +1,16 @@
 import React, { useRef, useEffect } from "react";
 import { env } from "@/next.config";
 
-function InstallMaps() {
+function InstallMaps(props) {
   const mapRef = useRef(null);
 
   useEffect(() => {
+
+
+
+
+
+
     const googleMapsScript = document.createElement("script");
     googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDhac2BXCBGvV-83rge2CNOg3a0weXvDOo`;
     googleMapsScript.async = true;
@@ -16,34 +22,9 @@ function InstallMaps() {
         zoom: 10,
       });
 
-      const markers = [
-        {
-          color: "red",
-          position: { lat: 34.043, lng: -118.267 },
-          label: {
-            text: "Staples Center",
-            color: "white",
-          },
-          image: {
-            url: "https://example.com/staples-center-image.jpg",
-            alt: "Staples Center image",
-          },
-        },
-        {
-          color: "blue",
-          position: { lat: 32.7076, lng: -117.1570 },
-          label: {
-            text: "Petco Park",
-            color: "white",
-          },
-          image: {
-            url: "https://example.com/petco-park-image.jpg",
-            alt: "Petco Park image",
-          },
-        },
-      ];
+    
 
-      markers.forEach((marker) => {
+      props.markers.forEach((marker) => {
         const { color, position, label, image } = marker;
 
         const markerOptions = {
@@ -70,6 +51,7 @@ function InstallMaps() {
             <div>${label.text}</div>
           </div>`,
         });
+        
 
         mapMarker.addListener("mouseover", () => {
           tooltip.open(map, mapMarker);

@@ -1,15 +1,84 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import InstallMaps from '@/components/InstallMaps'
+import { useQuery } from '@apollo/client'
 import { Box, Grid } from '@mui/material'
 import requestData from '@/API/Quickbase'
 import { useEffect, useState } from 'react'
+import { GET_MAP_DATA } from '@/gql/mutations/InstallMap'
 
 const API_URL = "https://api.quickbase.com/v1/records/query";
 const USER_TOKEN = "QB-USER-TOKEN b7738j_qjt3_0_dkaew43bvzcxutbu9q4e6crw3ei3";
 const QB_DOMAIN = "voltaic.quickbase.com";
 
 export default function Home() {
+
+
+  const { loading, error, data } = useQuery(GET_MAP_DATA);
+
+
+  console.log("GraphQL Data:", data); // Add this line
+
+
+  const formatDataForMarkers = (mapData) => {
+    return mapData.map(item => ({
+      color: item.color,
+      position: {
+        lat: parseFloat(item.position.lat.replace(/"/g, '')),
+        lng: parseFloat(item.position.lng.replace(/"/g, '')),
+      },
+      label: {
+        text: item.label.text.replace(/"/g, ''),
+        color: item.label.color,
+      },
+      image: {
+        url: "https://example.com/default-image.jpg", // Replace with the actual image URL
+        alt: "Marker Image",
+      },
+      // Add other fields as needed
+    }));
+  };
+  
+
+
+
+  console.log("Formatted Data:", formatDataForMarkers); // Add this line
+
+
+
+  const markers = loading ? [] : (data?.GetMapData ? formatDataForMarkers(data.GetMapData) : []);
+
+
+  // const markers = [
+  //   {
+  //     color: "red",
+  //     position: { lat: 34.043, lng: -118.267 },
+  //     label: {
+  //       text: "Staples Center",
+  //       color: "white",
+  //     },
+  //     image: {
+  //       url: "https://example.com/staples-center-image.jpg",
+  //       alt: "Staples Center image",
+  //     },
+  //   },
+  //   {
+  //     color: "blue",
+  //     position: { lat: 32.7076, lng: -117.1570 },
+  //     label: {
+  //       text: "Petco Park",
+  //       color: "white",
+  //     },
+  //     image: {
+  //       url: "https://example.com/petco-park-image.jpg",
+  //       alt: "Petco Park image",
+  //     },
+  //   },
+  // ];
+
+
+  const [CRMusers, setCRMusers] = useState([]);
+
 
 
   const handleButtonClick = async () => {
@@ -21,16 +90,8 @@ export default function Home() {
     }
   };
 
-  const [data, setData] = useState([]);
-
 
   
-
-
-
-
-
-
 
   return (
     <>
@@ -41,8 +102,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Box sx={{ height: '100vh', width:'100vw', backgroundColor: 'black', p: 2, color: 'white' }}>
-        <InstallMaps />
+      <Box sx={{ height: '100vh', width:'100vw', backgroundColor: 'black', p: 2, color: 'black' }}>
+        <InstallMaps markers={markers} />
       </Box>
 
     </>
