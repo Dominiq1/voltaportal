@@ -7,10 +7,6 @@ function InstallMaps(props) {
   useEffect(() => {
 
 
-
-
-
-
     const googleMapsScript = document.createElement("script");
     googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDhac2BXCBGvV-83rge2CNOg3a0weXvDOo`;
     googleMapsScript.async = true;
@@ -62,7 +58,7 @@ function InstallMaps(props) {
         });
       });
     });
-  }, []);
+  }, [props]);
 
   return <div style={{ height: "100%", width: "100%" }} ref={mapRef} />;
 }

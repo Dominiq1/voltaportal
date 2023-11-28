@@ -7,9 +7,7 @@ import requestData from '@/API/Quickbase'
 import { useEffect, useState } from 'react'
 import { GET_MAP_DATA } from '@/gql/mutations/InstallMap'
 
-const API_URL = "https://api.quickbase.com/v1/records/query";
-const USER_TOKEN = "QB-USER-TOKEN b7738j_qjt3_0_dkaew43bvzcxutbu9q4e6crw3ei3";
-const QB_DOMAIN = "voltaic.quickbase.com";
+
 
 export default function Home() {
 
@@ -47,48 +45,6 @@ export default function Home() {
 
 
   const markers = loading ? [] : (data?.GetMapData ? formatDataForMarkers(data.GetMapData) : []);
-
-
-  // const markers = [
-  //   {
-  //     color: "red",
-  //     position: { lat: 34.043, lng: -118.267 },
-  //     label: {
-  //       text: "Staples Center",
-  //       color: "white",
-  //     },
-  //     image: {
-  //       url: "https://example.com/staples-center-image.jpg",
-  //       alt: "Staples Center image",
-  //     },
-  //   },
-  //   {
-  //     color: "blue",
-  //     position: { lat: 32.7076, lng: -117.1570 },
-  //     label: {
-  //       text: "Petco Park",
-  //       color: "white",
-  //     },
-  //     image: {
-  //       url: "https://example.com/petco-park-image.jpg",
-  //       alt: "Petco Park image",
-  //     },
-  //   },
-  // ];
-
-
-  const [CRMusers, setCRMusers] = useState([]);
-
-
-
-  const handleButtonClick = async () => {
-    try {
-      const response = await requestData();
-      setData(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
 
   
