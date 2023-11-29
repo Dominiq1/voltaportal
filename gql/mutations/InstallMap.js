@@ -16,6 +16,9 @@ const GET_MAP_DATA = gql`
       longitude
       textPub
       colorPub
+      installer 
+      installDate
+      projectURL
     }
   }
 `;
