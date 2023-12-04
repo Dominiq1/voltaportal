@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 
-import InstallMaps from '@/components/InstallMaps'
+import PermitInstallMaps from '@/components/PermitMaps'
 import { useQuery } from '@apollo/client'
 import { Box, Grid } from '@mui/material'
 import requestData from '@/API/Quickbase'
@@ -11,7 +11,7 @@ import bolt from '../public/images/bolt.png'
 
 
 
-export default function Home() {
+export default function PermitInstall() {
 
 
   const { loading, error, data } = useQuery(GET_MAP_DATA);
@@ -22,18 +22,18 @@ export default function Home() {
 
   const formatDataForMarkers = (mapData) => {
     return mapData.map(item => ({
-      color: item.color,
+      color: item.color.replace(/"/g, '').toLowerCase(),
       position: {
         lat: parseFloat(item.position.lat.replace(/"/g, '')),
         lng: parseFloat(item.position.lng.replace(/"/g, '')),
       },
       label: {
         text: item.label.text.replace(/"/g, ''),
-        color: item.label.color.replace(/"/g, '').toLowerCase(),
+        color: item.color.replace(/"/g, ''),
       },
       image: {
         url: bolt, // Replace with the actual image URL
-        alt:bolt,
+        alt: bolt,
       },
       projectURL: item.projectURL.replace(/"/g, '')
       // Add other fields as needed
@@ -62,7 +62,7 @@ export default function Home() {
       </Head>
 
       <Box sx={{ height: '100vh', width:'100vw', backgroundColor: 'black', p: 2, color: 'black' }}>
-        <InstallMaps markers={markers} />
+        <PermitInstallMaps markers={markers} />
       </Box>
 
     </>
