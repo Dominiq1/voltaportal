@@ -35,7 +35,7 @@ export default function PendingQuotes() {
         url: bolt, // Replace with the actual image URL
         alt: bolt,
       },
-      projectURL: item.projectURL.replace(/"/g, '')
+      projectURL: ""
       // Add other fields as needed
     }));
   };
@@ -47,7 +47,7 @@ export default function PendingQuotes() {
 
 
 
-  const markers = loading ? [] : (data?.GET_Pending_MAP_DATA ? formatDataForMarkers(data.GET_Pending_MAP_DATA) : []);
+  const markers = loading ? [] : (data?.GetPendingQuoteMapData ? formatDataForMarkers(data.GetPendingQuoteMapData) : []);
 
 
   
