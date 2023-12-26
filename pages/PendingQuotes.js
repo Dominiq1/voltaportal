@@ -20,12 +20,16 @@ export default function PendingQuotes() {
   console.log("GraphQL Data:", data); // Add this line
 
 
+
   const formatDataForMarkers = (mapData) => {
     return mapData.map(item => ({
       color: item.color.replace(/"/g, '').toLowerCase(),
       position: {
-        lat: parseFloat(item.position.lat.replace(/"/g, '')),
-        lng: parseFloat(item.position.lng.replace(/"/g, '')),
+        // lat: parseFloat(item.position.lat.replace(/"/g, '')),
+        // lng: parseFloat(item.position.lng.replace(/"/g, '')),
+        lat: -33,
+        lng: -114
+
       },
       label: {
         text: item.label.text.replace(/"/g, ''),
@@ -35,7 +39,7 @@ export default function PendingQuotes() {
         url: bolt, // Replace with the actual image URL
         alt: bolt,
       },
-      projectURL: ""
+      projectURL: item.projectURL.replace(/"/g, '')
       // Add other fields as needed
     }));
   };

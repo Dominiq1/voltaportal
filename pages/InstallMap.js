@@ -29,7 +29,8 @@ export default function Home() {
       },
       label: {
         text: item.label.text.replace(/"/g, ''),
-        color: item.label.color.replace(/"/g, '').toLowerCase(),
+        color: 'red',
+       //color: item.label.color.replace(/"/g, '').toLowerCase()
       },
       image: {
         url: bolt, // Replace with the actual image URL
@@ -50,6 +51,7 @@ export default function Home() {
   const markers = loading ? [] : (data?.GetMapData ? formatDataForMarkers(data.GetMapData) : []);
 
 
+  console.log("markers", markers)
   
 
   return (
