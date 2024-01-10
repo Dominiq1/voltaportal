@@ -753,7 +753,7 @@ const MyForm = () => {
         formIsValid = false;
       }
     }
-    if (!UtilityFile || !AtticFile || !licenseFile || !UtilityFile2) {
+    if (!UtilityFile || !AtticFile || !licenseFile ) {
       formIsValid = false;
     }
     if (formIsValid) {
@@ -1668,7 +1668,7 @@ sx={{
 
 
 
-{(rep && rep.email && leadgen && leadgen.email && UtilityImagesURL && AtticImage1 && licenseImage &&UtilityImagesURL2) ? (
+{(rep && rep.email && leadgen && leadgen.email && UtilityImagesURL && AtticImage1 && licenseImage) ? (
   <>
   
 
