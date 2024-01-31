@@ -94,6 +94,7 @@ const MyForm = () => {
     { id: 9, name: "Sunnova" },
     { id: 10, name: "Sunrun" },
     { id: 11, name: "Ygrene" },
+    { id: 12, name: "Lightreach" },
   ]);
 
   const [adders, serAddres] = useState([
