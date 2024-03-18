@@ -190,7 +190,7 @@ const MyForm = () => {
             <h1 style={{ fontFamily: 'sans-serif', fontWeight: 'bold' , color: 'black' }} > Company Lead</h1>
             <form onSubmit={handleSubmit}>
               <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
-                Homeowner's Name *
+                Homeowner Name *
               </InputLabel>
               <TextField
                 id="outlined-basic"
