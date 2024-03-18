@@ -78,4 +78,28 @@ const PUSH_NEW_SALE_MUTATION = gql`
   }
 `;
 
-export { GET_CRM_USERS, PUSH_NEW_SALE_MUTATION, PUSH_NEW_LEAD };
+
+const PUSH_NEW_COMPANY_LEAD = gql`
+  mutation PushLead(
+    $homeowner: String!
+    $electricBill: String!
+    $primaryStatus: String!
+    $secondaryStatus: String!
+    $FollowUp: String!
+    $Datetime: String!
+    $Notes: String!
+  ) {
+    PushLead(
+      homeowner: $homeowner
+      electricBill: $electricBill
+      primaryStatus: $primaryStatus
+      secondaryStatus: $secondaryStatus
+      FollowUp: $FollowUp
+      Datetime: $Datetime
+      Notes: $Notes
+    
+    )
+  }
+`;
+
+export { GET_CRM_USERS, PUSH_NEW_SALE_MUTATION, PUSH_NEW_LEAD , PUSH_NEW_COMPANY_LEAD};
