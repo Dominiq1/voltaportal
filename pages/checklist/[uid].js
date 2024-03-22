@@ -152,8 +152,8 @@ const ServiceChecklist = () => {
 
   
   const [serviceItems, setServiceItems] = useState([
-    { id: 0, title: 'Check wiring', complete: true },
-    { id: 1, title: 'Install circuit breaker', complete: false },
+    //{ id: 0, title: 'Check wiring', complete: true },
+   // { id: 1, title: 'Install circuit breaker', complete: false },
     // ... (more initial tasks)
   ]);
 
