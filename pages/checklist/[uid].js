@@ -171,8 +171,35 @@ const ServiceChecklist = () => {
     console.log(uid); 
     console.log(data);
     // alert(uid)
+
+
+    if (data && data.GetServiceChecklist && data.GetServiceChecklist.length > 0) {
+      // Extract the first item from the GetServiceChecklist array
+      const serviceData = data.GetServiceChecklist[0];
+      
+      // Map serviceTasks to match the format expected by the UI
+      // Assuming the UI expects items with { id, title, complete } format
+      const mappedServiceItems = serviceData.serviceTasks.map((task, index) => ({
+        id: index, // Assuming the original data does not include a unique ID, we use the index
+        title: task.taskTitle,
+        complete: task.serviceStatus === "true", // Assuming serviceStatus is a string that could be "true" or "false"
+      }));
+  
+      // Update the state with the mapped items
+      setServiceItems(mappedServiceItems);
+    }
     Modal.setAppElement('#content');
   }, [uid, data]);
+
+
+
+
+
+
+
+
+
+  
   const handleAddItem = (event) => {
     event.preventDefault();
     const nextId = serviceItems.length;
