@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaCamera } from 'react-icons/fa'; // Ensure react-icons is installed
 import Modal from 'react-modal';
+import { useRouter } from 'next/router';
 
 const styles = {
 
@@ -137,6 +138,8 @@ const styles = {
 
 
 const ServiceChecklist = () => {
+  const router = useRouter();
+  const { uid } = router.query;
   const [serviceItems, setServiceItems] = useState([
     { id: 0, title: 'Check wiring', complete: true },
     { id: 1, title: 'Install circuit breaker', complete: false },
@@ -151,8 +154,11 @@ const ServiceChecklist = () => {
 
 
   useEffect(() => {
+//Passing Uid here
+    console.log(uid); 
+    // alert(uid)
     Modal.setAppElement('#content');
-  }, []);
+  }, [uid]);
   const handleAddItem = (event) => {
     event.preventDefault();
     const nextId = serviceItems.length;
