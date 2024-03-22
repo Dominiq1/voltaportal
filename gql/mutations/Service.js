@@ -7,6 +7,7 @@ mutation UpdateServiceChecklist($serviceID: String!, $taskReason: String!) {
   UpdateServiceChecklist(serviceID: $serviceID, taskReason: $taskReason) {
       firstName
       lastName
+      homeownerName
       email
       phone
       address
@@ -38,6 +39,7 @@ query GetServiceChecklist($serviceID: String!) {
       firstName
       lastName
       email
+      homeownerName
       phone
       address
       city
