@@ -3,6 +3,7 @@ import { FaCamera } from 'react-icons/fa'; // Ensure react-icons is installed
 import Modal from 'react-modal';
 import { useRouter } from 'next/router';
 import { GET_SERVICE_CHECKLIST } from '@/gql/mutations/Service';
+import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 const styles = {
 
@@ -136,6 +137,7 @@ const styles = {
     textDecoration: 'line-through',
   },
 };
+import { UPDATE_SERVICE_CHECKLIST } from '@/gql/mutations/Service';
 
 
 const ServiceChecklist = () => {
@@ -145,6 +147,8 @@ const ServiceChecklist = () => {
     variables: { serviceID: uid },
     skip: !uid, 
 });
+const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
+  
 
 
   // if (loading) return <p>Loading...</p>;
@@ -235,9 +239,31 @@ const ServiceChecklist = () => {
     setModalIsOpen(false);
   };
 
-  const handleConfirmCompletion = () => {
-    updateCompletion(selectedItemId);
+  const handleConfirmCompletion = async() => {
+    try {
+      // Call the mutation with the serviceID and taskReason (assuming taskReason can be derived from selectedItemId)
+      const taskReason = `Reason #${selectedItemId + 1}`; // Adjust based on how you identify tasks
+      await updateServiceChecklist({
+        variables: {
+          serviceID: uid,
+          taskReason,
+        },
+      });
+
+      // If mutation is successful, update UI accordingly
+      updateCompletion(selectedItemId);
+    } catch (error) {
+      console.error('Error updating service checklist:', error);
+    }
+
+
+
     closeModal();
+
+
+
+
+
   };
 
   return (
