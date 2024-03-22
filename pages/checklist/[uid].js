@@ -161,7 +161,8 @@ const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
     // ... (more initial tasks)
   ]);
 
-
+  const [homeowner, setHomeowner] = useState('');
+  const [address, setAddress] = useState('');
   const [newItem, setNewItem] = useState('');
   const [hideCompleted, setHideCompleted] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -183,6 +184,11 @@ const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
       
       // Map serviceTasks to match the format expected by the UI
       // Assuming the UI expects items with { id, title, complete } format
+      const homeowner = serviceData.homeownerName; // Assuming this field exists
+      const addy = serviceData.address;
+      setAddress(addy)
+      setHomeowner(homeowner)
+      
       const mappedServiceItems = serviceData.serviceTasks.map((task, index) => ({
         id: index, // Assuming the original data does not include a unique ID, we use the index
         title: task.taskTitle,
@@ -242,7 +248,7 @@ const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
   const handleConfirmCompletion = async() => {
     try {
       // Call the mutation with the serviceID and taskReason (assuming taskReason can be derived from selectedItemId)
-      const taskReason = `Reason #${selectedItemId + 1}`; // Adjust based on how you identify tasks
+      const taskReason = `#${selectedItemId + 1}`; // Adjust based on how you identify tasks
       await updateServiceChecklist({
         variables: {
           serviceID: uid,
@@ -269,9 +275,9 @@ const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
   return (
     <div id="content" style={styles.container}>
      <div style={styles.header}>
-        <h1 style={styles.title}>Service</h1>
-        <p style={styles.subTitle}>Address: 123 Main St</p>
-        <p style={styles.subTitle}>Homeowner: John Doe</p>
+     <h1 style={styles.title}>Service</h1>
+        <p style={styles.subTitle}>Address: {address}</p>
+        <p style={styles.subTitle}>Homeowner: {homeowner}</p>
       </div>
       <div style={{ marginBottom: '20px' }}>
         <label>
