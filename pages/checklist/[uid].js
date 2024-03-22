@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaCamera } from 'react-icons/fa'; // Ensure react-icons is installed
 import Modal from 'react-modal';
 import { useRouter } from 'next/router';
-
+import { GET_SERVICE_CHECKLIST } from '@/gql/mutations/Service';
+import { useQuery } from '@apollo/client';
 const styles = {
 
 
@@ -140,11 +141,23 @@ const styles = {
 const ServiceChecklist = () => {
   const router = useRouter();
   const { uid } = router.query;
+  const { loading, error, data } = useQuery(GET_SERVICE_CHECKLIST, {
+    variables: { serviceID: uid },
+    skip: !uid, 
+});
+
+
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error: {error.message}</p>;
+
+  
   const [serviceItems, setServiceItems] = useState([
     { id: 0, title: 'Check wiring', complete: true },
     { id: 1, title: 'Install circuit breaker', complete: false },
     // ... (more initial tasks)
   ]);
+
+
   const [newItem, setNewItem] = useState('');
   const [hideCompleted, setHideCompleted] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -156,9 +169,10 @@ const ServiceChecklist = () => {
   useEffect(() => {
 //Passing Uid here
     console.log(uid); 
+    console.log(data);
     // alert(uid)
     Modal.setAppElement('#content');
-  }, [uid]);
+  }, [uid, data]);
   const handleAddItem = (event) => {
     event.preventDefault();
     const nextId = serviceItems.length;
