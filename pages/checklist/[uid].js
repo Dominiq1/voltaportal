@@ -8,25 +8,86 @@ import { useQuery } from '@apollo/client';
 const styles = {
 
 
-  modal: {
-    overlay: {
-      backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    },
-    content: {
-      position: 'absolute',
-      top: '40px',
-      left: '40px',
-      right: '40px',
-      bottom: '40px',
-      border: '1px solid #ccc',
-      background: '#fff',
-      overflow: 'auto',
-      WebkitOverflowScrolling: 'touch',
-      borderRadius: '4px',
-      outline: 'none',
-      padding: '20px',
-    },
+// Improved modal styles
+modal: {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
   },
+  content: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    width: '90vw',
+    height: 'auto', // Auto height to accommodate content
+    backgroundColor: '#f7f7f7',
+    borderRadius: '10px',
+    border: '1px solid #ccc',
+    padding: '30px',
+    boxSizing: 'border-box',
+    overflow: 'hidden',
+  },
+},
+// Styling for titles and subtitles
+title: {
+  color: '#2c3e50',
+  fontSize: '32px',
+  fontWeight: '600',
+  textAlign: 'left',
+  margin: '0 0 15px 0',
+},
+subTitle: {
+  fontSize: '18px',
+  fontWeight: '400',
+  color: '#34495e',
+  textAlign: 'left',
+  margin: '0 0 15px 0',
+},
+// Updated container styles
+container: {
+  fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+  width: '100%',
+  minHeight: '100vh',
+  padding: '50px 20px',
+  boxSizing: 'border-box',
+  backgroundColor: '#ecf0f1',
+},
+// Checkbox style adjustments
+hideCompletedCheckbox: {
+  marginBottom: '30px',
+  marginTop: '10px',
+  fontSize: '18px',
+  fontWeight: '400',
+  color: '#34495e',
+},
+// Improved item and label styles
+item: {
+  display: 'flex',
+  alignItems: 'center',
+  marginBottom: '15px',
+  backgroundColor: '#fff',
+  borderRadius: '5px',
+  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  padding: '10px',
+  boxSizing: 'border-box',
+},
+itemRadio: {
+  marginRight: '10px',
+  height: '24px',
+  width: '24px',
+  flexShrink: 0, // Prevent resizing
+},
+itemLabel: {
+  flexGrow: 1,
+  fontSize: '18px',
+  fontWeight: '400',
+  color: '#34495e',
+  marginRight: '10px',
+},
+
   modalButton: {
     // (add your modal button styles here)
   },
@@ -62,54 +123,31 @@ const styles = {
     fontWeight: 'bold', // Bold font
     color: 'blue', // Text color blue
   },
-  container: {
-    fontFamily: 'Arial, sans-serif',
-    width: '100%',
-    minHeight: '100vh', // Full viewport height
-    margin: '0 auto',
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    boxSizing: 'border-box',
-  },
-  title: {
-    color: '#333',
-    fontSize: '24px',
-    fontWeight: 'bold',
-    textAlign: 'left', // Align the title text to the left
-  },
-  subTitle: {
-    fontSize: '18px',
-    fontWeight: 'normal',
-    textAlign: 'left', // Align the sub-items text to the left
-  },
+
+
   divider: {
     width: '100%',
     height: '2px',
     backgroundColor: '#000',
     margin: '10px 0 20px 0',
   },
-  item: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '10px',
-  },
-  itemRadio: {
-    marginRight: '10px',
-    height: '20px',
-    width: '20px',
-  },
-  itemLabel: {
-    flexGrow: 1,
-    marginRight: '10px',
-  },
+  
+ 
   itemFileInput: {
     display: 'none',
   },
-  cameraIcon: {
-    cursor: 'pointer',
-  },
+// ... other styles remain unchanged
+
+cameraIcon: {
+  cursor: 'pointer',
+  fontSize: '20px', // Set a fixed size for the icon
+  width: '20px', // Set a fixed width for the icon
+  height: '20px', // Set a fixed height for the icon
+  flexShrink: 0, // Prevent the icon from shrinking
+},
+
+// ... rest of your styles and component code
+
   input: {
     width: '100%',
     padding: '10px',
@@ -130,9 +168,7 @@ const styles = {
     cursor: 'pointer',
     marginTop: '10px',
   },
-  hideCompletedCheckbox: {
-    marginBottom: '20px',
-  },
+
   itemCompleted: {
     textDecoration: 'line-through',
   },
@@ -301,10 +337,11 @@ const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
           />
           <label style={styles.itemLabel}>{item.title}</label>
           <FaCamera
-            size={20}
-            style={styles.cameraIcon}
-            onClick={() => handleFileSelect(index)}
-          />
+  size="20" // This sets the font size for the icon
+  style={styles.cameraIcon}
+  onClick={() => handleFileSelect(index)}
+/>
+
           <input
             ref={(el) => fileInputRefs.current[index] = el}
             type="file"
