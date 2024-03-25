@@ -1,6 +1,34 @@
 import { gql } from "@apollo/client";
 
-
+const ADD_SERVICE_CHECKLIST = gql`
+mutation AddServiceChecklist($serviceID: String!, $task: String!) {
+  AddServiceChecklist(serviceID: $serviceID, task: $task) {
+      firstName
+      lastName
+      homeownerName
+      email
+      phone
+      address
+      city
+      zip
+      bid
+      pieceRate
+      addedQbId
+      serviceNotes
+      systemID
+      serviceTechs
+      leadID
+      serviceChecklist
+      serviceTasks {
+        taskTitle
+        reasonCount
+        taskImage
+        serviceID
+        serviceStatus
+      }
+    }
+  }
+`;
 
 const UPDATE_SERVICE_CHECKLIST = gql`
 mutation UpdateServiceChecklist($serviceID: String!, $taskReason: String!) {
@@ -64,5 +92,5 @@ query GetServiceChecklist($serviceID: String!) {
 `;
 
 
-export { GET_SERVICE_CHECKLIST ,UPDATE_SERVICE_CHECKLIST};
+export { GET_SERVICE_CHECKLIST ,UPDATE_SERVICE_CHECKLIST, ADD_SERVICE_CHECKLIST};
 

@@ -3,6 +3,7 @@ import { FaCamera } from 'react-icons/fa'; // Ensure react-icons is installed
 import Modal from 'react-modal';
 import { useRouter } from 'next/router';
 import { GET_SERVICE_CHECKLIST } from '@/gql/mutations/Service';
+import { ADD_SERVICE_CHECKLIST } from '@/gql/mutations/Service';
 import { useMutation } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 const styles = {
@@ -183,6 +184,40 @@ const ServiceChecklist = () => {
     variables: { serviceID: uid },
     skip: !uid, 
 });
+const handleAddItem = async (event) => {
+  event.preventDefault();
+  try {
+    const response = await addServiceChecklist({
+      variables: {
+        serviceID: uid,
+        task: newItem // Assuming 'newItem' is the state holding the text input from the user
+      },
+    });
+    // Assuming the mutation returns the updated checklist, you can use the response to update the state
+    console.log(response);
+    // Reset the newItem input field to be empty after submission
+    setNewItem('');
+
+    // Optionally, refresh the checklist items displayed to the user
+    // This could be a call to fetch the latest checklist items or you can manually update the state
+    // Here's a simple way to manually update the state (you may need to adjust based on the actual response structure)
+    if (response.data && response.data.AddServiceChecklist) {
+      const addedTask = response.data.AddServiceChecklist.serviceTasks.slice(-1)[0]; // Assuming the new task is the last one
+      setServiceItems([...serviceItems, {
+        id: serviceItems.length, // This is a simplification, consider using unique identifiers
+        title: addedTask.taskTitle,
+        complete: addedTask.serviceStatus === "true",
+      }]);
+    }
+  } catch (error) {
+    console.error('Error adding service checklist item:', error);
+  }
+};
+
+
+
+const [addServiceChecklist] = useMutation(ADD_SERVICE_CHECKLIST);
+
 const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
   
 
@@ -248,13 +283,13 @@ const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
 
 
   
-  const handleAddItem = (event) => {
-    event.preventDefault();
-    const nextId = serviceItems.length;
-    const newItemObject = { id: nextId, title: newItem, complete: false };
-    setServiceItems([...serviceItems, newItemObject]);
-    setNewItem('');
-  };
+  // const handleAddItem = (event) => {
+  //   event.preventDefault();
+  //   const nextId = serviceItems.length;
+  //   const newItemObject = { id: nextId, title: newItem, complete: false };
+  //   setServiceItems([...serviceItems, newItemObject]);
+  //   setNewItem('');
+  // };
 
   const updateCompletion = (itemId) => {
     setServiceItems(serviceItems.map(item =>
@@ -317,8 +352,8 @@ const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
         <p style={styles.subTitle}>Address: {address}</p>
         <p style={styles.subTitle}>Homeowner: {homeowner}</p>
       </div>
-      <div style={{ marginBottom: '20px' }}>
-        <label>
+      <div style={{ marginBottom: '20px'}}>
+        <label style={{ marginRight:' 50px' }}>
           Hide Completed
           <input
             type="checkbox"
