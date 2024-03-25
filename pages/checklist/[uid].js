@@ -184,10 +184,12 @@ const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
       
       // Map serviceTasks to match the format expected by the UI
       // Assuming the UI expects items with { id, title, complete } format
-      const homeowner = serviceData.homeownerName; // Assuming this field exists
-      const addy = serviceData.address;
-      setAddress(addy)
-      setHomeowner(homeowner)
+      const homeowner = serviceData.homeownerName.replace(/"/g, ''); // Removes all instances of quotes
+      const addy = serviceData.address.replace(/"/g, ''); // Removes all instances of quotes
+      
+      setAddress(addy);
+      setHomeowner(homeowner);
+      
       
       const mappedServiceItems = serviceData.serviceTasks.map((task, index) => ({
         id: index, // Assuming the original data does not include a unique ID, we use the index
