@@ -195,6 +195,9 @@ const handleAddItem = async (event) => {
     });
     // Assuming the mutation returns the updated checklist, you can use the response to update the state
     console.log(response);
+    // After mutation, refetch the checklist
+    await refetch();
+
     // Reset the newItem input field to be empty after submission
     setNewItem('');
 
