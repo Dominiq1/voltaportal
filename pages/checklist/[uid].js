@@ -286,7 +286,7 @@ const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
   const handleConfirmCompletion = async() => {
     try {
       // Call the mutation with the serviceID and taskReason (assuming taskReason can be derived from selectedItemId)
-      const taskReason = `#${selectedItemId + 1}`; // Adjust based on how you identify tasks
+      const taskReason = `${selectedItemId + 1}`; // Adjust based on how you identify tasks
       await updateServiceChecklist({
         variables: {
           serviceID: uid,
