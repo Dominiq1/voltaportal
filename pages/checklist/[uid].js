@@ -184,6 +184,15 @@ const ServiceChecklist = () => {
     variables: { serviceID: uid },
     skip: !uid, 
 });
+
+
+
+
+
+
+const [addServiceChecklist] = useMutation(ADD_SERVICE_CHECKLIST);
+
+const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
 const handleAddItem = async (event) => {
   event.preventDefault();
   try {
@@ -196,33 +205,49 @@ const handleAddItem = async (event) => {
     // Assuming the mutation returns the updated checklist, you can use the response to update the state
     console.log(response);
     // After mutation, refetch the checklist
-    await refetch();
+
+
 
     // Reset the newItem input field to be empty after submission
     setNewItem('');
+    // Assuming response from ADD_SERVICE_CHECKLIST contains the updated list
+    // and follows the same structure as GET_SERVICE_CHECKLIST
+  // Assuming both mutations return a similar structure under different names
+  const serviceData = response.data.AddServiceChecklist[0]; // Adjust based on the actual mutation used
 
-    // Optionally, refresh the checklist items displayed to the user
-    // This could be a call to fetch the latest checklist items or you can manually update the state
-    // Here's a simple way to manually update the state (you may need to adjust based on the actual response structure)
-    if (response.data && response.data.AddServiceChecklist) {
-      const addedTask = response.data.AddServiceChecklist.serviceTasks.slice(-1)[0]; // Assuming the new task is the last one
-      setServiceItems([...serviceItems, {
-        id: serviceItems.length, // This is a simplification, consider using unique identifiers
-        title: addedTask.taskTitle,
-        complete: addedTask.serviceStatus === "true",
-      }]);
+
+  console.log("Service Data")
+  console.log(serviceData)
+
+
+  if (serviceData && serviceData.serviceTasks && serviceData.serviceTasks.length > 0) {
+  
+       
+   // if (response.data && response.data.AddServiceChecklist) {
+      // Directly update your state with the new list
+      const updatedServiceItems = response.data.AddServiceChecklist[0].serviceTasks.map(task => ({
+        // Assuming your tasks are structured with these fields
+        id: task.id, // Make sure you have unique IDs for tasks
+        title: task.taskTitle,
+        complete: task.serviceStatus === "true",
+      }));
+      
+      
+      // Update the state to re-render the component with the new list
+   
+      setServiceItems(updatedServiceItems);
+    
+     
     }
+
+    // Reset the input field
+    setNewItem('');
+    alert("Completed adding task")
   } catch (error) {
     console.error('Error adding service checklist item:', error);
   }
 };
 
-
-
-const [addServiceChecklist] = useMutation(ADD_SERVICE_CHECKLIST);
-
-const [updateServiceChecklist] = useMutation(UPDATE_SERVICE_CHECKLIST);
-  
 
 
   // if (loading) return <p>Loading...</p>;
