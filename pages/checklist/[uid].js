@@ -242,7 +242,8 @@ const handleAddItem = async (event) => {
 
     // Reset the input field
     setNewItem('');
-    alert("Completed adding task")
+    
+    //alert("Completed adding task")
   } catch (error) {
     console.error('Error adding service checklist item:', error);
   }
