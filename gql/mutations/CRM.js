@@ -30,6 +30,7 @@ const PUSH_NEW_LEAD = gql`
     )
   }
 `;
+
 const PUSH_NEW_SALE_MUTATION = gql`
   mutation PushNewSale(
     $ownerName: String!
@@ -52,6 +53,16 @@ const PUSH_NEW_SALE_MUTATION = gql`
     $notes: String!
     $adders: [String]!
     $repEmail: String!
+    $design: String
+    $designNotes: String
+    $mainPanelUpgrade: String
+    $mpuNotes: String
+    $inverter: String
+    $batteries: String
+    $batteryQuantity: String
+    $batteryMode: String
+    $batteryPlacement: String
+    $batteryPlacementNotes: String
   ) {
     pushNewSale(
       ownerName: $ownerName
@@ -74,9 +85,21 @@ const PUSH_NEW_SALE_MUTATION = gql`
       notes: $notes
       adders: $adders
       repEmail: $repEmail
+      design: $design
+      designNotes: $designNotes
+      mainPanelUpgrade: $mainPanelUpgrade
+      mpuNotes: $mpuNotes
+      inverter: $inverter
+      batteries: $batteries
+      batteryQuantity: $batteryQuantity
+      batteryMode: $batteryMode
+      batteryPlacement: $batteryPlacement
+      batteryPlacementNotes: $batteryPlacementNotes
     )
   }
 `;
+
+
 
 
 const PUSH_NEW_COMPANY_LEAD = gql`
