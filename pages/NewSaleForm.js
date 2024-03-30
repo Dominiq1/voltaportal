@@ -116,13 +116,49 @@ const errorModalBody = (
   const [licenseFile, setLicenseFile] =  React.useState("null");
    const [depositFile, setDepositFile] =  React.useState("null");
    // Programs and adders data (assuming static for this example)
-   const programs = [
-    { id: 'cash', name: 'Cash' },
-    // Add more programs here
-  ];
+  //  const programs = [
+  //   { id: 'cash', name: 'Cash' },
+  //   // Add more programs here
+  // ];
 
+    const [programs, setPrograms] = useState([
+    { id: 0, name: "Cash" },
+    { id: 1, name: "Dividend" },
+    { id: 2, name: "Enium" },
+    { id: 3, name: "Everbright" },
+    { id: 4, name: "Everbrite" },
+    { id: 5, name: "Foundation" },
+    { id: 6, name: "Goodleap" },
+    { id: 7, name: "Loanpal" },
+    { id: 8, name: "Mosaic" },
+    { id: 9, name: "Sunnova" },
+    { id: 10, name: "Sunrun" },
+    { id: 11, name: "Ygrene" },
+    { id: 12, name: "Lightreach" },
+  ]);
+
+
+  const [installers, setInstallers] = useState([
+    { id: 0, name: "Voltaic Construction" },
+    { id: 1, name: "Greenspire" },
+    { id: 2, name: "Voltaic Finance" },
+    { id: 3, name: "Titanium Solar" },
+    { id: 4, name: "AC/DC" },
+    { id: 4, name: "Ascension" },
+    { id: 4, name: "LGCY" },
+  ]);
   const adders = [
-    { id: 'quietCool', name: 'Quiet Cool' },
+       { id: 0, name: "Quiet Cool" },
+    { id: 1, name: "Roof" },
+    { id: 2, name: "MPU" },
+    { id: 3, name: "HVAC" },
+    { id: 4, name: "Insulation" },
+    { id: 5, name: "Sub Pannel" },
+    { id: 6, name: "Solar" },
+    { id: 7, name: "Battery" },
+    { id: 8, name: "Critter Guard" },
+    { id: 9, name: "Derate" },
+    { id: 10, name: "EV Charger" },
     // Add more adders here
   ];
 
@@ -694,6 +730,11 @@ const errorModalBody = (
     const selectedProgram = event.target.value;
     setFormData({ ...formData, program: selectedProgram });
   };
+  const handleInstallerChange = (event) => {
+    // Directly use the selected program object
+    const instalerSelected = event.target.value;
+    setFormData({ ...formData, installer: instalerSelected });
+  };
   
 
   const handleAdderChange = (event) => {
@@ -745,9 +786,9 @@ const errorModalBody = (
   }
 
   // Ensure notes are filled
-  if (!formData.notes) {
-    newErrors.push("Missing Project Notes.");
-  }
+  // if (!formData.notes) {
+  //   newErrors.push("Missing Project Notes.");
+  // }
 
 
 
@@ -812,14 +853,24 @@ const errorModalBody = (
 
     if (formIsValid) {
       
-      console.log("Form is valid fix data !")
+      console.log("Form is valid !")
       const submissionData = {
         ownerName: formData.ownerName,
         leadGen: leadGen.name,
         saleRep:  salesRep.name,
-        installer: formData.installer,
+        installer: formData.installer.name,
         program: formData.program.name,
         adders: addersNameList,
+        design: formData.design,
+        designNotes: formData.designNotes,
+        mainPanelUpgrade: formData.mainPanelUpgrade,
+        mpuNotes: formData.mpuNotes,
+        inverter: formData.inverter,
+        batteries: formData.batteries,
+        batteryQuantity: formData.batteryQuantity,
+        batteryMode:formData.batteryMode,
+        batteryPlacement: formData.batteryPlacement,
+        batteryPlacementNotes: formData.batteryPlacementNotes,
         notes: formData.notes,
         // Images URLs
         utilityImage1: UtilityImagesURL,
@@ -896,20 +947,25 @@ const errorModalBody = (
         required
         variant="outlined"
         margin="normal"
+   
       />
 
       <FormControl fullWidth margin="normal">
         <InputLabel id="leadGen-label">Lead Generator</InputLabel>
-        <p>{leadGen? leadGen.name: null}</p>
-        <p>{leadGen? leadGen.email: null}</p>
+        {/* <p>{leadGen? leadGen.name: null}</p>
+        <p>{leadGen? leadGen.email: null}</p> */}
         <Select
           labelId="leadGen-label"
           id="leadGen-select"
           name="leadGen"
+          required
+          variant="outlined"
           value={leadGen}
          onChange={handleLeadgenChange}
           label="Lead Generator"
+
         >
+
           {CRMusers.map((user) => (
             <MenuItem key={user.id} value={user}>
               {user.name}
@@ -918,9 +974,9 @@ const errorModalBody = (
         </Select>
       </FormControl>
       <FormControl fullWidth margin="normal">
-        <InputLabel id="salesrep-label">Sales Rep</InputLabel>
+        {/* <InputLabel id="salesrep-label">Sales Rep</InputLabel>
         <p>{salesRep? salesRep.name: null}</p>
-        <p>{salesRep? salesRep.email: null}</p>
+        <p>{salesRep? salesRep.email: null}</p> */}
         <Select
           labelId="salesrep-label"
           id="leadGen-select"
@@ -937,7 +993,7 @@ const errorModalBody = (
         </Select>
       </FormControl>
    
-      <TextField
+      {/* <TextField
         name="installer"
         label="Installer"
         value={formData.installer}
@@ -945,13 +1001,46 @@ const errorModalBody = (
         required
         variant="outlined"
         margin="normal"
-      />
+        
+      /> */}
+
+         {/* Include other form fields here */}
+
+   <FormControl fullWidth margin="normal">
+        <InputLabel id="program-label">Installer</InputLabel>
+        <InputLabel sx={{ marginBottom: "20px" }}>
+              Installer *
+            </InputLabel>
+
+            <Select
+  labelId="installer"
+  id="installer-select"
+  value={formData.installer}
+  onChange={handleInstallerChange}
+  label="installer"
+  renderValue={(selected) => selected ? selected.name : ""}
+>
+  {installers.map((program) => (
+    <MenuItem key={program.id} value={program}>
+      {program.name}
+    </MenuItem>
+  ))}
+</Select>
+
+
+
+          
+
+
+
+      </FormControl>
+
 
    {/* Include other form fields here */}
 
    <FormControl fullWidth margin="normal">
         <InputLabel id="program-label">Program</InputLabel>
-        <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
+        <InputLabel sx={{ marginBottom: "20px" }}>
               Program *
             </InputLabel>
 
@@ -979,7 +1068,7 @@ const errorModalBody = (
       </FormControl>
 
       <FormControl fullWidth margin="normal">
-      <InputLabel sx={{ marginBottom: "20px", color: "red" }}>
+      <InputLabel sx={{ marginBottom: "20px"}}>
               Adders *
             </InputLabel>
 
@@ -1036,14 +1125,15 @@ const errorModalBody = (
         >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
-          <Button
+          <FormControlLabel value="Try PCS to Avoid MPU" control={<Radio />} label="Try PCS to Avoid MPU" />
+          {/* <Button
             onClick={() => setFormData({ ...formData, mainPanelUpgrade: "tryPCS" })}
             variant="outlined"
             size="small"
             sx={{ ml: 2 }}
           >
             Try PCS to avoid MPU
-          </Button>
+          </Button> */}
         </RadioGroup>
         {formData.mainPanelUpgrade === 'yes' && (
           <TextField
