@@ -13,6 +13,7 @@ import {
   FormControlLabel,
   useMediaQuery,
   useTheme,
+  Paper
 } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { GET_CRM_USERS } from '@/gql/mutations/CRM';
@@ -25,6 +26,7 @@ import { storage } from "@/API/firebase";
 
 const MyForm = () => {
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
 // Inside your component
 const [errors, setErrors] = useState([]);
@@ -785,10 +787,10 @@ const errorModalBody = (
     newErrors.push("Missing Deposit File for Cash Program.");
   }
 
-  // Ensure notes are filled
-  // if (!formData.notes) {
-  //   newErrors.push("Missing Project Notes.");
-  // }
+  //Ensure notes are filled
+  if (!formData.notes) {
+    newErrors.push("Missing Project Notes.");
+  }
 
 
 
@@ -821,7 +823,7 @@ const errorModalBody = (
     mpuNotes: "",
     inverter: "",
     batteries: '',
-    batteryQuantity: 0,
+    batteryQuantity: '0',
     batteryMode: "",
     batteryPlacement: "",
     batteryPlacementNotes: "",
@@ -898,6 +900,47 @@ const errorModalBody = (
       .then((result) => {
         // Reset form state here if needed
         console.log('Form submission successful');
+        setIsSubmitted(true);
+        setLeadGen(null)
+        setSalesRep(null)
+
+        const initialFormState = {
+          ownerName: '',
+          leadGen: '',
+          salesRep: '',
+          installer: '',
+          program: '',
+          adders: [],
+          design: '',
+          designNotes: '',
+          mainPanelUpgrade: '',
+          mpuNotes: '',
+          inverter: '',
+          batteries: '',
+          batteryQuantity: '0',
+          batteryMode: '',
+          batteryPlacement: '',
+          batteryPlacementNotes: '',
+          notes: '',
+          utilityImage1: '',
+          utilityImage2: '',
+          utilityImage3: '',
+          utilityImage4: '',
+          utilityImage5: '',
+          utilityImage6: '',
+          utilityImage7: '',
+          atticImage1: '',
+          atticImage2: '',
+          licenseImage: '',
+          depositImage: '',
+          repEmail: '',
+          leadgenEmail: '',
+        };
+        
+
+
+        setFormData(initialFormState);
+        
         // You might want to navigate to a different page or show a success message
       })
       .catch((error) => {
@@ -915,6 +958,45 @@ const errorModalBody = (
     }
   };
 
+
+
+
+
+  // If the form has been submitted, show a success message
+  if (isSubmitted) {
+    return (
+
+      <Box sx={{height:"59em", alignContent:"center", padding:'1em'}}>
+
+
+
+  
+      <Paper elevation={3} sx={{ padding: 4, margin: 2, textAlign: 'center' }}>
+        <Typography variant="h4" gutterBottom>
+          Submission Successful!
+        </Typography>
+        <Typography variant="subtitle1">
+          Your sale has been successfully submitted. Thank you!
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{ marginTop: 2 }}
+          onClick={() => setIsSubmitted(false)} // Optional: Reset form or navigate elsewhere
+        >
+          Submit Another Sale
+        </Button>
+      </Paper>
+      </Box>
+    );
+  }
+
+
+
+
+
+
+
+  //Form Confirmed submitted
 
 
   return (
@@ -939,6 +1021,8 @@ const errorModalBody = (
       </Typography>
       {/* <Button onClick={() => setOpenErrorModal(true)}>Test Error Modal</Button> */}
 
+
+     
       <TextField
         name="ownerName"
         label="Home Owner Name"
@@ -947,11 +1031,16 @@ const errorModalBody = (
         required
         variant="outlined"
         margin="normal"
-   
+        
+        InputLabelProps={{
+          sx: { color: 'red' }, // Change 'green' to any color you need
+        }}
       />
 
       <FormControl fullWidth margin="normal">
-        <InputLabel id="leadGen-label">Lead Generator</InputLabel>
+        <InputLabel  
+         sx={{ color: 'red' }} 
+        id="leadGen-label">Lead Generator</InputLabel>
         {/* <p>{leadGen? leadGen.name: null}</p>
         <p>{leadGen? leadGen.email: null}</p> */}
         <Select
@@ -974,8 +1063,10 @@ const errorModalBody = (
         </Select>
       </FormControl>
       <FormControl fullWidth margin="normal">
-        {/* <InputLabel id="salesrep-label">Sales Rep</InputLabel>
-        <p>{salesRep? salesRep.name: null}</p>
+       <InputLabel
+           sx={{ color: 'red' }} 
+        id="salesrep-label">Sales Rep</InputLabel>
+        {/*  <p>{salesRep? salesRep.name: null}</p>
         <p>{salesRep? salesRep.email: null}</p> */}
         <Select
           labelId="salesrep-label"
@@ -1008,7 +1099,10 @@ const errorModalBody = (
 
    <FormControl fullWidth margin="normal">
         <InputLabel id="program-label">Installer</InputLabel>
-        <InputLabel sx={{ marginBottom: "20px" }}>
+        <InputLabel 
+        sx={{ marginBottom: "20px",
+              color: 'red' 
+        }}>
               Installer *
             </InputLabel>
 
@@ -1040,7 +1134,8 @@ const errorModalBody = (
 
    <FormControl fullWidth margin="normal">
         <InputLabel id="program-label">Program</InputLabel>
-        <InputLabel sx={{ marginBottom: "20px" }}>
+        <InputLabel sx={{ marginBottom: "20px",
+             color: 'red'  }}>
               Program *
             </InputLabel>
 
@@ -1068,7 +1163,8 @@ const errorModalBody = (
       </FormControl>
 
       <FormControl fullWidth margin="normal">
-      <InputLabel sx={{ marginBottom: "20px"}}>
+      <InputLabel sx={{ marginBottom: "20px",
+           color: 'red' }}>
               Adders *
             </InputLabel>
 
@@ -1090,7 +1186,7 @@ const errorModalBody = (
       </FormControl>
       {/* Design Restrictions */}
       <Box sx={{ my: 2 }}>
-        <Typography>Design Restrictions</Typography>
+        <Typography sx={{color:'red'}}>Design Restrictions ? *</Typography>
         <RadioGroup
           row
           name="design"
@@ -1116,7 +1212,7 @@ const errorModalBody = (
 
       {/* Main Panel Upgrade */}
       <FormControl component="fieldset" fullWidth margin="normal">
-        <Typography>Main Panel Upgrade</Typography>
+        <Typography sx={{color:'red'}}>Main Panel Upgrade ?</Typography>
         <RadioGroup
           row
           name="mainPanelUpgrade"
@@ -1151,7 +1247,8 @@ const errorModalBody = (
 
       {/* Inverter */}
       <FormControl fullWidth margin="normal">
-        <InputLabel id="inverter-label">Inverter</InputLabel>
+        <InputLabel sx={{ marginBottom: "20px",
+           color: 'red' }} id="inverter-label">Inverter</InputLabel>
         <Select
           labelId="inverter-label"
           id="inverter-select"
@@ -1171,7 +1268,9 @@ const errorModalBody = (
 
       {/* Batteries */}
       <FormControl fullWidth margin="normal">
-        <InputLabel id="batteries-label">Batteries</InputLabel>
+        <InputLabel 
+        sx={{ marginBottom: "20px",
+        color: 'red' }}id="batteries-label">Batteries</InputLabel>
         <Select
           labelId="batteries-label"
           id="batteries-select"
@@ -1204,15 +1303,15 @@ const errorModalBody = (
       margin="normal"
     />
     {/* Battery Mode */}
-    <Typography component="legend">Mode</Typography>
+    <Typography component="legend">What Mode?</Typography>
     <RadioGroup
       row
       name="batteryMode"
       value={formData.batteryMode}
       onChange={handleInputChange}
     >
-      <FormControlLabel value="Partial Backup" control={<Radio />} label="Partial Backup" />
-      <FormControlLabel value="Self Consumption" control={<Radio />} label="Self Consumption" />
+      <FormControlLabel value="Partial Backup/ Self Consumption" control={<Radio />} label="Partial Backup/ Self Consumption" />
+      <FormControlLabel value="Whole Home Backup" control={<Radio />} label="Whole Home Backup" />
       <FormControlLabel value="Grid Tied" control={<Radio />} label="Grid Tied" />
     </RadioGroup>
     {/* Battery Placement Requests */}
@@ -1247,7 +1346,7 @@ const errorModalBody = (
 <      InputLabel
     sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
   >
-              Utility Bill * (1/2 Required)
+              Utility Bill * (2 Files Required)
             </InputLabel>
             <Box
       sx={{
@@ -1565,7 +1664,7 @@ const errorModalBody = (
             <InputLabel
               sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
             >
-              Attic *
+              Attic * (1 File Required)
             </InputLabel>
 
             <Box
@@ -1664,7 +1763,7 @@ const errorModalBody = (
 
             </Box>
             {/* // Drivers License Section */}
-            <InputLabel sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}>
+            <InputLabel sx={{ marginTop: "20px", marginBottom: "20px" }}>
               Drivers License
             </InputLabel>
 
@@ -1744,6 +1843,10 @@ const errorModalBody = (
 
       {/* Notes */}
       <TextField
+ 
+ InputLabelProps={{
+  sx: { color: 'red' }, // Use this to make the label red
+}}
         name="notes"
         label="Notes"
         multiline
@@ -1796,7 +1899,7 @@ const errorModalBody = (
       component="h2"
       style={{ color: '#1976d2', fontWeight: 'bold', marginBottom: '16px' }}
     >
-      Please correct the following errors:
+     You are missing some project data:
     </Typography>
     <Box id="modal-modal-description" sx={{ mt: 2, color: '#1976d2' }}>
       {errors.map((error, index) => (
@@ -1814,7 +1917,7 @@ const errorModalBody = (
       }}
       variant="contained"
     >
-      Close
+      Continue
     </Button>
   </Box>
 </Modal>
