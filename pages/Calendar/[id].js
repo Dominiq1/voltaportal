@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import { GET_SERVICE_JOBS } from '@/gql/queries/serviceQueries';
 
+import logo from "../../public/images/voltaicLogo.png";
+
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = () => {
@@ -28,6 +30,7 @@ const MyCalendar = () => {
         return {
           id: index,
           title: job.homeownerName || 'No Title',
+          address: job.address || 'No Address',
           start: moment(job.serviceDate).set({
             hour: startTime.get('hour'),
             minute: startTime.get('minute'),
@@ -48,7 +51,7 @@ const MyCalendar = () => {
 
   // Define onSelectEvent function here
   const onSelectEvent = (event) => {
-    alert(`Event: ${event.title}\nStart: ${event.start}\nEnd: ${event.end}`);
+    alert(`Event: ${event.title}\nStart: ${event.start}\nEnd: ${event.end}\Address: ${event.address}`);
   };
 
   if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%', backgroundColor: 'white' }}><p>Loading...</p></div>;
