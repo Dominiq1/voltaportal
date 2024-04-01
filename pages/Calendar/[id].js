@@ -49,10 +49,17 @@ const MyCalendar = () => {
     }
   }, [data]);
 
-  // Define onSelectEvent function here
   const onSelectEvent = (event) => {
-    alert(`Event: ${event.title}\nStart: ${event.start}\nEnd: ${event.end}\Address: ${event.address}`);
+    // Format the date using moment.js for readability
+    const serviceStartDate = moment(event.start).format('LLLL');
+    
+    // Construct the alert message with the homeowner's name, formatted service date, and address
+    const alertMessage = `Homeowner: ${event.title}\nService Scheduled Date: ${serviceStartDate}\nAddress: ${event.address}`;
+    
+    // Display the information
+    alert(alertMessage);
   };
+  
 
   if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%', backgroundColor: 'white' }}><p>Loading...</p></div>;
   if (error) return <p>Error: {error.message}</p>;
