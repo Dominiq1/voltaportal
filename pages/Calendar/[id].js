@@ -51,7 +51,7 @@ const MyCalendar = () => {
     alert(`Event: ${event.title}\nStart: ${event.start}\nEnd: ${event.end}`);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%', backgroundColor: 'white' }}><p>Loading...</p></div>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
