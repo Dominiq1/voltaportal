@@ -693,22 +693,21 @@ const errorModalBody = (
     // validateForm()
 
     getCRMusers().then((response) => {
-      //   alert("Data has been sent to the server");
-
-  
-
-      const usersWithIds = response.data.GetCRMusers.map((user, index) => {
+      // Filter the users to include only those with status 'Active'
+      const activeUsers = response.data.GetCRMusers.filter(user => user.status === 'Active');
+    
+      // Map through the filtered users to add an id to each
+      const usersWithIds = activeUsers.map((user, index) => {
         return {
           ...user,
-          id: index,
+          id: index, // Assuming you want to maintain a zero-based index as id
         };
       });
-
+    
+      // Set the CRM users with the new array that includes only active users with ids
       setCRMusers(usersWithIds);
-
-
     });
-
+    
 
 
     console.log(CRMusers)
@@ -1260,7 +1259,7 @@ const errorModalBody = (
           <MenuItem value="EnPhase iQ8+">EnPhase iQ8+</MenuItem>
           <MenuItem value="Tesla">Tesla Inverter Standalone</MenuItem>
           <MenuItem value="Tesla Integrated PW+">Tesla Integrated PW+</MenuItem>
-          <MenuItem value="Tesla Integrated PW3">Tesla Integrated PW3</MenuItem>
+          <MenuItem value="EnPhase iQ8+">Tesla Integrated PW3</MenuItem>
         
           {/* More inverter options */}
         </Select>

@@ -5,6 +5,7 @@ const GET_CRM_USERS = gql`
     GetCRMusers {
       name
       email
+      status
     }
   }
 `;
