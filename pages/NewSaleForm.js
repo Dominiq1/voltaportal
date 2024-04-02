@@ -1282,8 +1282,8 @@ const errorModalBody = (
           <MenuItem value="NO BATTERY">NO BATTERY</MenuItem>
           <MenuItem value="EnPhase iQ 5P">EnPhase iQ 5P 5kWh</MenuItem>
           <MenuItem value="Tesla PowerWall 2">Tesla PowerWall 2 13.5kWh</MenuItem>
-          <MenuItem value="EnPhase iQ 5P">Tesla Powerwall + 13.5kWh</MenuItem>
-          <MenuItem value="EnPhase iQ 5P">Tesla Powerwall 3 13.5kWh</MenuItem>
+          <MenuItem value="Tesla Powerwall + 13.5kWh">Tesla Powerwall + 13.5kWh</MenuItem>
+          <MenuItem value="Tesla Powerwall 3 13.5kWh">Tesla Powerwall 3 13.5kWh</MenuItem>
 
           {/* More battery options */}
         </Select>
