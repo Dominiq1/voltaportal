@@ -1258,8 +1258,8 @@ const errorModalBody = (
         >
           <MenuItem value="EnPhase iQ8+">EnPhase iQ8+</MenuItem>
           <MenuItem value="Tesla Inverter Standalone">Tesla Inverter Standalone</MenuItem>
-          <MenuItem value="Tesla Integrated PW3">Tesla Integrated PW3</MenuItem>
           <MenuItem value="Tesla Integrated PW+">Tesla Integrated PW+</MenuItem>
+          <MenuItem value="Tesla Integrated PW3">Tesla Integrated PW3</MenuItem>
         
           {/* More inverter options */}
         </Select>
