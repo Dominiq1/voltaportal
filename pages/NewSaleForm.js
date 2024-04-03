@@ -1033,13 +1033,13 @@ const errorModalBody = (
         margin="normal"
         
         InputLabelProps={{
-          sx: { color: 'red' }, // Change 'green' to any color you need
+          sx: { color: '#48979d' }, // Change 'green' to any color you need
         }}
       />
 
       <FormControl fullWidth margin="normal">
         <InputLabel  
-         sx={{ color: 'red' }} 
+         sx={{ color: '#48979d' }} 
         id="leadGen-label">Lead Generator</InputLabel>
         {/* <p>{leadGen? leadGen.name: null}</p>
         <p>{leadGen? leadGen.email: null}</p> */}
@@ -1064,7 +1064,7 @@ const errorModalBody = (
       </FormControl>
       <FormControl fullWidth margin="normal">
        <InputLabel
-           sx={{ color: 'red' }} 
+           sx={{ color: '#48979d' }} 
         id="salesrep-label">Sales Rep</InputLabel>
         {/*  <p>{salesRep? salesRep.name: null}</p>
         <p>{salesRep? salesRep.email: null}</p> */}
@@ -1101,7 +1101,7 @@ const errorModalBody = (
         <InputLabel id="program-label">Installer</InputLabel>
         <InputLabel 
         sx={{ marginBottom: "20px",
-              color: 'red' 
+              color: '#48979d' 
         }}>
               Installer *
             </InputLabel>
@@ -1135,7 +1135,7 @@ const errorModalBody = (
    <FormControl fullWidth margin="normal">
         <InputLabel id="program-label">Program</InputLabel>
         <InputLabel sx={{ marginBottom: "20px",
-             color: 'red'  }}>
+             color: '#48979d'  }}>
               Program *
             </InputLabel>
 
@@ -1164,7 +1164,7 @@ const errorModalBody = (
 
       <FormControl fullWidth margin="normal">
       <InputLabel sx={{ marginBottom: "20px",
-           color: 'red' }}>
+           color: '#48979d' }}>
               Adders *
             </InputLabel>
 
@@ -1186,7 +1186,7 @@ const errorModalBody = (
       </FormControl>
       {/* Design Restrictions */}
       <Box sx={{ my: 2 }}>
-        <Typography sx={{color:'red'}}>Design Restrictions ? *</Typography>
+        <Typography sx={{color:'#48979d'}}>Design Restrictions ? *</Typography>
         <RadioGroup
           row
           name="design"
@@ -1212,7 +1212,7 @@ const errorModalBody = (
 
       {/* Main Panel Upgrade */}
       <FormControl component="fieldset" fullWidth margin="normal">
-        <Typography sx={{color:'red'}}>Main Panel Upgrade ?</Typography>
+        <Typography sx={{color:'#48979d'}}>Main Panel Upgrade ?</Typography>
         <RadioGroup
           row
           name="mainPanelUpgrade"
@@ -1248,7 +1248,7 @@ const errorModalBody = (
       {/* Inverter */}
       <FormControl fullWidth margin="normal">
         <InputLabel sx={{ marginBottom: "20px",
-           color: 'red' }} id="inverter-label">Inverter</InputLabel>
+           color: '#48979d' }} id="inverter-label">Inverter</InputLabel>
         <Select
           labelId="inverter-label"
           id="inverter-select"
@@ -1270,7 +1270,7 @@ const errorModalBody = (
       <FormControl fullWidth margin="normal">
         <InputLabel 
         sx={{ marginBottom: "20px",
-        color: 'red' }}id="batteries-label">Batteries</InputLabel>
+        color: '#48979d' }}id="batteries-label">Batteries</InputLabel>
         <Select
           labelId="batteries-label"
           id="batteries-select"
@@ -1347,7 +1347,7 @@ const errorModalBody = (
 
 
 <      InputLabel
-    sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
+    sx={{ marginTop: "20px", marginBottom: "20px", color: "#48979d" }}
   >
               Utility Bill * (2 Files Required)
             </InputLabel>
@@ -1665,7 +1665,7 @@ const errorModalBody = (
             
             {/* Attic Image * */}
             <InputLabel
-              sx={{ marginTop: "20px", marginBottom: "20px", color: "red" }}
+              sx={{ marginTop: "20px", marginBottom: "20px", color: "#48979d" }}
             >
               Attic * (1 File Required)
             </InputLabel>
@@ -1848,7 +1848,7 @@ const errorModalBody = (
       <TextField
  
  InputLabelProps={{
-  sx: { color: 'red' }, // Use this to make the label red
+  sx: { color: '#48979d' }, // Use this to make the label red
 }}
         name="notes"
         label="Notes"
