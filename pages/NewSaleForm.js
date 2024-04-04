@@ -694,7 +694,7 @@ const errorModalBody = (
 
     getCRMusers().then((response) => {
       // Filter the users to include only those with status 'Active'
-      const activeUsers = response.data.GetCRMusers.filter(user => user.status === 'Active');
+      const activeUsers = response.data.GetCRMusers.filter(user => user.sales === 'true' && user.status === 'Active');
     
       // Map through the filtered users to add an id to each
       const usersWithIds = activeUsers.map((user, index) => {

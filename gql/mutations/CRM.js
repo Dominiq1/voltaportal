@@ -6,6 +6,7 @@ const GET_CRM_USERS = gql`
       name
       email
       status
+      sales
     }
   }
 `;
