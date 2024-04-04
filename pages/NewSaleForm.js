@@ -739,8 +739,32 @@ const errorModalBody = (
   
 
   const handleAdderChange = (event) => {
-    const selectedAdders = event.target.value; // This will be an array of adder objects
-    setFormData({ ...formData, adders: selectedAdders });
+    const {
+      target: { value },
+    } = event;
+    // Assuming `formData.adders` is an array and you want to ensure unique selections
+    let newAdders = typeof value === 'string' ? value.split(',') : value;
+    
+    // Remove duplicates - can be adjusted based on how your `adders` are structured
+    newAdders = newAdders.filter((adder, index, self) =>
+      index === self.findIndex(t => (t.id === adder.id))
+    );
+  
+    setFormData({
+      ...formData,
+      adders: newAdders,
+    });
+  
+  
+  
+  
+  
+  
+  
+  
+    // const selectedAdders = event.target.value; // This will be an array of adder objects
+  
+   // setFormData({ ...formData, adders: selectedAdders });
   };
   
 
@@ -1184,6 +1208,14 @@ const errorModalBody = (
   ))}
 </Select>
       </FormControl>
+
+
+
+
+
+
+
+
       {/* Design Restrictions */}
       <Box sx={{ my: 2 }}>
         <Typography sx={{color:'#48979d'}}>Design Restrictions ? *</Typography>
