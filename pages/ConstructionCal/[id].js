@@ -5,7 +5,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useQuery } from '@apollo/client';
 import { GET_CONSTRUCTION_JOBS } from '@/gql/queries/serviceQueries';
 import { useRouter } from 'next/router';
-import { Modal, Box, Typography, Button } from '@mui/material';
+import { Modal, Box, Typography, Button, Link, IconButton } from '@mui/material';
+import LocationOnIcon from '@mui/icons-material/LocationOn'; // Import the location icon
 
 const localizer = momentLocalizer(moment);
 
@@ -20,6 +21,9 @@ const ConstructionCalendar = () => {
     variables: { repID: id },
     skip: !id,
   });
+
+    // Example hardcoded link
+    const googleMapsLink = "https://www.google.com/maps";
 
   useEffect(() => {
     if (data && data.GetConstructionJobs) {
@@ -68,7 +72,7 @@ const ConstructionCalendar = () => {
         style={{ height: '100vh', width: '100%' }}
         onSelectEvent={onSelectEvent}
       />
-      <Modal
+       <Modal
         open={openModal}
         onClose={() => setOpenModal(false)}
         aria-labelledby="modal-title"
@@ -83,6 +87,19 @@ const ConstructionCalendar = () => {
               <Typography>Name: {selectedEvent.title}</Typography>
               <Typography>Date: {moment(selectedEvent.start).format('LLLL')}</Typography>
               <Typography>Address: {selectedEvent.address}</Typography>
+              <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
+                <IconButton
+                  color="primary"
+                  aria-label="location"
+                  component="span"
+                  onClick={() => window.open(googleMapsLink, '_blank')} // Open the link in a new tab
+                >
+                  <LocationOnIcon />
+                </IconButton>
+                <Link href={googleMapsLink} target="_blank" rel="noopener" underline="none">
+                  Open in Google Maps
+                </Link>
+              </Box>
             </Box>
           )}
           <Button onClick={() => setOpenModal(false)} sx={{ mt: 2 }}>Close</Button>
