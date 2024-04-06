@@ -4,26 +4,26 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
-import { GET_SERVICE_JOBS } from '@/gql/queries/serviceQueries';
+import {  GET_CONSTRUCTION_JOBS } from '@/gql/queries/serviceQueries';
 
 import logo from "../../public/images/voltaicLogo.png";
 
 const localizer = momentLocalizer(moment);
 
-const MyCalendar = () => {
+const ConstructionCalendar = () => {
   const router = useRouter();
   const { id } = router.query;
 
   const [events, setEvents] = useState([]);
 
-  const { loading, error, data } = useQuery(GET_SERVICE_JOBS, {
+  const { loading, error, data } = useQuery(GET_CONSTRUCTION_JOBS, {
     variables: { repID: id },
     skip: !id,
   });
 
   useEffect(() => {
-    if (data && data.GetServiceJobs) {
-      const formattedEvents = data.GetServiceJobs.map((job, index) => {
+    if (data && data.GetConstructionJobs) {
+      const formattedEvents = data.GetConstructionJobs.map((job, index) => {
         const startTime = job.serviceTime ? moment(job.serviceTime, "HH:mm:ss") : moment().startOf('day').add(9, 'hours');
         const endTime = startTime.clone().add(2, 'hours');
         return {
@@ -70,7 +70,7 @@ const MyCalendar = () => {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        views={{ month: false, week: false, day: true, agenda: true }}
+        views={{ month: false, week: true, day: true, agenda: true }}
         defaultDate={moment().toDate()}
         defaultView={Views.DAY}
         style={{ height: '100%' }}
@@ -80,4 +80,4 @@ const MyCalendar = () => {
   );
 };
 
-export default MyCalendar;
+export default ConstructionCalendar;
