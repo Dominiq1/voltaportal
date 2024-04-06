@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
-import {  GET_CONSTRUCTION_JOBS } from '@/gql/queries/serviceQueries';
-
-import logo from "../../public/images/voltaicLogo.png";
+import { GET_CONSTRUCTION_JOBS } from '@/gql/queries/serviceQueries';
+import { useRouter } from 'next/router';
+import { Modal, Box, Typography, Button } from '@mui/material';
 
 const localizer = momentLocalizer(moment);
 
 const ConstructionCalendar = () => {
   const router = useRouter();
   const { id } = router.query;
-
   const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
 
   const { loading, error, data } = useQuery(GET_CONSTRUCTION_JOBS, {
     variables: { repID: id },
@@ -40,7 +40,6 @@ const ConstructionCalendar = () => {
             minute: endTime.get('minute'),
             second: endTime.get('second'),
           }).toDate(),
-          desc: `${job.address}, Foreman1 ID: ${job.foreman1}`,
         };
       });
 
@@ -49,22 +48,15 @@ const ConstructionCalendar = () => {
   }, [data]);
 
   const onSelectEvent = (event) => {
-    // Format the date using moment.js for readability
-    const serviceStartDate = moment(event.start).format('LLLL');
-    
-    // Construct the alert message with the homeowner's name, formatted service date, and address
-    const alertMessage = `Homeowner: ${event.title}\nService Scheduled Date: ${serviceStartDate}\nAddress: ${event.address}`;
-    
-    // Display the information
-    alert(alertMessage);
+    setSelectedEvent(event);
+    setOpenModal(true);
   };
-  
 
-  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%', backgroundColor: 'white' }}><p>Loading...</p></div>;
+  if (loading) return <div>Loading...</div>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
+    <div>
       <Calendar
         localizer={localizer}
         events={events}
@@ -73,9 +65,29 @@ const ConstructionCalendar = () => {
         views={{ month: false, week: true, day: true, agenda: true }}
         defaultDate={moment().toDate()}
         defaultView={Views.DAY}
-        style={{ height: '100%' }}
+        style={{ height: '100vh', width: '100%' }}
         onSelectEvent={onSelectEvent}
       />
+      <Modal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', border: '2px solid #000', boxShadow: 24, p: 4 }}>
+          <Typography id="modal-title" variant="h6" component="h2">
+            Event Details
+          </Typography>
+          {selectedEvent && (
+            <Box id="modal-description" sx={{ mt: 2 }}>
+              <Typography>Name: {selectedEvent.title}</Typography>
+              <Typography>Date: {moment(selectedEvent.start).format('LLLL')}</Typography>
+              <Typography>Address: {selectedEvent.address}</Typography>
+            </Box>
+          )}
+          <Button onClick={() => setOpenModal(false)} sx={{ mt: 2 }}>Close</Button>
+        </Box>
+      </Modal>
     </div>
   );
 };
