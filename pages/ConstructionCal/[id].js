@@ -25,22 +25,41 @@ const CustomAgendaEvent = ({ event }) => {
   const getEventStyle = (event) => {
     let backgroundColor = '#3174ad'; // Default color
     if (event.task.includes('MPU Install')) {
-      backgroundColor = '#f56b00'; // Orange for installations
+        backgroundColor = '#f56b00'; // Orange for MPU Install
     } else if (event.task.includes('Solar Install')) {
-      backgroundColor = '#ffea00'; // Yellow for maintenance
+        backgroundColor = '#ffea00'; // Yellow for Solar Install
     } else if (event.task.includes('Battery Install')) {
-      backgroundColor = '#0f9d58'; // Green for inspections
+        backgroundColor = '#0f9d58'; // Green for Battery Install
     } else if (event.task.includes('Return Trip')) {
-      backgroundColor = '#03fc30'; // Green for inspections
+        backgroundColor = '#d32f2f'; // Red for Return Trip
+    } else if (event.task.includes('Site Survey')) {
+        backgroundColor = '#1976d2'; // Blue for Site Survey
+    } else if (event.task.includes('Service')) {
+        backgroundColor = '#9c27b0'; // Purple for Service
+    } else if (event.task.includes('Roof Install')) {
+        backgroundColor = '#ffc107'; // Amber for Roof Install
+    } else if (event.task.includes('Quiet Cool')) {
+        backgroundColor = '#607d8b'; // Blue Grey for Quiet Cool
+    } else if (event.task.includes('Pre Inspection')) {
+        backgroundColor = '#009688'; // Teal for Pre Inspection
+    } else if (event.task.includes('Insulation')) {
+        backgroundColor = '#8bc34a'; // Light Green for Insulation
+    } else if (event.task.includes('HVAC Sale')) {
+        backgroundColor = '#3f51b5'; // Indigo for HVAC Sale
+    } else if (event.task.includes('Final Inspection')) {
+        backgroundColor = '#e91e63'; // Pink for Final Inspection
+    } else if (event.task.includes('Final Inspection (Service)')) {
+        backgroundColor = '#ff5722'; // Deep Orange for Final Inspection (Service)
     }
     // Add more conditions as needed
   
     return {
-      style: {
-        backgroundColor,
-      },
+        style: {
+            backgroundColor,
+        },
     };
-  };
+};
+
   
   
 
