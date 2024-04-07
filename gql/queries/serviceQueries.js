@@ -30,6 +30,8 @@ const GET_CONSTRUCTION_JOBS = gql`
       homeownerName
       serviceTime
       serviceDate
+      notes
+      task
     }
   }
 `;

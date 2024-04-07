@@ -48,8 +48,8 @@ const ConstructionCalendar = () => {
         return {
           id: index,
           title: job.homeownerName || 'No Title',
-          task: job.task || null,
-          notes: job.notes || null,
+          task:  "Task - " + job.task || null,
+          notes:  "Notes - " + job.notes || null,
           address: job.address || 'No Address',
           start: moment(job.serviceDate).set({
             hour: startTime.get('hour'),
