@@ -16,6 +16,8 @@ const ConstructionCalendar = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [selectedEventGoogleMapsLink, setSelectedEventGoogleMapsLink] = useState('');
+
 
   const { loading, error, data } = useQuery(GET_CONSTRUCTION_JOBS, {
     variables: { repID: id },
@@ -52,6 +54,15 @@ const ConstructionCalendar = () => {
   }, [data]);
 
   const onSelectEvent = (event) => {
+
+ // Encode the address to ensure it's in the correct format for a URL
+ const encodedAddress = encodeURIComponent(event.address);
+ // Construct the Google Maps link with the encoded address
+ const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+ 
+ // Set the Google Maps link as part of the selected event object for easy access
+ setSelectedEventGoogleMapsLink(googleMapsLink);
+
     setSelectedEvent(event);
     setOpenModal(true);
   };
@@ -92,11 +103,11 @@ const ConstructionCalendar = () => {
                   color="primary"
                   aria-label="location"
                   component="span"
-                  onClick={() => window.open(googleMapsLink, '_blank')} // Open the link in a new tab
+                  onClick={() => window.open(selectedEventGoogleMapsLink, '_blank')} // Open the link in a new tab
                 >
                   <LocationOnIcon />
                 </IconButton>
-                <Link href={googleMapsLink} target="_blank" rel="noopener" underline="none">
+                <Link href={selectedEventGoogleMapsLink} target="_blank" rel="noopener" underline="none">
                   Open in Google Maps
                 </Link>
               </Box>
