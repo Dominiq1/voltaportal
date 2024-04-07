@@ -21,6 +21,25 @@ const CustomAgendaEvent = ({ event }) => {
       </div>
     );
   };
+
+  const getEventStyle = (event) => {
+    let backgroundColor = '#3174ad'; // Default color
+    if (event.task.includes('MPU Install')) {
+      backgroundColor = '#f56b00'; // Orange for installations
+    } else if (event.task.includes('Solar Install')) {
+      backgroundColor = '#ffea00'; // Yellow for maintenance
+    } else if (event.task.includes('Battery Install')) {
+      backgroundColor = '#0f9d58'; // Green for inspections
+    }
+    // Add more conditions as needed
+  
+    return {
+      style: {
+        backgroundColor,
+      },
+    };
+  };
+  
   
 
 const ConstructionCalendar = () => {
@@ -97,6 +116,7 @@ const ConstructionCalendar = () => {
         defaultView={Views.DAY}
         style={{ height: '100vh', width: '100%' }}
         onSelectEvent={onSelectEvent}
+        eventPropGetter={getEventStyle} 
         components={{
             agenda: {
               event: CustomAgendaEvent, // use your custom event component here
@@ -118,6 +138,7 @@ const ConstructionCalendar = () => {
               <Typography>Name: {selectedEvent.title}</Typography>
               <Typography>Date: {moment(selectedEvent.start).format('LLLL')}</Typography>
               <Typography>Address: {selectedEvent.address}</Typography>
+              <Typography>Task: {selectedEvent.task}</Typography>
               <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
                 <IconButton
                   color="primary"
