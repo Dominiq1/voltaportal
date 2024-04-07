@@ -97,4 +97,29 @@ const GET_Enphase_MAP_DATA = gql`
 `;
 
 
-export { GET_MAP_DATA , GET_Pending_MAP_DATA, GET_Enphase_MAP_DATA, GET_TX_MAP_DATA};
+
+const GET_MASTER_MAP_DATA = gql`
+  query {
+    GetMasterMapData {
+      color
+      position {
+        lat
+        lng
+      }
+      label {
+        text
+        color
+      }
+      latitude
+      longitude
+      textPub
+      colorPub
+      installer 
+      installDate
+      projectURL
+    }
+  }
+`;
+
+
+export { GET_MAP_DATA , GET_Pending_MAP_DATA, GET_Enphase_MAP_DATA, GET_TX_MAP_DATA, GET_MASTER_MAP_DATA};
