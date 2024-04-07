@@ -37,6 +37,21 @@ const GET_CONSTRUCTION_JOBS = gql`
 `;
 
 
+const GET_CONSTRUCTION_JOBS_MASTER = gql`
+  query GetConstructionJobsMaster($repID: String!) {
+    GetConstructionJobsMaster(repID: $repID) {
+      projectID
+      address
+      homeownerName
+      serviceTime
+      serviceDate
+      notes
+      task
+    }
+  }
+`;
+
+
 
 
 const GET_QB_JOBS = gql`
@@ -48,4 +63,4 @@ const GET_QB_JOBS = gql`
 `;
 
 
-export { GET_SERVICE_JOBS, GET_CONSTRUCTION_JOBS ,GET_QB_JOBS};
+export { GET_SERVICE_JOBS, GET_CONSTRUCTION_JOBS ,GET_QB_JOBS, GET_CONSTRUCTION_JOBS_MASTER};
