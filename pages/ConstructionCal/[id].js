@@ -10,6 +10,19 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'; // Import the locat
 
 const localizer = momentLocalizer(moment);
 
+
+const CustomAgendaEvent = ({ event }) => {
+    return (
+      <div>
+        <p>{event.title}</p>
+        <p>{event.task}</p>
+        <p>{event.notes}</p>
+        {/* Render any other details you want to include in the agenda */}
+      </div>
+    );
+  };
+  
+
 const ConstructionCalendar = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -35,6 +48,8 @@ const ConstructionCalendar = () => {
         return {
           id: index,
           title: job.homeownerName || 'No Title',
+          task: job.task || null,
+          notes: job.notes || null,
           address: job.address || 'No Address',
           start: moment(job.serviceDate).set({
             hour: startTime.get('hour'),
@@ -82,6 +97,11 @@ const ConstructionCalendar = () => {
         defaultView={Views.DAY}
         style={{ height: '100vh', width: '100%' }}
         onSelectEvent={onSelectEvent}
+        components={{
+            agenda: {
+              event: CustomAgendaEvent, // use your custom event component here
+            },
+          }}
       />
        <Modal
         open={openModal}

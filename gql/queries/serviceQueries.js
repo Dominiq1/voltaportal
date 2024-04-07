@@ -34,4 +34,16 @@ const GET_CONSTRUCTION_JOBS = gql`
   }
 `;
 
-export { GET_SERVICE_JOBS, GET_CONSTRUCTION_JOBS };
+
+
+
+const GET_QB_JOBS = gql`
+  query GetQBUser($repID: String!) {
+    GetQBUser(repID: $repID) {
+      name
+    }
+  }
+`;
+
+
+export { GET_SERVICE_JOBS, GET_CONSTRUCTION_JOBS ,GET_QB_JOBS};

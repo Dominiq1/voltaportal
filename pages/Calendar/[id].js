@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import { GET_SERVICE_JOBS } from '@/gql/queries/serviceQueries';
 
+
 import logo from "../../public/images/voltaicLogo.png";
 
 const localizer = momentLocalizer(moment);
