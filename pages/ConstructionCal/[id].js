@@ -30,6 +30,8 @@ const CustomAgendaEvent = ({ event }) => {
       backgroundColor = '#ffea00'; // Yellow for maintenance
     } else if (event.task.includes('Battery Install')) {
       backgroundColor = '#0f9d58'; // Green for inspections
+    } else if (event.task.includes('Return Trip')) {
+      backgroundColor = '#03fc30'; // Green for inspections
     }
     // Add more conditions as needed
   
