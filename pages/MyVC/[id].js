@@ -57,7 +57,7 @@ const VCPage = () => {
       {/* <p>Phone: {user?.phone || 'Phone unavailable'}</p> */}
       <div>
   
-        <button style={styles.button} onClick={() => router.push('/projectsMap')}>
+        <button style={styles.button} onClick={() => router.push(`/VCMap/${id}`)}>
           Projects Map
         </button>
         <button style={styles.button} onClick={() => router.push(`/ConstructionCal/${id}`)}>
