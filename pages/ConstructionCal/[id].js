@@ -15,20 +15,6 @@ import Image from 'next/image';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const localizer = momentLocalizer(moment);
 
 
@@ -265,7 +251,7 @@ const openLinkInNewTab = (url) => {
         eventPropGetter={getEventStyle} 
         components={{
             agenda: {
-             // event: CustomAgendaEvent, // use your custom event component here
+              event: CustomAgendaEvent, // use your custom event component here
              // toolbar: CustomToolbar
             },
           }}
