@@ -58,6 +58,7 @@ const GET_QB_JOBS = gql`
   query GetQBUser($repID: String!) {
     GetQBUser(repID: $repID) {
       name
+      profileImage
     }
   }
 `;
