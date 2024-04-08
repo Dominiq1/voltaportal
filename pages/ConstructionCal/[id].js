@@ -12,7 +12,63 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import logo from "../../public/images/voltaicLogo.png"
 import Image from 'next/image';
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const localizer = momentLocalizer(moment);
+
+
+const CustomToolbar = (toolbar) => {
+  const goToBack = () => {
+    toolbar.date.setMonth(toolbar.date.getMonth() - 1);
+    toolbar.onNavigate('prev');
+  };
+
+  const goToNext = () => {
+    toolbar.date.setMonth(toolbar.date.getMonth() + 1);
+    toolbar.onNavigate('next');
+  };
+
+  const goToToday = () => {
+    const now = new Date();
+    toolbar.date.setMonth(now.getMonth());
+    toolbar.date.setYear(now.getFullYear());
+    toolbar.onNavigate('current');
+  };
+
+  const label = () => {
+    const date = moment(toolbar.date);
+    return <span><b>{date.format('MMMM YYYY')}</b></span>;
+  };
+
+  return (
+    <div className="rbc-toolbar" style={{ backgroundColor: '#008080', color: '#ffffff' }}>
+      <span className="rbc-btn-group">
+        <button type="button" onClick={goToToday}>Today</button>
+        <button type="button" onClick={goToBack}>Back</button>
+        <button type="button" onClick={goToNext}>Next</button>
+      </span>
+      <span className="rbc-toolbar-label">{label()}</span>
+      <span className="rbc-btn-group">{toolbar.children}</span>
+    </div>
+  );
+};
+
+
 
 
 const CustomAgendaEvent = ({ event }) => {
@@ -86,6 +142,41 @@ const ConstructionCalendar = () => {
     const googleMapsLink = "https://www.google.com/maps";
 
   useEffect(() => {
+
+
+    const header = document.querySelector('.rbc-toolbar');
+
+    const firstGutterCell = document.querySelector('.rbc-time-header-gutter');
+
+    const gutters = document.querySelectorAll('.rbc-time-gutter .rbc-timeslot-group');
+    const buttons = document.querySelectorAll('.rbc-toolbar button');
+
+    // Apply top margin to each button
+    buttons.forEach(button => {
+      button.style.marginTop = '10px'; // Adjust the value as needed
+    });
+
+
+      // Apply inline styles to the header
+  if (header) {
+    header.style.backgroundColor = '#008080'; // Teal background
+    header.style.color = '#ffffff'; // White text color
+  }
+
+  // Apply inline styles to the first cell of the time gutter
+  if (firstGutterCell) {
+    firstGutterCell.style.backgroundColor = '#008080'; // Teal background
+    firstGutterCell.style.color = '#ffffff'; // White text color
+  }
+ // Apply styles to each gutter element
+ gutters.forEach(gutter => {
+  gutter.style.backgroundColor = '#008080'; // Teal background
+  gutter.style.color = '#ffffff'; // White text color
+});
+
+
+
+
     if (data && data.GetConstructionJobs) {
       const formattedEvents = data.GetConstructionJobs.map((job, index) => {
         const startTime = job.serviceTime ? moment(job.serviceTime, "HH:mm:ss") : moment().startOf('day').add(9, 'hours');
@@ -174,7 +265,8 @@ const openLinkInNewTab = (url) => {
         eventPropGetter={getEventStyle} 
         components={{
             agenda: {
-              event: CustomAgendaEvent, // use your custom event component here
+             // event: CustomAgendaEvent, // use your custom event component here
+             // toolbar: CustomToolbar
             },
           }}
       />
