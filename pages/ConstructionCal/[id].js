@@ -7,6 +7,8 @@ import { GET_CONSTRUCTION_JOBS } from '@/gql/queries/serviceQueries';
 import { useRouter } from 'next/router';
 import { Modal, Box, Typography, Button, Link, IconButton } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn'; // Import the location icon
+import logo from "../../public/images/voltaicLogo.png"
+import Image from 'next/image';
 
 const localizer = momentLocalizer(moment);
 
@@ -122,7 +124,16 @@ const ConstructionCalendar = () => {
     setOpenModal(true);
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%', backgroundColor: 'white' }}>
+      <div style={{ position: 'relative', width: '150px', height: '150px' }}>
+        <Image src="/images/voltaicLogo.png" alt="Loading..." layout="fill" objectFit="contain" />
+      </div>
+    </div>
+  );
+  
+
+
   if (error) return <p>Error: {error.message}</p>;
 
   return (

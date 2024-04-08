@@ -61,7 +61,11 @@ const MyCalendar = () => {
   };
   
 
-  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%', backgroundColor: 'white' }}><p>Loading...</p></div>;
+  if (loading) return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%', backgroundColor: 'white' }}>
+      <img src={logo} alt="Loading...!!!" style={{ maxWidth: '50%', maxHeight: '50%' }} />
+    </div>
+  );
   if (error) return <p>Error: {error.message}</p>;
 
   return (
