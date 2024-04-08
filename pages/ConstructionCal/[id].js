@@ -87,7 +87,7 @@ const CustomAgendaEvent = ({ event }) => {
     if (event.task.includes('MPU Install')) {
         backgroundColor = '#f56b00'; // Orange for MPU Install
     } else if (event.task.includes('Solar Install')) {
-        backgroundColor = '#ffea00'; // Yellow for Solar Install
+        backgroundColor = '#5100ff'; // Yellow for Solar Install
     } else if (event.task.includes('Battery Install')) {
         backgroundColor = '#0f9d58'; // Green for Battery Install
     } else if (event.task.includes('Return Trip')) {
