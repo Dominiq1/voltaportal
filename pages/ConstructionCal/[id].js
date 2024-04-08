@@ -7,6 +7,8 @@ import { GET_CONSTRUCTION_JOBS } from '@/gql/queries/serviceQueries';
 import { useRouter } from 'next/router';
 import { Modal, Box, Typography, Button, Link, IconButton } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn'; // Import the location icon
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+
 import logo from "../../public/images/voltaicLogo.png"
 import Image from 'next/image';
 
@@ -72,6 +74,7 @@ const ConstructionCalendar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [selectedEventGoogleMapsLink, setSelectedEventGoogleMapsLink] = useState('');
+  const [selectedEventCompanyCamLink, setSelectedEventCompanyCamLink] = useState('');
 
 
   const { loading, error, data } = useQuery(GET_CONSTRUCTION_JOBS, {
@@ -90,6 +93,7 @@ const ConstructionCalendar = () => {
         return {
           id: index,
           title: job.homeownerName || 'No Title',
+          companyCam: job.companyCam || 'No Cam Link',
           task:  "Task - " + job.task || null,
           notes:  "Notes - " + job.notes || null,
           address: job.address || 'No Address',
@@ -114,15 +118,34 @@ const ConstructionCalendar = () => {
 
  // Encode the address to ensure it's in the correct format for a URL
  const encodedAddress = encodeURIComponent(event.address);
+
+
+ const companyCamLink = event.companyCam;
  // Construct the Google Maps link with the encoded address
  const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+
+
  
  // Set the Google Maps link as part of the selected event object for easy access
  setSelectedEventGoogleMapsLink(googleMapsLink);
+ setSelectedEventCompanyCamLink(companyCamLink);
 
     setSelectedEvent(event);
     setOpenModal(true);
   };
+
+
+  // When opening the company cam link, ensure it's an absolute URL
+const openLinkInNewTab = (url) => {
+  if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+    window.open(url, '_blank');
+  } else {
+    console.error('Invalid URL:', url);
+    // Handle the case where the URL is invalid or not provided
+    // For example, you could show an error message to the user
+  }
+};
+
 
   if (loading) return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%', backgroundColor: 'white' }}>
@@ -183,6 +206,27 @@ const ConstructionCalendar = () => {
                 <Link href={selectedEventGoogleMapsLink} target="_blank" rel="noopener" underline="none">
                   Open in Google Maps
                 </Link>
+                
+              </Box>
+
+
+
+              <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
+                <IconButton
+                  color="primary"
+                  aria-label="camera"
+                  component="span"
+                  onClick={() => openLinkInNewTab(selectedEventCompanyCamLink)} // Use the helper function to open the link
+ 
+             
+             >
+           <CameraAltIcon />
+
+                </IconButton>
+                <Link href={selectedEventCompanyCamLink} target="_blank" rel="noopener" underline="none">
+                  Open Company Cam
+                </Link>
+                
               </Box>
             </Box>
           )}
