@@ -144,35 +144,35 @@ const ConstructionCalendar = () => {
   useEffect(() => {
 
 
-    const header = document.querySelector('.rbc-toolbar');
+//     const header = document.querySelector('.rbc-toolbar');
 
-    const firstGutterCell = document.querySelector('.rbc-time-header-gutter');
+//     const firstGutterCell = document.querySelector('.rbc-time-header-gutter');
 
-    const gutters = document.querySelectorAll('.rbc-time-gutter .rbc-timeslot-group');
-    const buttons = document.querySelectorAll('.rbc-toolbar button');
+//     const gutters = document.querySelectorAll('.rbc-time-gutter .rbc-timeslot-group');
+//     const buttons = document.querySelectorAll('.rbc-toolbar button');
 
-    // Apply top margin to each button
-    buttons.forEach(button => {
-      button.style.marginTop = '10px'; // Adjust the value as needed
-    });
+//     // Apply top margin to each button
+//     buttons.forEach(button => {
+//       button.style.marginTop = '10px'; // Adjust the value as needed
+//     });
 
 
-      // Apply inline styles to the header
-  if (header) {
-    header.style.backgroundColor = '#008080'; // Teal background
-    header.style.color = '#ffffff'; // White text color
-  }
+//       // Apply inline styles to the header
+//   if (header) {
+//     header.style.backgroundColor = '#008080'; // Teal background
+//     header.style.color = '#ffffff'; // White text color
+//   }
 
-  // Apply inline styles to the first cell of the time gutter
-  if (firstGutterCell) {
-    firstGutterCell.style.backgroundColor = '#008080'; // Teal background
-    firstGutterCell.style.color = '#ffffff'; // White text color
-  }
- // Apply styles to each gutter element
- gutters.forEach(gutter => {
-  gutter.style.backgroundColor = '#008080'; // Teal background
-  gutter.style.color = '#ffffff'; // White text color
-});
+//   // Apply inline styles to the first cell of the time gutter
+//   if (firstGutterCell) {
+//     firstGutterCell.style.backgroundColor = '#008080'; // Teal background
+//     firstGutterCell.style.color = '#ffffff'; // White text color
+//   }
+//  // Apply styles to each gutter element
+//  gutters.forEach(gutter => {
+//   gutter.style.backgroundColor = '#008080'; // Teal background
+//   gutter.style.color = '#ffffff'; // White text color
+// });
 
 
 
