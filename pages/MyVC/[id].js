@@ -15,7 +15,14 @@ const VCPage = () => {
     skip: !id,
   });
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%', backgroundColor: 'white' }}>
+      <div style={{ position: 'relative', width: '150px', height: '150px' }}>
+        <Image src="/images/voltaicLogo.png" alt="Loading..." layout="fill" objectFit="contain" />
+      </div>
+    </div>
+  );
+  
   if (error) return <p>Error: {error.message}</p>;
 
   const user = data?.GetQBUser; // Adjust based on actual data structure
