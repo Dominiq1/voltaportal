@@ -101,7 +101,7 @@ const CustomAgendaEvent = ({ event }) => {
     } else if (event.task.includes('Quiet Cool')) {
         backgroundColor = '#607d8b'; // Blue Grey for Quiet Cool
     } else if (event.task.includes('Pre Inspection')) {
-        backgroundColor = '#009688'; // Teal for Pre Inspection
+        backgroundColor = '#960076'; // Teal for Pre Inspection
     } else if (event.task.includes('Insulation')) {
         backgroundColor = '#8bc34a'; // Light Green for Insulation
     } else if (event.task.includes('HVAC Sale')) {
