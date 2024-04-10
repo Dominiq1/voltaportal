@@ -271,7 +271,10 @@ const openLinkInNewTab = (url) => {
               <Typography>Name: {selectedEvent.title}</Typography>
               <Typography>Date: {moment(selectedEvent.start).format('LLLL')}</Typography>
               <Typography>Address: {selectedEvent.address}</Typography>
+              
               <Typography>Task: {selectedEvent.task}</Typography>
+              <Typography>Notes: {selectedEvent.notes}</Typography>
+              <Typography>Address: {selectedEvent.address}</Typography>
               <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
                 <IconButton
                   color="primary"
