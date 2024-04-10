@@ -34,6 +34,24 @@ const GET_CONSTRUCTION_JOBS = gql`
       notes
       serviceEndTime
       task
+      foreman1
+      foreman2
+      journeyman1
+      journeyman2
+      apprentice11
+      apprentice12
+      apprentice21
+      apprentice22
+      apprentice31
+      apprentice32
+
+
+
+
+
+
+
+
     }
   }
 `;

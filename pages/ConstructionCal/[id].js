@@ -17,6 +17,28 @@ import Image from 'next/image';
 
 const localizer = momentLocalizer(moment);
 
+const renderCrewMember = (name, role, color) => {
+  // Trim the quotes from the name if present
+  const cleanedName = name;
+  // Check if the cleanedName is not an empty string
+  if (cleanedName && cleanedName !== '""' && cleanedName.trim().length > 0) {
+    const displayName = cleanedName.replace(/^"|"$/g, ''); // Remove surrounding quotes
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+        <Box component="span" sx={{ display: 'inline-block', width: 24, height: 24, bgcolor: color, borderRadius: '50%' }}></Box>
+        <Typography variant="body2">{role}: {displayName}</Typography>
+      </Box>
+    );
+  }
+
+
+
+
+  return null;
+};
+
+
+
 
 const CustomToolbar = (toolbar) => {
   const goToBack = () => {
@@ -170,6 +192,16 @@ const ConstructionCalendar = () => {
         return {
           id: index,
           title: job.homeownerName || 'No Title',
+          foreman1: job.foreman1 || 'No Title',
+          foreman2: job.foreman2 || 'No Title',
+          journeyman1: job.journeyman1 || 'No Title',
+          journeyman2: job.journeyman2 || 'No Title',
+          apprentice11: job.apprentice11 || 'No Title',
+          apprentice12: job.apprentice12 || 'No Title',
+          apprentice21: job.apprentice21 || 'No Title',
+          apprentice22: job.apprentice22 || 'No Title',
+          apprentice31: job.apprentice31 || 'No Title',
+          apprentice32: job.apprentice32 || 'No Title',
           companyCam: job.companyCam || 'No Cam Link',
           task:  "Task - " + job.task || null,
           notes:  "Notes - " + job.notes || null,
@@ -262,6 +294,17 @@ const openLinkInNewTab = (url) => {
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
+
+
+
+
+
+
+
+
+
+
+
         <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', border: '2px solid #000', color:'black', boxShadow: 24, p: 4 }}>
           <Typography id="modal-title" variant="h6" component="h2">
             Event Details
@@ -311,8 +354,32 @@ const openLinkInNewTab = (url) => {
               </Box>
             </Box>
           )}
+
+<Typography sx={{ mt: 2 }}>Crew Members:</Typography>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+      {renderCrewMember(selectedEvent?.foreman1, 'Foreman 1', '#ff5722')}
+        {renderCrewMember(selectedEvent?.foreman2, 'Foreman 2', '#ff5722')} {/* Foreman 2 - Orange */}
+        {renderCrewMember(selectedEvent?.journeyman1, 'Journeyman 1', '#3f51b5')} {/* Journeyman 1 - Blue */}
+        {renderCrewMember(selectedEvent?.journeyman2, 'Journeyman 2', '#3f51b5')} {/* Journeyman 2 - Blue */}
+        {renderCrewMember(selectedEvent?.apprentice11, 'Apprentice I', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice12, 'Apprentice I -2', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice21, 'Apprentice II - 1', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice22, 'Apprentice II - 2', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice31, 'Apprentice III', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice32, 'Apprentice III - 2', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {/* Add similar calls for other apprentices with different colors if needed */}
+      </Box>
           <Button onClick={() => setOpenModal(false)} sx={{ mt: 2 }}>Close</Button>
         </Box>
+
+
+
+
+
+
+
+
+
       </Modal>
     </div>
   );
