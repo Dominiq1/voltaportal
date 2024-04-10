@@ -203,8 +203,8 @@ const ConstructionCalendar = () => {
           apprentice31: job.apprentice31 || 'No Title',
           apprentice32: job.apprentice32 || 'No Title',
           companyCam: job.companyCam || 'No Cam Link',
-          task:  "Task - " + job.task || null,
-          notes:  "Notes - " + job.notes || null,
+          task:   job.task || null,
+          notes:    job.notes || null,
           address: job.address || 'No Address',
           start: moment(job.serviceDate).set({
             hour: startTime.get('hour'),
