@@ -32,6 +32,7 @@ const GET_CONSTRUCTION_JOBS = gql`
       serviceDate
       companyCam
       notes
+      serviceEndTime
       task
     }
   }

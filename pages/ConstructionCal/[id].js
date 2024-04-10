@@ -166,7 +166,7 @@ const ConstructionCalendar = () => {
     if (data && data.GetConstructionJobs) {
       const formattedEvents = data.GetConstructionJobs.map((job, index) => {
         const startTime = job.serviceTime ? moment(job.serviceTime, "HH:mm:ss") : moment().startOf('day').add(9, 'hours');
-        const endTime = startTime.clone().add(2, 'hours');
+        const endTime = job.serviceEndTime ? moment(job.serviceEndTime, "HH:mm:ss") : moment().startOf('day').add(9, 'hours');
         return {
           id: index,
           title: job.homeownerName || 'No Title',
