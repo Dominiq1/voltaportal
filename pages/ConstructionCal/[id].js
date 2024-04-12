@@ -385,8 +385,12 @@ const openLinkInNewTab = (url) => {
 
             </Box>
           )}
+ {selectedEvent && (
+<>
 
-<Typography sx={{ mt: 2 }}>Crew Members:</Typography>
+   {selectedEvent.task !== 'Construction Meeting' && (
+            <> 
+            <Typography sx={{ mt: 2 }}>Crew Members:</Typography>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
       {renderCrewMember( selectedEvent?.foreman1, 'Foreman 1', '#ff5722')}
         {renderCrewMember( selectedEvent?.foreman2, 'Foreman 2', '#ff5722')} {/* Foreman 2 - Orange */}
@@ -406,6 +410,20 @@ const openLinkInNewTab = (url) => {
         {renderCrewMember( selectedEvent?.apprentice34, 'Apprentice III - 4', '#9c27b0')} {/* Apprentice 11 - Purple */}
         {/* Add similar calls for other apprentices with different colors if needed */}
       </Box>
+
+            </>
+          )}
+
+</>
+ )}
+
+         
+
+
+
+
+
+
           <Button onClick={() => setOpenModal(false)} sx={{ mt: 2 }}>Close</Button>
         </Box>
 
