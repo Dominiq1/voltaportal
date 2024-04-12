@@ -471,6 +471,7 @@ const LeadIntake = () => {
         width: "100vw",
         height: "100vh",
         display: "flex",
+        paddingTop: '5em',
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
