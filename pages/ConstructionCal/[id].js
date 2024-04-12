@@ -292,7 +292,7 @@ const openLinkInNewTab = (url) => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div style={{width: '100vw'}}>
+    <div style={{width: '100vw', backgroundColor: 'white'}}>
       <Calendar
         localizer={localizer}
         events={events}
