@@ -23,20 +23,23 @@ const createConstructionMeetingEvent = (date) => {
   const endTime = moment(date).set({hour: 7, minute: 0});
 
   return {
-    title: 'Construction Meeting',
+    task: 'Construction Meeting',
     start: startTime.toDate(),
     end: endTime.toDate(),
-    task: 'Morning Check-in', // Example task
+    title: 'Morning Check-in', // Example task
     notes: 'Brief discussion on construction operations.', // Example note
     address: 'Downey Office', // Example address
   };
 };
 
 
-const renderCrewMember = (name, role, color) => {
+const renderCrewMember = ( name, role, color) => {
   // Trim the quotes from the name if present
   const cleanedName = name;
   // Check if the cleanedName is not an empty string
+
+
+
   if (cleanedName && cleanedName !== 'No Title' && cleanedName.trim().length > 0) {
     const displayName = cleanedName.replace(/^"|"$/g, ''); // Remove surrounding quotes
     return (
@@ -311,6 +314,7 @@ const openLinkInNewTab = (url) => {
             },
           }}
       />
+
        <Modal
         open={openModal}
         onClose={() => setOpenModal(false)}
@@ -356,46 +360,50 @@ const openLinkInNewTab = (url) => {
                 
               </Box>
 
+  {/* Conditionally render the company cam link only if the task is not 'Construction Meeting' */}
+  {selectedEvent.task !== 'Construction Meeting' && (
+          <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
+            <IconButton
+              color="primary"
+              aria-label="camera"
+              component="span"
+              onClick={() => openLinkInNewTab(selectedEventCompanyCamLink)} // Use the helper function to open the link
+            >
+              <CameraAltIcon />
+            </IconButton>
+            <Link href={selectedEventCompanyCamLink} target="_blank" rel="noopener" underline="none">
+              Open Company Cam
+            </Link>
+          </Box>
+        )}
 
 
-              <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
-                <IconButton
-                  color="primary"
-                  aria-label="camera"
-                  component="span"
-                  onClick={() => openLinkInNewTab(selectedEventCompanyCamLink)} // Use the helper function to open the link
- 
-             
-             >
-           <CameraAltIcon />
 
-                </IconButton>
-                <Link href={selectedEventCompanyCamLink} target="_blank" rel="noopener" underline="none">
-                  Open Company Cam
-                </Link>
-                
-              </Box>
+
+
+
+
             </Box>
           )}
 
 <Typography sx={{ mt: 2 }}>Crew Members:</Typography>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-      {renderCrewMember(selectedEvent?.foreman1, 'Foreman 1', '#ff5722')}
-        {renderCrewMember(selectedEvent?.foreman2, 'Foreman 2', '#ff5722')} {/* Foreman 2 - Orange */}
-        {renderCrewMember(selectedEvent?.journeyman1, 'Journeyman 1', '#3f51b5')} {/* Journeyman 1 - Blue */}
-        {renderCrewMember(selectedEvent?.journeyman2, 'Journeyman 2', '#3f51b5')} {/* Journeyman 2 - Blue */}
-        {renderCrewMember(selectedEvent?.apprentice11, 'Apprentice I', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice12, 'Apprentice I -2', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice13, 'Apprentice I - 3', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice14, 'Apprentice I -4', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice21, 'Apprentice II', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice22, 'Apprentice II - 2', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice23, 'Apprentice II - 3', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice24, 'Apprentice II - 4', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice31, 'Apprentice III', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice32, 'Apprentice III - 2', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice33, 'Apprentice III - 3', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice34, 'Apprentice III - 4', '#9c27b0')} {/* Apprentice 11 - Purple */}
+      {renderCrewMember( selectedEvent?.foreman1, 'Foreman 1', '#ff5722')}
+        {renderCrewMember( selectedEvent?.foreman2, 'Foreman 2', '#ff5722')} {/* Foreman 2 - Orange */}
+        {renderCrewMember( selectedEvent?.journeyman1, 'Journeyman 1', '#3f51b5')} {/* Journeyman 1 - Blue */}
+        {renderCrewMember( selectedEvent?.journeyman2, 'Journeyman 2', '#3f51b5')} {/* Journeyman 2 - Blue */}
+        {renderCrewMember( selectedEvent?.apprentice11, 'Apprentice I', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice12, 'Apprentice I -2', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice13, 'Apprentice I - 3', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice14, 'Apprentice I -4', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice21, 'Apprentice II', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice22, 'Apprentice II - 2', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice23, 'Apprentice II - 3', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice24, 'Apprentice II - 4', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice31, 'Apprentice III', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice32, 'Apprentice III - 2', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice33, 'Apprentice III - 3', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember( selectedEvent?.apprentice34, 'Apprentice III - 4', '#9c27b0')} {/* Apprentice 11 - Purple */}
         {/* Add similar calls for other apprentices with different colors if needed */}
       </Box>
           <Button onClick={() => setOpenModal(false)} sx={{ mt: 2 }}>Close</Button>
