@@ -17,11 +17,27 @@ import Image from 'next/image';
 
 const localizer = momentLocalizer(moment);
 
+
+const createConstructionMeetingEvent = (date) => {
+  const startTime = moment(date).set({hour: 6, minute: 30});
+  const endTime = moment(date).set({hour: 7, minute: 0});
+
+  return {
+    title: 'Construction Meeting',
+    start: startTime.toDate(),
+    end: endTime.toDate(),
+    task: 'Morning Check-in', // Example task
+    notes: 'Brief discussion on construction operations.', // Example note
+    address: 'Downey Office', // Example address
+  };
+};
+
+
 const renderCrewMember = (name, role, color) => {
   // Trim the quotes from the name if present
   const cleanedName = name;
   // Check if the cleanedName is not an empty string
-  if (cleanedName && cleanedName !== '""' && cleanedName.trim().length > 0) {
+  if (cleanedName && cleanedName !== 'No Title' && cleanedName.trim().length > 0) {
     const displayName = cleanedName.replace(/^"|"$/g, ''); // Remove surrounding quotes
     return (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
@@ -118,7 +134,9 @@ const CustomAgendaEvent = ({ event }) => {
         backgroundColor = '#e91e63'; // Pink for Final Inspection
     } else if (event.task.includes('Final Inspection (Service)')) {
         backgroundColor = '#ff5722'; // Deep Orange for Final Inspection (Service)
-    }
+    } else if (event.task.includes('Construction Meeting')) {
+      backgroundColor = '#eb9834'; // Deep Orange for Final Inspection (Service)
+  }
     // Add more conditions as needed
   
     return {
@@ -150,39 +168,6 @@ const ConstructionCalendar = () => {
     const googleMapsLink = "https://www.google.com/maps";
 
   useEffect(() => {
-
-
-//     const header = document.querySelector('.rbc-toolbar');
-
-//     const firstGutterCell = document.querySelector('.rbc-time-header-gutter');
-
-//     const gutters = document.querySelectorAll('.rbc-time-gutter .rbc-timeslot-group');
-//     const buttons = document.querySelectorAll('.rbc-toolbar button');
-
-//     // Apply top margin to each button
-//     buttons.forEach(button => {
-//       button.style.marginTop = '10px'; // Adjust the value as needed
-//     });
-
-
-//       // Apply inline styles to the header
-//   if (header) {
-//     header.style.backgroundColor = '#008080'; // Teal background
-//     header.style.color = '#ffffff'; // White text color
-//   }
-
-//   // Apply inline styles to the first cell of the time gutter
-//   if (firstGutterCell) {
-//     firstGutterCell.style.backgroundColor = '#008080'; // Teal background
-//     firstGutterCell.style.color = '#ffffff'; // White text color
-//   }
-//  // Apply styles to each gutter element
-//  gutters.forEach(gutter => {
-//   gutter.style.backgroundColor = '#008080'; // Teal background
-//   gutter.style.color = '#ffffff'; // White text color
-// });
-
-
 
 
     if (data && data.GetConstructionJobs) {
@@ -229,8 +214,36 @@ const ConstructionCalendar = () => {
         };
       });
 
-      setEvents(formattedEvents);
+
+
+
+
+ // Example logic assuming you might combine API events with static ones
+ const recurringEvents = [];
+ const today = moment();
+ const daysUntilFriday = 5 - today.day() >= 0 ? 5 - today.day() : 7 - (today.day() - 5);
+ const firstFriday = today.add(daysUntilFriday, 'days');
+
+ for (let i = 0; i < 4; i++) { // Next 4 Fridays as an example
+   const friday = firstFriday.clone().add(7 * i, 'days');
+   recurringEvents.push(createConstructionMeetingEvent(friday));
+ }
+
+ // Assuming 'formattedEvents' is your array of events from the API:
+ const allEvents = [...formattedEvents, ...recurringEvents];
+ setEvents(allEvents);
+  //   setEvents(formattedEvents);
     }
+
+
+
+
+
+
+
+
+
+
   }, [data]);
 
   const onSelectEvent = (event) => {
