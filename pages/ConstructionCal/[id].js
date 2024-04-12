@@ -28,7 +28,7 @@ const createConstructionMeetingEvent = (date) => {
     end: endTime.toDate(),
     title: 'Morning Check-in', // Example task
     notes: 'Brief discussion on construction operations.', // Example note
-    address: 'Downey Office', // Example address
+    address: '7700 Imperial Hwy, Downey, CA', // Example address
   };
 };
 
