@@ -194,14 +194,24 @@ const ConstructionCalendar = () => {
           title: job.homeownerName || 'No Title',
           foreman1: job.foreman1 || 'No Title',
           foreman2: job.foreman2 || 'No Title',
+          foreman3: job.foreman3 || 'No Title',
+          foreman4: job.foreman4 || 'No Title',
           journeyman1: job.journeyman1 || 'No Title',
           journeyman2: job.journeyman2 || 'No Title',
+          journeyman3: job.journeyman3 || 'No Title',
+          journeyman4: job.journeyman4 || 'No Title',
           apprentice11: job.apprentice11 || 'No Title',
           apprentice12: job.apprentice12 || 'No Title',
+          apprentice13: job.apprentice13 || 'No Title',
+          apprentice14: job.apprentice14 || 'No Title',
           apprentice21: job.apprentice21 || 'No Title',
           apprentice22: job.apprentice22 || 'No Title',
+          apprentice23: job.apprentice23 || 'No Title',
+          apprentice24: job.apprentice24 || 'No Title',
           apprentice31: job.apprentice31 || 'No Title',
           apprentice32: job.apprentice32 || 'No Title',
+          apprentice33: job.apprentice33 || 'No Title',
+          apprentice34: job.apprentice34 || 'No Title',
           companyCam: job.companyCam || 'No Cam Link',
           task:   job.task || null,
           notes:    job.notes || null,
@@ -363,10 +373,16 @@ const openLinkInNewTab = (url) => {
         {renderCrewMember(selectedEvent?.journeyman2, 'Journeyman 2', '#3f51b5')} {/* Journeyman 2 - Blue */}
         {renderCrewMember(selectedEvent?.apprentice11, 'Apprentice I', '#9c27b0')} {/* Apprentice 11 - Purple */}
         {renderCrewMember(selectedEvent?.apprentice12, 'Apprentice I -2', '#9c27b0')} {/* Apprentice 11 - Purple */}
-        {renderCrewMember(selectedEvent?.apprentice21, 'Apprentice II - 1', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice13, 'Apprentice I - 3', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice14, 'Apprentice I -4', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice21, 'Apprentice II', '#9c27b0')} {/* Apprentice 11 - Purple */}
         {renderCrewMember(selectedEvent?.apprentice22, 'Apprentice II - 2', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice23, 'Apprentice II - 3', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice24, 'Apprentice II - 4', '#9c27b0')} {/* Apprentice 11 - Purple */}
         {renderCrewMember(selectedEvent?.apprentice31, 'Apprentice III', '#9c27b0')} {/* Apprentice 11 - Purple */}
         {renderCrewMember(selectedEvent?.apprentice32, 'Apprentice III - 2', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice33, 'Apprentice III - 3', '#9c27b0')} {/* Apprentice 11 - Purple */}
+        {renderCrewMember(selectedEvent?.apprentice34, 'Apprentice III - 4', '#9c27b0')} {/* Apprentice 11 - Purple */}
         {/* Add similar calls for other apprentices with different colors if needed */}
       </Box>
           <Button onClick={() => setOpenModal(false)} sx={{ mt: 2 }}>Close</Button>

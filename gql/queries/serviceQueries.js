@@ -36,14 +36,24 @@ const GET_CONSTRUCTION_JOBS = gql`
       task
       foreman1
       foreman2
+      foreman3
+      foreman4
       journeyman1
       journeyman2
+      journeyman3
+      journeyman4
       apprentice11
       apprentice12
+      apprentice13
+      apprentice14
       apprentice21
       apprentice22
+      apprentice23
+      apprentice24
       apprentice31
       apprentice32
+      apprentice33
+      apprentice34
 
 
 

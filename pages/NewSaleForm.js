@@ -91,7 +91,7 @@ const errorModalBody = (
 
 
   const [UtilityImagesURL, setUtilityImagesUrl] = React.useState(null);
-  const [AtticImage1, setAtticImage] = React.useState(null);
+  const [AtticImage1, setAtticImage] = React.useState("null");
   const [UtilityImagesURL2, setUtilityImagesUrl2] = React.useState("null");
   const [UtilityImagesURL3, setUtilityImagesUrl3] = React.useState("null");
   const [UtilityImagesURL4, setUtilityImagesUrl4] = React.useState("null");
@@ -814,12 +814,6 @@ const errorModalBody = (
   if (!formData.notes) {
     newErrors.push("Missing Project Notes.");
   }
-
-
-
-
-
-
 
 
 
