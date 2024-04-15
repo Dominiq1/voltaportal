@@ -816,10 +816,14 @@ const errorModalBody = (
   }
 
 
-    //Ensure notes are filled
-    if (!formData.batteryMode) {
+  if( formData.batteries && formData.batteries !== 'NO BATTERY'){ 
+      if (!formData.batteryMode) {
       newErrors.push("Missing The System Battery Mode.");
     }
+  
+  }
+
+    //Ensure notes are filled
   
 
 
@@ -1340,6 +1344,22 @@ const errorModalBody = (
     />
 
 
+      {/* Battery Mode */}
+      <Typography component="legend">What is the System Battery Mode?</Typography>
+    <RadioGroup
+  
+      row
+      name="batteryMode"
+      value={formData.batteryMode}
+      onChange={handleInputChange}
+    >
+      <FormControlLabel value="Partial Backup/ Self Consumption" control={<Radio />} label="Partial Backup/ Self Consumption" />
+      <FormControlLabel value="Whole Home Backup" control={<Radio />} label="Whole Home Backup" />
+      <FormControlLabel value="Grid Tied" control={<Radio />} label="Grid Tied" />
+    </RadioGroup>
+
+
+
     {/* Battery Placement Requests */}
     <Typography>Placement Requests</Typography>
     <RadioGroup
@@ -1366,20 +1386,7 @@ const errorModalBody = (
     )}
   </>
 )}
-    {/* Battery Mode */}
-    <Typography component="legend">What is the System Battery Mode?</Typography>
-    <RadioGroup
   
-      row
-      name="batteryMode"
-      value={formData.batteryMode}
-      onChange={handleInputChange}
-    >
-      <FormControlLabel value="Partial Backup/ Self Consumption" control={<Radio />} label="Partial Backup/ Self Consumption" />
-      <FormControlLabel value="Whole Home Backup" control={<Radio />} label="Whole Home Backup" />
-      <FormControlLabel value="Grid Tied" control={<Radio />} label="Grid Tied" />
-    </RadioGroup>
-
 
 
 <      InputLabel
