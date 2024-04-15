@@ -19,8 +19,8 @@ const localizer = momentLocalizer(moment);
 
 
 const createConstructionMeetingEvent = (date) => {
-  const startTime = moment(date).set({hour: 6, minute: 30});
-  const endTime = moment(date).set({hour: 7, minute: 0});
+  const startTime = moment(date).set({hour: 7, minute: 30});
+  const endTime = moment(date).set({hour: 8, minute: 0});
 
   return {
     task: 'Construction Meeting',
