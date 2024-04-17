@@ -160,6 +160,8 @@ const ConstructionCalendar = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedEventGoogleMapsLink, setSelectedEventGoogleMapsLink] = useState('');
   const [selectedEventCompanyCamLink, setSelectedEventCompanyCamLink] = useState('');
+  const [selectedEventProjectURL, setSelectedEventProjectURL] = useState(''); // New state for the project URL
+
 
 
   const { loading, error, data } = useQuery(GET_CONSTRUCTION_JOBS, {
@@ -180,6 +182,7 @@ const ConstructionCalendar = () => {
         return {
           id: index,
           title: job.homeownerName || 'No Title',
+           projectURL: job.projectURL || 'No Title',
           foreman1: job.foreman1 || 'No Title',
           foreman2: job.foreman2 || 'No Title',
           foreman3: job.foreman3 || 'No Title',
@@ -264,6 +267,7 @@ const ConstructionCalendar = () => {
  // Set the Google Maps link as part of the selected event object for easy access
  setSelectedEventGoogleMapsLink(googleMapsLink);
  setSelectedEventCompanyCamLink(companyCamLink);
+ setSelectedEventProjectURL(event.projectURL)
 
     setSelectedEvent(event);
     setOpenModal(true);
@@ -376,6 +380,27 @@ const openLinkInNewTab = (url) => {
             </Link>
           </Box>
         )}
+
+
+<Box sx={{ /* Styling props for the box... */ }}>
+          {/* Event Details... */}
+          {selectedEventProjectURL && (
+            <Button
+              sx={{ mt: 2 }}
+              variant="contained"
+              color="primary"
+              onClick={() => window.open(selectedEventProjectURL, '_blank')}
+            >
+              Go to Project
+            </Button>
+          )}
+          <Button onClick={() => setOpenModal(false)} sx={{ mt: 2 }}>Close</Button>
+        </Box>
+
+
+
+
+
 
 
 
