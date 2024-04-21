@@ -163,6 +163,11 @@ const ConstructionCalendar = () => {
   const [selectedEventProjectURL, setSelectedEventProjectURL] = useState(''); // New state for the project URL
 
 
+  // Define the minimum and maximum times for the calendar display
+  const minTime = new Date();
+  minTime.setHours(6, 0, 0); // Set the start time at 6:00 AM
+  const maxTime = new Date();
+  maxTime.setHours(20, 0, 0); // Set end time at 8:00 PM
 
   const { loading, error, data } = useQuery(GET_CONSTRUCTION_JOBS, {
     variables: { repID: id },
@@ -310,7 +315,10 @@ const openLinkInNewTab = (url) => {
         defaultView={Views.DAY}
         style={{ height: '100vh', width: '100%' }}
         onSelectEvent={onSelectEvent}
+        
         eventPropGetter={getEventStyle} 
+        min={minTime} // Set the min time limit
+        max={maxTime} // Set the max time limit
         components={{
             agenda: {
               event: CustomAgendaEvent, // use your custom event component here
