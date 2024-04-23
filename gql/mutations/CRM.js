@@ -33,6 +33,27 @@ const PUSH_NEW_LEAD = gql`
   }
 `;
 
+
+    const PUSH_NEW_EMPLOYEE = gql`
+    mutation pushNewEmployee(
+      $name: String!
+      $phone: String!
+      $email: String!
+      $social: String!
+      $dob: String!
+ 
+    ) {
+      pushNewEmployee(
+        name: $name
+        phone: $phone
+        email: $email
+        social: $social
+        dob: $dob
+    
+      )
+    }
+  `;
+
 const PUSH_NEW_SALE_MUTATION = gql`
   mutation PushNewSale(
     $ownerName: String!
@@ -127,4 +148,4 @@ const PUSH_NEW_COMPANY_LEAD = gql`
   }
 `;
 
-export { GET_CRM_USERS, PUSH_NEW_SALE_MUTATION, PUSH_NEW_LEAD , PUSH_NEW_COMPANY_LEAD};
+export { GET_CRM_USERS, PUSH_NEW_SALE_MUTATION, PUSH_NEW_LEAD , PUSH_NEW_COMPANY_LEAD, PUSH_NEW_EMPLOYEE};
