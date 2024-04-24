@@ -27,6 +27,7 @@ const GET_CONSTRUCTION_JOBS = gql`
     GetConstructionJobs(repID: $repID) {
       projectID
       projectURL
+      Financing
       address
       homeownerName
       serviceTime

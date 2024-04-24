@@ -187,6 +187,7 @@ const ConstructionCalendar = () => {
         return {
           id: index,
           title: job.homeownerName || 'No Title',
+          Financing: job.Financing || 'No Financing',
            projectURL: job.projectURL || 'No Title',
           foreman1: job.foreman1 || 'No Title',
           foreman2: job.foreman2 || 'No Title',
@@ -356,6 +357,7 @@ const openLinkInNewTab = (url) => {
               
               <Typography>Task: {selectedEvent.task}</Typography>
               <Typography>Notes: {selectedEvent.notes}</Typography>
+              <Typography>Financing: {selectedEvent.Financing}</Typography>
               <Typography>Address: {selectedEvent.address}</Typography>
               <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
                 <IconButton
