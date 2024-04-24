@@ -127,8 +127,8 @@ const VCPage = () => {
        {/* Quick resources */}
 
        {/* Quick resources */}
-       <button style={styles.button} onClick={() => window.open('https://drive.google.com/drive/u/1/folders/164l1OHlNIt5-eOP0UI_hNeuiu3D50VzC', '_blank')}>Quick reference Guide</button>
-    <button style={styles.button} onClick={() => window.open('https://help.palmetto.finance/en/articles/8306274-install-photo-documentation', '_blank')}>Install Photo Guide</button>
+       <button style={styles.button} onClick={() => window.open('https://drive.google.com/drive/u/1/folders/164l1OHlNIt5-eOP0UI_hNeuiu3D50VzC', '_blank')}>Sunnova Quick reference Guide</button>
+    <button style={styles.button} onClick={() => window.open('https://help.palmetto.finance/en/articles/8306274-install-photo-documentation', '_blank')}>Lightreach Quick reference Guide</button>
 
 
       </div>
