@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Box,
   TextField,
@@ -24,10 +24,87 @@ import { v4 as uuidv4 } from "uuid";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/API/firebase";
 
+
+import { Chip, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
+const TitleHoldersInput = ({ onTitleHoldersUpdate }) => {
+  const [titleHolders, setTitleHolders] = useState([]);
+  const [newTitleHolder, setNewTitleHolder] = useState('');
+
+  const handleInputChange = (event) => {
+    setNewTitleHolder(event.target.value);
+  };
+
+  const handleAddTitleHolder = () => {
+    if (newTitleHolder.trim()) {
+      setTitleHolders([...titleHolders, newTitleHolder.trim()]);
+      setNewTitleHolder('');
+    }
+  };
+
+  const handleRemoveTitleHolder = (index) => {
+    const updatedTitleHolders = [...titleHolders];
+    updatedTitleHolders.splice(index, 1);
+    setTitleHolders(updatedTitleHolders);
+  };
+
+
+
+  useEffect(() => {
+    onTitleHoldersUpdate(titleHolders);
+  }, [titleHolders, onTitleHoldersUpdate]);
+
+
+  const memoizedOnTitleHoldersUpdate = useCallback(
+    onTitleHoldersUpdate,
+    []
+  );
+
+
+  useEffect(() => {
+    memoizedOnTitleHoldersUpdate(titleHolders);
+  }, [titleHolders, memoizedOnTitleHoldersUpdate]);
+  return (
+    <Box  sx={{ marginBottom: "20px",
+    color: '#48979d' }}>
+      <TextField
+    
+        label="Add Title Holder"
+        value={newTitleHolder}
+        onChange={handleInputChange}
+        variant="outlined"
+        margin="normal"
+        InputProps={{
+          endAdornment: (
+            <IconButton
+              onClick={handleAddTitleHolder}
+              aria-label="Add Title Holder"
+              edge="end"
+            >
+              <AddIcon />
+            </IconButton>
+          ),
+        }}
+      />
+      <Box mt={2}>
+        {titleHolders.map((titleHolder, index) => (
+          <Chip
+            key={index}
+            label={titleHolder}
+            onDelete={() => handleRemoveTitleHolder(index)}
+            sx={{ marginRight: 1 }}
+          />
+        ))}
+      </Box>
+    </Box>
+  );
+};
+
 const MyForm = () => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const [titleHolders, setTitleHolders] = useState([]);
 // Inside your component
 const [errors, setErrors] = useState([]);
 const [openErrorModal, setOpenErrorModal] = useState(false);
@@ -790,6 +867,11 @@ const errorModalBody = (
     newErrors.push("Missing Sales Rep.");
   }
 
+
+   // Check Sales Rep
+   if (titleHolders.length === 0) {
+    newErrors.push("Missing Title Holders.");
+  }
   // Check for a minimum of two utility bills
   if (!UtilityFile || !UtilityFile2) {
     newErrors.push("Missing at least one of the two required utility files.");
@@ -860,7 +942,9 @@ const errorModalBody = (
  
 
 
-    
+  const handleTitleHoldersUpdate = (updatedTitleHolders) => {
+    setTitleHolders(updatedTitleHolders);
+  };
   const handleSubmit = (event) => {
 
     console.log('Form submitted');
@@ -882,11 +966,13 @@ const errorModalBody = (
 
 
     if (formIsValid) {
+      const titleHoldersString = titleHolders.join(', ');
       
       console.log("Form is valid !")
       const submissionData = {
         ownerName: formData.ownerName,
         leadGen: leadGen.name,
+        titleHolders: titleHoldersString,
         saleRep:  salesRep.name,
         installer: formData.installer.name,
         program: formData.program.name,
@@ -1214,7 +1300,8 @@ const errorModalBody = (
 </Select>
       </FormControl>
 
-
+      <TitleHoldersInput onTitleHoldersUpdate={handleTitleHoldersUpdate} />
+           
 
 
 
@@ -1808,7 +1895,11 @@ const errorModalBody = (
 
 
             </Box>
-            {/* // Drivers License Section */}
+
+
+
+
+           {/* // Drivers License Section */}
             <InputLabel sx={{ marginTop: "20px", marginBottom: "20px" }}>
               Drivers License
             </InputLabel>

@@ -57,6 +57,7 @@ const PUSH_NEW_LEAD = gql`
 const PUSH_NEW_SALE_MUTATION = gql`
   mutation PushNewSale(
     $ownerName: String!
+    $titleHolders: String!
     $saleRep: String!
     $leadGen: String!
     $leadgenEmail: String!
@@ -91,6 +92,7 @@ const PUSH_NEW_SALE_MUTATION = gql`
       ownerName: $ownerName
       saleRep: $saleRep
       utilityImage1: $utilityImage1
+      titleHolders: $titleHolders
       utilityImage2: $utilityImage2
       utilityImage3: $utilityImage3
       utilityImage4: $utilityImage4
