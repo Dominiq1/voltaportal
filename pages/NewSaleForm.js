@@ -1440,9 +1440,8 @@ const errorModalBody = (
       value={formData.batteryMode}
       onChange={handleInputChange}
     >
-      <FormControlLabel value="Partial Backup/ Self Consumption" control={<Radio />} label="Partial Backup/ Self Consumption" />
-      <FormControlLabel value="Whole Home Backup" control={<Radio />} label="Whole Home Backup" />
-      <FormControlLabel value="Grid Tied" control={<Radio />} label="Grid Tied" />
+      <FormControlLabel value="Partial Backup" control={<Radio />} label="Partial Backup" />
+      <FormControlLabel value="Self Consumption No Backup" control={<Radio />} label="Self Consumption No Backup" />
     </RadioGroup>
 
 
