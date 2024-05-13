@@ -122,6 +122,7 @@ const VCPage = () => {
       <div style={styles.buttonsContainer}>
         <button style={styles.button} onClick={() => router.push(`/VCMap/${id}`)}>Projects Map</button>
         <button style={styles.button} onClick={() => router.push(`/ConstructionCal/${id}`)}>Calendar</button>
+        <button style={styles.button} onClick={() => router.push(`/Pay/${id}`)}>Pay</button>
 
 
        {/* Quick resources */}

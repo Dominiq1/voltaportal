@@ -22,6 +22,18 @@ const GET_SERVICE_JOBS = gql`
     }
   }
 `;
+
+
+const GET_PAYROLL = gql`
+  query GetWeeklyPayrollReport($repID: String!) {
+    GetWeeklyPayrollReport(repID: $repID) {
+      piecerate
+      homeownerName
+    }
+  }
+`;
+
+
 const GET_CONSTRUCTION_JOBS = gql`
   query GetConstructionJobs($repID: String!) {
     GetConstructionJobs(repID: $repID) {
@@ -96,4 +108,4 @@ const GET_QB_JOBS = gql`
 `;
 
 
-export { GET_SERVICE_JOBS, GET_CONSTRUCTION_JOBS ,GET_QB_JOBS, GET_CONSTRUCTION_JOBS_MASTER};
+export { GET_SERVICE_JOBS, GET_CONSTRUCTION_JOBS ,GET_QB_JOBS, GET_CONSTRUCTION_JOBS_MASTER, GET_PAYROLL};
