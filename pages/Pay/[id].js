@@ -9,12 +9,12 @@ const Dashboard = ({ repID }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const { data, loading, error } = useQuery(GET_PAYROLL, {
-    variables: { "repID": "2208" },
+    variables: { "repID": repID },
     fetchPolicy: 'network-only', // Ensures fresh data every time
   });
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: isMobile ? 70 : 90 },
+
     { field: 'homeownerName', headerName: 'Homeowner Name', width: isMobile ? 130 : 150 },
     { field: 'piecerate', headerName: 'Piece Rate', width: isMobile ? 100 : 110 },
     // Add more columns as needed
