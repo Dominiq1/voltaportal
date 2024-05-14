@@ -3,13 +3,17 @@ import { GET_PAYROLL } from '@/gql/queries/serviceQueries';
 import { Box, useTheme, useMediaQuery } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { uuid } from 'uuidv4';
+import { useRouter } from 'next/router';
 
 const Dashboard = ({ repID }) => {
+  const router = useRouter();
   const theme = useTheme();
+
+  const { id } = router.query;
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const { data, loading, error } = useQuery(GET_PAYROLL, {
-    variables: { "repID": repID },
+    variables: { "repID": id },
     fetchPolicy: 'network-only', // Ensures fresh data every time
   });
 
