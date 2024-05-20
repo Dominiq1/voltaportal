@@ -1125,6 +1125,7 @@ const errorModalBody = (
         maxWidth: '100%',
         mx: 'auto',
         padding: isSmallScreen ? 2 : 4,
+        color: 'black',
         backgroundColor: 'White',
         boxSizing: 'border-box', // Make sure paddings are included in the width
       }}
