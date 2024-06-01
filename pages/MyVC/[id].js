@@ -132,6 +132,24 @@ const VCPage = () => {
     <button style={styles.button} onClick={() => window.open('https://help.palmetto.finance/en/articles/8306274-install-photo-documentation', '_blank')}>Lightreach Quick reference Guide</button>
 
 
+
+
+
+   {/* Monitoring Email Section */}
+   <div style={{ marginTop: '20px', width: '80%', alignSelf: 'center', padding: '10px', backgroundColor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', borderRadius: '5px' }}>
+        <h2 style={{ color: '#4CAF50', fontSize: '18px', fontWeight: 'bold' }}>Light Reach Monitoring:</h2>
+        <a href="mailto:tesla@palmetto.com" style={{ display: 'block', color: '#00a', textDecoration: 'none', marginBottom: '5px' }}>tesla@palmetto.com</a>
+        <a href="mailto:enphase@palmetto.com" style={{ display: 'block', color: '#00a', textDecoration: 'none', marginBottom: '5px' }}>enphase@palmetto.com</a>
+
+        <h2 style={{ color: '#4CAF50', fontSize: '18px', fontWeight: 'bold' }}>Sunnova Monitoring:</h2>
+        <a href="mailto:enphase.monitoring@sunnova.com" style={{ display: 'block', color: '#00a', textDecoration: 'none', marginBottom: '5px' }}>enphase.monitoring@sunnova.com</a>
+        <a href="mailto:tesla.monitoring@sunnova.com" style={{ display: 'block', color: '#00a', textDecoration: 'none', marginBottom: '5px' }}>tesla.monitoring@sunnova.com</a>
+    </div>
+
+
+
+
+
       </div>
     </div>
   );
