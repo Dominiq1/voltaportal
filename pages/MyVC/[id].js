@@ -149,7 +149,6 @@ const VCPage = () => {
 
 
 
-
       </div>
     </div>
   );
