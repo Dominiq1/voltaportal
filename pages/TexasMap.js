@@ -38,6 +38,9 @@ export default function Home() {
         url: bolt, // Replace with the actual image URL
         alt:bolt,
       },
+      address:item.address.replace(/"/g, ''),
+       
+       
       projectURL: item.projectURL.replace(/"/g, '')
       // Add other fields as needed
     }));

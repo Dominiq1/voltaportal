@@ -113,6 +113,7 @@ const GET_Texas_MAP_DATA = gql`
       }
       latitude
       longitude
+      address
       textPub
       colorPub
       installer 
