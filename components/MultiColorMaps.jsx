@@ -43,6 +43,7 @@ function MultiColorMaps(props) {
         const markerOptions = {
           position,
           map,
+          address,
           label: {
             text: label.text,
             color: label.color,
@@ -62,6 +63,7 @@ function MultiColorMaps(props) {
         const tooltip = new window.google.maps.InfoWindow({
           content: `<div>
             <div>${label.text}</div>
+            <div>${address}</div>
           </div>`,
         });
 
