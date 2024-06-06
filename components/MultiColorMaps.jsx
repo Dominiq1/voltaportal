@@ -30,7 +30,7 @@ function MultiColorMaps(props) {
           case "Voltaic Check":
             pinColor = "purple";
             break;
-          case "Return trip":
+          case "Return Trip":
             pinColor = "green";
             break;
           case "Service Inspection":
