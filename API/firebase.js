@@ -9,6 +9,7 @@ import 'firebase/storage'
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
+  
   apiKey: "AIzaSyAYadAxRp0EIbltR-o13_2R6HeA-bYvGZA",
   authDomain: "voltaic-383203.firebaseapp.com",
   projectId: "voltaic-383203",
