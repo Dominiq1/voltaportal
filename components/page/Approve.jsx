@@ -65,10 +65,47 @@ function formatDate(date) {
     }
   };
 
+
+
+
+
+// Function to format the date in YYYY-MM-DD format
+function formatDate(date) {
+  const day = ('0' + date.getDate()).slice(-2);
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+}
+
+const submitResultEmail = async ({ decision, eventID }) => {
+  // Prepare the data payload
+  const today = formatDate(new Date());
+  const requestBody = {
+    eventID: eventID,
+    decision: decision,
+    date: today
+  };
+
+  // Set your API endpoint
+  const API_ENDPOINT = "https://hooks.zapier.com/hooks/catch/8338143/2ogzcfx/";
+
+  try {
+    // Send a POST request
+    const response = await axios.post(API_ENDPOINT, requestBody);
+    console.log("Success!", response.data);
+  } catch (error) {
+    console.error("Failed to send data:", error);
+    throw error; // Rethrow or handle error as needed
+  }
+};
+
+
+
   // useEffect to call submitFLAresponse on component mount
   useEffect(() => {
     if (id && result) {
       submitFLAresponse({ decisionStatus: result, eventID: id });
+      submitResultEmail({ decisionStatus: result, eventID: id });
     }
   }, [id, result]); // Dependencies array includes id and result
 
