@@ -69,35 +69,6 @@ function formatDate(date) {
 
 
 
-  const submitResultEmail = async ({ decision, eventID }) => {
-
-    let requestBody = {
-      eventID: eventID,
-      decision: decision
-    };
-    let headers = { "Content-Type": "application/json" };
-
-    try {
-      const response = await axios.post("https://hooks.zapier.com/hooks/catch/8338143/2ogzcfx/", requestBody, {headers});
-      console.log("Success!", response.data);
-    } catch (error) {
-      console.error("An error occurred:", error);
-      // Detailed error handling
-    
-      if (error.response) {
-
-        console.log("Response data")
-        console.error("Response Data:", error.response.data);
-        console.error("Status:", error.response.status);
-        console.error("Headers:", error.response.headers);
-      } else if (error.request) {
-        console.error("Request was made but no response was received:", error.request);
-      } else {
-        console.error("Error setting up the request:", error.message);
-      }
-      console.error("Request Config:", error.config);
-    }
-};
 
 
 
@@ -107,9 +78,6 @@ function formatDate(date) {
     if (id && result) {
       submitFLAresponse({ decisionStatus: result, eventID: id });
 
-
-      submitResultEmail({ decision: result, eventID: id });
-       
       // submitResultEmail({ decision: result, eventID: id })
       // .catch(error => {
       //   console.error("An error occurred:", error);
