@@ -57,7 +57,7 @@ function formatDate(date) {
     }
 
     try {
-      const response = await axios.post(API_ENDPOINT, requestBody, { headers });
+      const response = await axios.post(API_ENDPOINT, requestBody, {headers});
       console.log("Success!", response.data);
     } catch (error) {
       console.error("Failed to send data:", error);
@@ -69,54 +69,61 @@ function formatDate(date) {
 
 
 
+  const submitResultEmail = async ({ decision, eventID }) => {
 
-const submitResultEmail = async ({ decision, eventID }) => {
-  // Prepare the data payload
-  const today = formatDate(new Date());
-  const requestBody = {
-    eventID: eventID,
-    decision: decision
-  };
+    let requestBody = {
+      eventID: eventID,
+      decision: decision
+    };
+    let headers = { "Content-Type": "application/json" };
 
-  const headers = {
+    try {
+      const response = await axios.post("https://hooks.zapier.com/hooks/catch/8338143/2ogzcfx/", requestBody, {headers});
+      console.log("Success!", response.data);
+    } catch (error) {
+      console.error("An error occurred:", error);
+      // Detailed error handling
+    
+      if (error.response) {
 
-    "Content-Type": "application/json",
-  };
-
-  // Set your API endpoint
-  const API_ENDPOINT = "https://hooks.zapier.com/hooks/catch/8338143/2ogzcfx/";
-
-  try {
-    // Send a POST request
-    const response = await axios.post(API_ENDPOINT, requestBody, {headers});
-    console.log("Success!", response.data);
-  } catch (error) {
-    console.error("Failed to send data:", error);
-    throw error; // Rethrow or handle error as needed
-  }
+        console.log("Response data")
+        console.error("Response Data:", error.response.data);
+        console.error("Status:", error.response.status);
+        console.error("Headers:", error.response.headers);
+      } else if (error.request) {
+        console.error("Request was made but no response was received:", error.request);
+      } else {
+        console.error("Error setting up the request:", error.message);
+      }
+      console.error("Request Config:", error.config);
+    }
 };
+
 
 
 
   // useEffect to call submitFLAresponse on component mount
   useEffect(() => {
     if (id && result) {
-      submitFLAresponse({ decisionStatus: result, eventID: id })
+      submitFLAresponse({ decisionStatus: result, eventID: id });
+
+
+      submitResultEmail({ decision: result, eventID: id });
        
-      submitResultEmail({ decision: result, eventID: id })
-      .catch(error => {
-        console.error("An error occurred:", error);
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log('Error', error.message);
-        }
-        console.log(error.config);
-      });
+      // submitResultEmail({ decision: result, eventID: id })
+      // .catch(error => {
+      //   console.error("An error occurred:", error);
+      //   if (error.response) {
+      //     console.error("Response Data:", error.response.data);
+      //     console.error("Status:", error.response.status);
+      //     console.error("Headers:", error.response.headers);
+      //   } else if (error.request) {
+      //     console.error("Request was made but no response was received:", error.request);
+      //   } else {
+      //     console.error("Error setting up the request:", error.message);
+      //   }
+      //   console.error("Request Config:", error.config);
+      // });
       
           
         
