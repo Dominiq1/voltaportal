@@ -15,6 +15,66 @@ const LoginDashboard = () => {
         }
     };
 
+
+
+
+
+
+    const authorize = async ({ homeownerEmail, eventID }) => {
+        const QB_DOMAIN = "voltaic.quickbase.com";
+        const API_ENDPOINT = "https://api.quickbase.com/v1/records";
+    
+        const headers = {
+          Authorization: "QB-USER-TOKEN b7738j_qjt3_0_dkaew43bvzcxutbu9q4e6crw3ei3",
+          "QB-Realm-Hostname": QB_DOMAIN,
+          "Content-Type": "application/json",
+        };
+    
+        let requestBody = {
+          to: "br5cqr3sn", // Table identifier in Quickbase
+          data: [{
+            3: { value: eventID },
+            26: { value: "" },
+            17: { value: "" },
+          }],
+          fieldsToReturn: [] // Specify fields to return, if any
+        };
+    
+        if (decisionStatus === "1") { // Use `===` for comparison
+          requestBody.data = [{
+            3: { value: eventID },
+            26: { value: "251" },
+            17: { value: "" },
+          }];
+        } else {
+          requestBody.data = [{
+            3: { value: eventID },
+            26: { value: "629" },
+            17: { value: "" },
+          }];
+        }
+    
+        try {
+          const response = await axios.post(API_ENDPOINT, requestBody, { headers });
+          console.log("Success!", response.data);
+        } catch (error) {
+          console.error("Failed to send data:", error);
+          throw error; // Rethrow or handle error as needed
+        }
+      };
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />

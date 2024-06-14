@@ -3,6 +3,24 @@ import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 
 const Approve = ({ result, id }) => {
+
+
+
+
+
+  // Function to format the date in mm-dd-yy format
+function formatDate(date) {
+  let day = ('0' + date.getDate()).slice(-2); // Get the day and pad with zero if needed
+  let month = ('0' + (date.getMonth() + 1)).slice(-2); // Get the month, add 1 (since months are zero-indexed), and pad with zero if needed
+  let year = date.getFullYear().toString().slice(-2); // Get the last two digits of the year
+  return `${month}-${day}-${year}`; // Concatenate in the desired format
+}
+
+// Today's date formatted
+const today = formatDate(new Date());
+
+
+
   const submitFLAresponse = async ({ decisionStatus, eventID }) => {
     const QB_DOMAIN = "voltaic.quickbase.com";
     const API_ENDPOINT = "https://api.quickbase.com/v1/records";
@@ -18,7 +36,7 @@ const Approve = ({ result, id }) => {
       data: [{
         3: { value: eventID },
         26: { value: "" },
-        17: { value: "" },
+        17: { value: today }, //Needs to be date
       }],
       fieldsToReturn: [] // Specify fields to return, if any
     };
@@ -27,13 +45,13 @@ const Approve = ({ result, id }) => {
       requestBody.data = [{
         3: { value: eventID },
         26: { value: "251" },
-        17: { value: "" },
+        17: { value: today },
       }];
     } else {
       requestBody.data = [{
         3: { value: eventID },
         26: { value: "629" },
-        17: { value: "" },
+        17: { value: today },//Needs to be date
       }];
     }
 
