@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Container } from '@mui/material';
+import { Box, TextField, Button, Typography, Container, CssBaseline, Paper } from '@mui/material';
 import { useRouter } from 'next/router';
 
 const LoginDashboard = () => {
@@ -10,25 +10,32 @@ const LoginDashboard = () => {
     const handleLogin = () => {
         if (username && id) {
             router.push(`/?id=${id}`);
+        } else {
+            alert('Please fill in all fields.');
         }
     };
 
     return (
         <Container component="main" maxWidth="xs">
-            <Box
+            <CssBaseline />
+            <Paper
                 sx={{
-                    marginTop: 8,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    p: 4,
+                    mt: 8,
+                    backgroundImage: 'url("https://source.unsplash.com/random/house")',
+                    backgroundSize: 'cover',
+                    color: '#ffffff'
                 }}
             >
-                <Typography component="h1" variant="h5">
-                    Sign in
+                <Typography component="h1" variant="h5" sx={{ color: '#fff' }}>
+                    Homeowner Portal Sign In
                 </Typography>
-                <Box sx={{ mt: 1 }}>
+                <Box sx={{ mt: 3 }}>
                     <TextField
-                        variant="outlined"
+                        variant="filled"
                         margin="normal"
                         required
                         fullWidth
@@ -38,24 +45,29 @@ const LoginDashboard = () => {
                         autoComplete="username"
                         autoFocus
                         InputProps={{
-                            style: { color: 'black', backgroundColor: 'white' }, // Only changes the text input area
+                            style: { color: 'black' },
                         }}
                         sx={{
-                            '& .MuiInputBase-root': {
-                                backgroundColor: 'transparent', // Ensure no background change for the component
-                                '& input': {
-                                    backgroundColor: 'white', // White background for text input area only
-                                },
+                            input: {
+                                color: '#333',
+                                backgroundColor: '#fff',
+                                borderRadius: '5px',
                             },
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'grey', // Standard border color
+                            '& .MuiFilledInput-underline:before': {
+                                borderBottomColor: 'transparent',
+                            },
+                            '& .MuiFilledInput-underline:hover:before': {
+                                borderBottomColor: 'transparent',
+                            },
+                            '& .MuiFilledInput-underline:after': {
+                                borderBottomColor: 'transparent',
                             },
                         }}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <TextField
-                        variant="outlined"
+                        variant="filled"
                         margin="normal"
                         required
                         fullWidth
@@ -64,17 +76,22 @@ const LoginDashboard = () => {
                         type="text"
                         id="id"
                         InputProps={{
-                            style: { color: 'black', backgroundColor: 'white' }, // Only changes the text input area
+                            style: { color: 'black' },
                         }}
                         sx={{
-                            '& .MuiInputBase-root': {
-                                backgroundColor: 'transparent', // Ensure no background change for the component
-                                '& input': {
-                                    backgroundColor: 'white', // White background for text input area only
-                                },
+                            input: {
+                                color: '#333',
+                                backgroundColor: '#fff',
+                                borderRadius: '5px',
                             },
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'grey', // Standard border color
+                            '& .MuiFilledInput-underline:before': {
+                                borderBottomColor: 'transparent',
+                            },
+                            '& .MuiFilledInput-underline:hover:before': {
+                                borderBottomColor: 'transparent',
+                            },
+                            '& .MuiFilledInput-underline:after': {
+                                borderBottomColor: 'transparent',
                             },
                         }}
                         autoComplete="off"
@@ -85,13 +102,13 @@ const LoginDashboard = () => {
                         type="button"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
+                        sx={{ mt: 3, mb: 2, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
                         onClick={handleLogin}
                     >
                         Sign In
                     </Button>
                 </Box>
-            </Box>
+            </Paper>
         </Container>
     );
 };
