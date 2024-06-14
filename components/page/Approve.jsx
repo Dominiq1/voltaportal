@@ -69,21 +69,18 @@ function formatDate(date) {
 
 
 
-// Function to format the date in YYYY-MM-DD format
-function formatDate(date) {
-  const day = ('0' + date.getDate()).slice(-2);
-  const month = ('0' + (date.getMonth() + 1)).slice(-2);
-  const year = date.getFullYear();
-  return `${year}-${month}-${day}`;
-}
 
 const submitResultEmail = async ({ decision, eventID }) => {
   // Prepare the data payload
   const today = formatDate(new Date());
   const requestBody = {
     eventID: eventID,
-    decision: decision,
-    date: today
+    decision: decision
+  };
+
+  const headers = {
+
+    "Content-Type": "application/json",
   };
 
   // Set your API endpoint
@@ -91,7 +88,7 @@ const submitResultEmail = async ({ decision, eventID }) => {
 
   try {
     // Send a POST request
-    const response = await axios.post(API_ENDPOINT, requestBody);
+    const response = await axios.post(API_ENDPOINT, requestBody, {headers});
     console.log("Success!", response.data);
   } catch (error) {
     console.error("Failed to send data:", error);
@@ -104,8 +101,25 @@ const submitResultEmail = async ({ decision, eventID }) => {
   // useEffect to call submitFLAresponse on component mount
   useEffect(() => {
     if (id && result) {
-      submitFLAresponse({ decisionStatus: result, eventID: id });
-      submitResultEmail({ decisionStatus: result, eventID: id });
+      submitFLAresponse({ decisionStatus: result, eventID: id })
+       
+      submitResultEmail({ decision: result, eventID: id })
+      .catch(error => {
+        console.error("An error occurred:", error);
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+      });
+      
+          
+        
     }
   }, [id, result]); // Dependencies array includes id and result
 
@@ -116,19 +130,20 @@ const submitResultEmail = async ({ decision, eventID }) => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundColor: 'blue',
+        backgroundColor: 'black',
       }}
     >
       <Box
         sx={{
           padding: 4,
           backgroundColor: 'white',
+          width:'70vw',
           borderRadius: '8px',
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         }}
       >
         <Typography variant="h6" textAlign="center">
-          Hello {id}, Thank you for confirming your FLA approval!
+         Thank you for confirming your FLA approval!
         </Typography>
       </Box>
     </Box>
