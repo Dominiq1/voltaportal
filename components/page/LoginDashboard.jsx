@@ -1,79 +1,76 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Container, CssBaseline, Paper } from '@mui/material';
+import { Box, TextField, Button, Typography, Container, CssBaseline, Paper, Alert } from '@mui/material';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const LoginDashboard = () => {
     const [username, setUsername] = useState('');
     const [id, setId] = useState('');
+    const [error, setError] = useState('');
     const router = useRouter();
 
-    const handleLogin = () => {
-        if (username && id) {
-            router.push(`/?id=${id}`);
-        } else {
-            alert('Please fill in all fields.');
+    function formatDate(date) {
+        let day = ('0' + date.getDate()).slice(-2);
+        let month = ('0' + (date.getMonth() + 1)).slice(-2);
+        let year = date.getFullYear();
+        return `${year}-${month}-${day}`;
+    }
+      
+    const authLogin = async () => {
+        setError(''); // Clear previous errors before a new login attempt
+        if (!username || !id) {
+            setError('Please fill in all fields.');
+            return;
         }
-    };
 
-
-
-
-
-
-    const authorize = async ({ homeownerEmail, eventID }) => {
+        const today = formatDate(new Date()).toString();
         const QB_DOMAIN = "voltaic.quickbase.com";
         const API_ENDPOINT = "https://api.quickbase.com/v1/records";
     
         const headers = {
-          Authorization: "QB-USER-TOKEN b7738j_qjt3_0_dkaew43bvzcxutbu9q4e6crw3ei3",
-          "QB-Realm-Hostname": QB_DOMAIN,
-          "Content-Type": "application/json",
+            Authorization: "QB-USER-TOKEN b7738j_qjt3_0_dkaew43bvzcxutbu9q4e6crw3ei3",
+            "QB-Realm-Hostname": QB_DOMAIN,
+            "Content-Type": "application/json",
         };
     
-        let requestBody = {
-          to: "br5cqr3sn", // Table identifier in Quickbase
-          data: [{
-            3: { value: eventID },
-            26: { value: "" },
-            17: { value: "" },
-          }],
-          fieldsToReturn: [] // Specify fields to return, if any
+        const requestBody = {
+            to: "br5cqr4r3",
+            data: [{
+                3: { value: id },
+                // 90: { value: username },
+                2887: { value: today },
+            }],
+            fieldsToReturn: []
         };
-    
-        if (decisionStatus === "1") { // Use `===` for comparison
-          requestBody.data = [{
-            3: { value: eventID },
-            26: { value: "251" },
-            17: { value: "" },
-          }];
-        } else {
-          requestBody.data = [{
-            3: { value: eventID },
-            26: { value: "629" },
-            17: { value: "" },
-          }];
-        }
     
         try {
-          const response = await axios.post(API_ENDPOINT, requestBody, { headers });
-          console.log("Success!", response.data);
+            const response = await axios.post(API_ENDPOINT, requestBody, { headers });
+            console.log("Success!", response.data);
+            
+            if(response.data.metadata.lineErrors) {
+                const firstLineErrorKey = Object.keys(response.data.metadata.lineErrors)[0];
+                const lineErrors = response.data.metadata.lineErrors[firstLineErrorKey];
+                if (lineErrors && lineErrors.length > 0) {
+                    setError(lineErrors[0]); // Set the specific line error from the API
+                    return; // Stop further execution
+                }
+            }
+            router.push(`/?id=${id}`);
         } catch (error) {
-          console.error("Failed to send data:", error);
-          throw error; // Rethrow or handle error as needed
+            console.error("Failed to send data:", error);
+            if (error.response && error.response.data && error.response.data.metadata && error.response.data.metadata.lineErrors) {
+                const firstLineErrorKey = Object.keys(error.response.data.metadata.lineErrors)[0];
+                const lineErrors = error.response.data.metadata.lineErrors[firstLineErrorKey];
+                if (lineErrors && lineErrors.length > 0) {
+                    setError(lineErrors[0]); // Set the specific line error from the API
+                } else {
+                    setError('An unexpected error occurred. Please try again.');
+                }
+            } else {
+                setError('Failed to login. Please check your credentials and try again.');
+            }
         }
-      };
-
-
-
-
-
-
-
-
-
-
-
-
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -94,6 +91,7 @@ const LoginDashboard = () => {
                     Homeowner Portal Sign In
                 </Typography>
                 <Box sx={{ mt: 3 }}>
+                    {error && <Alert severity="error">{error}</Alert>}
                     <TextField
                         variant="filled"
                         margin="normal"
@@ -104,27 +102,10 @@ const LoginDashboard = () => {
                         name="username"
                         autoComplete="username"
                         autoFocus
-                        InputProps={{
-                            style: { color: 'black' },
-                        }}
-                        sx={{
-                            input: {
-                                color: '#333',
-                                backgroundColor: '#fff',
-                                borderRadius: '5px',
-                            },
-                            '& .MuiFilledInput-underline:before': {
-                                borderBottomColor: 'transparent',
-                            },
-                            '& .MuiFilledInput-underline:hover:before': {
-                                borderBottomColor: 'transparent',
-                            },
-                            '& .MuiFilledInput-underline:after': {
-                                borderBottomColor: 'transparent',
-                            },
-                        }}
+                        InputProps={{ style: { color: 'black' }, }}
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        sx={{ input: { color: '#333', backgroundColor: '#fff', borderRadius: '5px' }, }}
                     />
                     <TextField
                         variant="filled"
@@ -135,35 +116,17 @@ const LoginDashboard = () => {
                         label="ID"
                         type="text"
                         id="id"
-                        InputProps={{
-                            style: { color: 'black' },
-                        }}
-                        sx={{
-                            input: {
-                                color: '#333',
-                                backgroundColor: '#fff',
-                                borderRadius: '5px',
-                            },
-                            '& .MuiFilledInput-underline:before': {
-                                borderBottomColor: 'transparent',
-                            },
-                            '& .MuiFilledInput-underline:hover:before': {
-                                borderBottomColor: 'transparent',
-                            },
-                            '& .MuiFilledInput-underline:after': {
-                                borderBottomColor: 'transparent',
-                            },
-                        }}
                         autoComplete="off"
                         value={id}
                         onChange={(e) => setId(e.target.value)}
+                        sx={{ input: { color: '#333', backgroundColor: '#fff', borderRadius: '5px' }, }}
                     />
                     <Button
                         type="button"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' } }}
-                        onClick={handleLogin}
+                        onClick={authLogin}
                     >
                         Sign In
                     </Button>

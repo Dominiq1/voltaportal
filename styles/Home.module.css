@@ -1,12 +1,25 @@
+/* Home.module.css */
 .main {
-  background-color: black;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6rem;
-  min-height: 100vh;
+  width: 100%; /* Full width */
+  min-height: 100vh; /* Full view height */
+  display: flex; /* Flexbox for inner alignment */
+  justify-content: center; /* Centering content horizontally */
+  align-items: center; /* Centering content vertically */
+  padding: 20px; /* Padding around the content */
+  max-width: 960px; /* Adjust according to your layout needs */
+  background-color: #fff; /* Ensure background is white or any desired color */
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional: adds subtle shadow for better focus */
+  border: none; /* Removes border */
 }
+
+/* Additional styles for responsiveness and aesthetics */
+@media (max-width: 600px) {
+  .main {
+    padding: 10px;
+    box-shadow: none; /* Removes shadow on smaller screens for a cleaner look */
+  }
+}
+
 
 .description {
   display: inherit;
@@ -250,6 +263,7 @@
     z-index: 1;
   }
 }
+
 
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
