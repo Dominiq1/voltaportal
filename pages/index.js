@@ -1,15 +1,33 @@
 import Head from "next/head";
 import { useRouter } from 'next/router';
-import styles from "@/styles/Home.module.css";
+import { useState, useEffect } from 'react';
 import HomeScreen from "@/components/page/HomePage";
 import LoginDashboard from "@/components/page/LoginDashboard";
 
 export default function Home() {
   const router = useRouter();
   const { id } = router.query;
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [showHomeScreen, setShowHomeScreen] = useState(false);
+  const [fade, setFade] = useState(false);
 
-  // Check if the id parameter is present
-  const isValidPassword = id != null;
+  useEffect(() => {
+    console.log("Router ID:", id);
+    if (id) {
+      setFade(true);
+      setTimeout(() => {
+        setIsValidPassword(true);
+        setShowHomeScreen(true);
+      }, 500); // Delay to let the fade-out transition complete
+    }
+  }, [id]);
+
+  const fadeStyles = {
+    transition: 'opacity 0.5s ease-in-out',
+    opacity: fade ? 0 : 1,
+  };
+
+  console.log("isValidPassword:", isValidPassword);
 
   return (
     <>
@@ -19,11 +37,15 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        {isValidPassword ? (
-          <HomeScreen projectID={id} />
+      <main style={{ position: 'relative', height: '100vh' }}>
+        {!showHomeScreen ? (
+          <div style={{ ...fadeStyles, position: 'absolute', width: '100%' }}>
+            <LoginDashboard />
+          </div>
         ) : (
-          <LoginDashboard />
+          <div style={{ transition: 'opacity 0.5s ease-in-out', opacity: 1 }}>
+            <HomeScreen projectID={id} />
+          </div>
         )}
       </main>
     </>

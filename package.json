@@ -2,7 +2,6 @@
   "name": "vcapp",
   "version": "0.1.0",
   "private": true,
-  
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -42,6 +41,7 @@
     "react-icons": "^4.8.0",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.20.0",
+    "react-transition-group": "^4.4.5",
     "styled-components": "^6.1.8",
     "uuid": "^9.0.0",
     "uuidv4": "^6.2.13"
