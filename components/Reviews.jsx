@@ -1,18 +1,36 @@
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
-
+import React from 'react';
+import styled from 'styled-components';
+import TestimonialSection from './Testimonial';
 import InstallMaps from '@/components/InstallMaps'
 import { useQuery } from '@apollo/client'
-import { Box, Grid } from '@mui/material'
 
-import { GET_MAP_DATA } from '@/gql/mutations/InstallMap'
 import bolt from '../public/images/bolt.png'
+import { GET_MAP_DATA } from '@/gql/mutations/InstallMap'
+import { Box } from '@mui/material';
+import { Height } from '@mui/icons-material';
 
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  height: 100%; /* Ensure it takes up the full height of the BottomContainer */
+  overflow: auto; /* Allow scrolling if content overflows */
+`;
 
+const Heading = styled.h2`
+  color: #2c3e50;
+`;
 
-export default function Home() {
+const Paragraph = styled.p`
+  margin-top: 20px;
+  color: #7f8c8d;
+`;
 
-
+function Reviews() {
   const { loading, error, data } = useQuery(GET_MAP_DATA);
 
 
@@ -53,19 +71,31 @@ export default function Home() {
   console.log("markers", markers)
   
 
+
+
+
+
+
+
+
+
+
+
+
+
   return (
-    <>
-      <Head>
-        <title>Voltaic Install Map</title>
-        <meta name="description" content="Voltiac OPS" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Container>
+      <Heading>Website & Google Reviews</Heading>
+      <Paragraph>Check out our website and read our Google Reviews.</Paragraph>
 
-      <Box sx={{ height: '100vh', width:'100vw', backgroundColor: 'black', p: 2, color: 'black' }}>
-        <InstallMaps markers={markers} />
+      <Box sx={{height:'30vh'}}> 
+ <InstallMaps markers={markers}/>
+
       </Box>
-
-    </>
-  )
+     
+      <TestimonialSection />
+    </Container>
+  );
 }
+
+export default Reviews;

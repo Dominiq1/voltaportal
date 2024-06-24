@@ -42,11 +42,12 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.20.0",
     "react-transition-group": "^4.4.5",
-    "styled-components": "^6.1.8",
+    "styled-components": "^6.1.11",
     "uuid": "^9.0.0",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
-    "@vercel/node": "^2.9.13"
+    "@vercel/node": "^2.9.13",
+    "babel-plugin-styled-components": "^2.1.4"
   }
 }
