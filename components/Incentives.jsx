@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import fireMap from '@/public/images/fireMap.png'; // Adjust the path based on your directory structure
+import incentives from '@/public/images/incentives.png'; // Adjust the path based on your directory structure
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,6 +35,16 @@ const Section = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+`;
+
+const DoubleSection = styled.div`
+  flex: 2; /* Make this section double-sized */
+  min-width: 300px; /* Adjust based on your design */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `;
 
 const Heading = styled.h2`
@@ -92,6 +102,15 @@ function Incentives() {
             Learn More
           </Button>
         </Section>
+        <DoubleSection>
+          <Image 
+            src={incentives}
+            alt="Incentives Image"
+            width={520}
+            height={400}
+            layout="intrinsic"
+          />
+        </DoubleSection>
       </PageContainer>
     </Wrapper>
   );
