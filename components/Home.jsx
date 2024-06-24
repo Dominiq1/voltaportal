@@ -29,8 +29,9 @@ function Home() {
         </Box>
       <Heading>Energy Ambassador Program</Heading>
       <Paragraph>
-        Welcome to Voltaic Construction's Energy Ambassador Program. Learn more about our services and incentives.
-      </Paragraph>
+  Welcome to Voltaic Construction&apos;s Energy Ambassador Program. Learn more about our services and incentives.
+</Paragraph>
+
     </Container>
   );
 }
