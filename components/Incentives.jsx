@@ -109,6 +109,10 @@ function Incentives() {
             width={520}
             height={400}
             layout="intrinsic"
+
+
+
+
           />
         </DoubleSection>
       </PageContainer>
@@ -117,3 +121,6 @@ function Incentives() {
 }
 
 export default Incentives;
+
+
+//New
