@@ -19,13 +19,29 @@ const Heading = styled.h2`
 const List = styled.ul`
   list-style: none;
   padding: 0;
+  padding-left: 5%;
+  padding-top: 30px;
   color: #7f8c8d;
-  font-size: 1.2em; /* Adjust the size as needed */
+  font-size: 1.5em; /* Adjust the size as needed */
+  text-align: left; /* Align text to the left for better readability */
 `;
 
 const ListItem = styled.li`
   padding: 5px 0;
   color: ${props => props.gray ? 'gray' : '#2c3e50'};
+`;
+
+const SubList = styled.ul`
+  list-style: disc;
+  padding-left: 20px;
+  margin-top: 5px;
+  font-size: 1em; /* Adjust the size as needed */
+  color: #7f8c8d;
+`;
+
+const SubListItem = styled.li`
+  padding: 5px 0;
+  color: #2c3e50;
 `;
 
 const Paragraph = styled.p`
@@ -49,7 +65,13 @@ function Services() {
         <ListItem>Roofing</ListItem>
         <ListItem>Span Smart Electrical Panels</ListItem>
         <ListItem>QuietCool Fans</ListItem>
-        <ListItem>EV Chargers</ListItem>
+        <ListItem>
+          EV Chargers
+          <SubList>
+            <SubListItem>In House Service Department</SubListItem>
+            <SubListItem>24/7 Monitoring for Production & Consumption</SubListItem>
+          </SubList>
+        </ListItem>
       </List>
       <Paragraph>
         We offer our services to Residential, Custom home & New Construction, Commercial, and Utility Scale projects in California and Texas.
