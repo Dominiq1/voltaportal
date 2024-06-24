@@ -73,7 +73,6 @@ export default function EAP() {
   const [currentPage, setCurrentPage] = useState('home');
 
   useEffect(() => {
-    // Check the hash and set the current page based on it
     const hash = window.location.hash.substring(1);
     if (hash && componentsMap[hash]) {
       setCurrentPage(hash);
@@ -81,7 +80,6 @@ export default function EAP() {
   }, []);
 
   useEffect(() => {
-    // Update the hash whenever the current page changes
     window.location.hash = currentPage;
   }, [currentPage]);
 
