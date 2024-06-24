@@ -87,8 +87,19 @@ function Reviews() {
     <Container>
       <Heading>Website & Google Reviews</Heading>
       <Paragraph>Check out our website and read our Google Reviews.</Paragraph>
-
+      <iframe
+          src="https://voltaicnow.com/" // Replace with the URL of the website you want to embed
+          style={{
+            width: '100%',
+            height: '60vh',
+            border: 'none',
+          }}
+          title="Embedded Website"
+        ></iframe>
       <Box sx={{height:'30vh'}}> 
+
+  
+        {/* Add window to another website here  */}
  <InstallMaps markers={markers}/>
 
       </Box>

@@ -44,7 +44,7 @@ function ThankYou() {
       />
       <Heading>Thank You!</Heading>
       <Paragraph>
-        We sincerely appreciate your presence and participation. Your support means a lot to us.
+        We sincerely appreciate your presence and participation.
       </Paragraph>
       <ImageWrapper>
         <Image

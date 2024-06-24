@@ -137,8 +137,9 @@ export default function EAP() {
         <NavList>
           <NavItem onClick={() => setCurrentPage('home')}>Home</NavItem>
           <NavItem onClick={() => setCurrentPage('services')}>Our Services</NavItem>
-          <NavItem onClick={() => setCurrentPage('sgip')}>SGIP</NavItem>
+       
           <NavItem onClick={() => setCurrentPage('ambassador')}>Ambassador Program</NavItem>
+          <NavItem onClick={() => setCurrentPage('sgip')}>SGIP</NavItem>
           <NavItem onClick={() => setCurrentPage('incentives')}>Incentives</NavItem>
           <NavItem onClick={() => setCurrentPage('aiTool')}>AI Proposal Tool</NavItem>
           <NavItem onClick={() => setCurrentPage('reviews')}>Website & Reviews</NavItem>

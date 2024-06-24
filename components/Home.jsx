@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import logo from '@/public/images/logo.png'; // Adjust the path based on your directory structure
+import solarProject2 from '@/public/images/solarProject2.png'; // Adjust the path based on your directory structure
 import { Box } from '@mui/material';
 
 const Container = styled.div`
@@ -20,6 +21,7 @@ const Paragraph = styled.p`
   margin-top: 20px;
   color: #7f8c8d;
   width: 60vw;
+  margin-bottom: 50px;
 `;
 
 function Home() {
@@ -32,6 +34,8 @@ function Home() {
       <Paragraph>
   Welcome to Voltaic Construction&apos;s Energy Ambassador Program. Learn more about our services and incentives.
 </Paragraph>
+
+<Image src={solarProject2} alt="Voltaic Project" width={520} height={450}  objectFit="contain" />
 
     </Container>
   );

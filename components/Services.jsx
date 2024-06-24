@@ -74,7 +74,7 @@ function Services() {
         </ListItem>
       </List>
       <Paragraph>
-        We offer our services to Residential, Custom home & New Construction, Commercial, and Utility Scale projects in California and Texas.
+        We offer our services to Residential, Commercial, and Utility Scale projects in California and Texas.
       </Paragraph>
     </Container>
   );
