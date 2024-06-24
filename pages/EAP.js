@@ -21,10 +21,18 @@ const AppContainer = styled.div`
   flex-direction: column;
   height: 100vh;
   padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 const Nav = styled.nav`
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
 
 const NavList = styled.ul`
@@ -34,6 +42,11 @@ const NavList = styled.ul`
   justify-content: space-around;
   background-color: #2c3e50;
   border-radius: 8px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const NavItem = styled.li`
@@ -43,6 +56,10 @@ const NavItem = styled.li`
   &:hover {
     background-color: #34495e;
     border-radius: 8px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px 0;
   }
 `;
 
