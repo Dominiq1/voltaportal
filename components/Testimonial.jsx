@@ -17,7 +17,7 @@ const TestimonialHeading = styled.h2`
 `;
 
 const WidgetContainer = styled.div`
-  width: 100%;
+  width: 100vwe;
   overflow: hidden; /* Prevent widget overflow */
 `;
 
@@ -25,24 +25,37 @@ const TestimonialSection = () => {
   useEffect(() => {
     // Create a script element
     const script = document.createElement('script');
-    script.src = 'https://widgets.sociablekit.com/google-reviews/widget.js';
-    script.async = true;
+    script.src = 'https://static.elfsight.com/platform/platform.js';
+    script.setAttribute('data-use-service-core', '');
     script.defer = true;
 
     // Append the script to the body
     document.body.appendChild(script);
 
-    // Clean up the script when the component unmounts
+    // Function to hide the review count
+    const hideReviewCount = () => {
+      const reviewCountElement = document.querySelector('.elfsight-app-3c302946-faab-4be0-b6ed-d965d47d6177 [data-test-id="rating-count"]');
+      if (reviewCountElement) {
+        reviewCountElement.style.display = 'none';
+      }
+    };
+
+    // Use MutationObserver to detect changes in the DOM
+    const observer = new MutationObserver(hideReviewCount);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Clean up the script and observer when the component unmounts
     return () => {
       document.body.removeChild(script);
+      observer.disconnect();
     };
   }, []);
 
   return (
     <TestimonialContainer>
-      <TestimonialHeading>What Our Customers Say</TestimonialHeading>
+    
       <WidgetContainer>
-        <div className="sk-ww-google-reviews" data-embed-id="25361293"></div>
+        <div className="elfsight-app-3c302946-faab-4be0-b6ed-d965d47d6177" data-elfsight-app-lazy></div>
       </WidgetContainer>
     </TestimonialContainer>
   );

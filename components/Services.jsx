@@ -44,6 +44,7 @@ function Services() {
         <ListItem gray>ADUs - Coming soon</ListItem>
         <ListItem>Solar</ListItem>
         <ListItem>Batteries</ListItem>
+        <ListItem>Solar Carports</ListItem>
         <ListItem>HVAC</ListItem>
         <ListItem>Roofing</ListItem>
         <ListItem>Span Smart Electrical Panels</ListItem>

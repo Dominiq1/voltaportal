@@ -19,6 +19,7 @@ const Heading = styled.h1`
 const Paragraph = styled.p`
   margin-top: 20px;
   color: #7f8c8d;
+  width: 60vw;
 `;
 
 function Home() {

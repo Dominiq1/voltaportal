@@ -12,10 +12,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
     background-color: #D2C5B4;
   }
-
 `;
 
 const AppContainer = styled.div`
@@ -23,7 +21,6 @@ const AppContainer = styled.div`
   flex-direction: column;
   height: 100vh;
   padding: 20px;
- 
 
   @media (max-width: 768px) {
     padding: 10px;
@@ -43,8 +40,10 @@ const NavList = styled.ul`
   padding: 0;
   display: flex;
   justify-content: space-around;
-  background-color: #2c3e50;
+  background-color: #2C3E50;
   border-radius: 8px;
+  border: 2px solid #fff;
+  font-weight: bold;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -56,9 +55,12 @@ const NavItem = styled.li`
   cursor: pointer;
   padding: 10px 20px;
   color: #ecf0f1;
+  transition: background-color 0.3s, color 0.3s;
+  
   &:hover {
     background-color: #34495e;
     border-radius: 8px;
+    color: #fff;
   }
 
   @media (max-width: 768px) {

@@ -10,7 +10,7 @@ import { Box } from '@mui/material';
 import { Height } from '@mui/icons-material';
 
 const Container = styled.div`
-  max-width: 1200px;
+  width: 80vw;
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;
