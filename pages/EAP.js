@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Home from '../components/Home';
 import Services from '../components/Services';
 import AmbassadorProgram from '../components/AmbassadorProgram';
@@ -85,6 +86,23 @@ const BottomContainer = styled.div`
   align-items: center;
 `;
 
+const FadeContainer = styled.div`
+  &.fade-enter {
+    opacity: 0;
+  }
+  &.fade-enter-active {
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+  }
+  &.fade-exit {
+    opacity: 1;
+  }
+  &.fade-exit-active {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
+`;
+
 const componentsMap = {
   home: Home,
   services: Services,
@@ -127,15 +145,21 @@ export default function EAP() {
           <NavItem onClick={() => setCurrentPage('final')}>Final</NavItem>
         </NavList>
       </Nav>
-      {currentPage === 'reviews' ? (
-        <BottomContainer>
-          <CurrentComponent key={currentPage} />
-        </BottomContainer>
-      ) : (
-        <ContentContainer>
-          <CurrentComponent key={currentPage} />
-        </ContentContainer>
-      )}
+      <TransitionGroup component={null}>
+        <CSSTransition key={currentPage} classNames="fade" timeout={500}>
+          <FadeContainer>
+            {currentPage === 'reviews' ? (
+              <BottomContainer>
+                <CurrentComponent />
+              </BottomContainer>
+            ) : (
+              <ContentContainer>
+                <CurrentComponent />
+              </ContentContainer>
+            )}
+          </FadeContainer>
+        </CSSTransition>
+      </TransitionGroup>
     </AppContainer>
   );
 }
