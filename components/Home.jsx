@@ -11,6 +11,8 @@ const Container = styled.div`
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
 `;
 
 const Heading = styled.h1`
@@ -20,23 +22,23 @@ const Heading = styled.h1`
 const Paragraph = styled.p`
   margin-top: 20px;
   color: #7f8c8d;
-  width: 60vw;
   margin-bottom: 50px;
+  text-align: center;
 `;
 
 function Home() {
   return (
     <Container>
-       <Box sx={{ mb: 3 }}>
-          <Image src={logo} alt="Voltaic Logo" width={320} height={150} objectFit="contain" />
-        </Box>
+      <Box sx={{ mb: 3 }}>
+        <Image src={logo} alt="Voltaic Logo" width={320} height={150} objectFit="contain" />
+      </Box>
       <Heading>Energy Ambassador Program</Heading>
       <Paragraph>
-  Welcome to Voltaic Construction&apos;s Energy Ambassador Program. Learn more about our services and incentives.
-</Paragraph>
-
-<Image src={solarProject2} alt="Voltaic Project" width={520} height={450}  objectFit="contain" />
-
+        Welcome to Voltaic Construction&apos;s Energy Ambassador Program. Learn more about our services and incentives.
+      </Paragraph>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Image src={solarProject2} alt="Voltaic Project" width={520} height={450} objectFit="contain" />
+      </Box>
     </Container>
   );
 }
