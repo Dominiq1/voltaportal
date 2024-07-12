@@ -202,17 +202,12 @@ const errorModalBody = (
 
     const [programs, setPrograms] = useState([
     { id: 0, name: "Cash" },
-    { id: 1, name: "Dividend" },
+    { id: 1, name: "Mosaic" },
     { id: 2, name: "Enium" },
-    { id: 3, name: "Everbright" },
-    { id: 4, name: "Everbrite" },
-    { id: 5, name: "Foundation" },
-    { id: 6, name: "Goodleap" },
-    { id: 7, name: "Loanpal" },
-    { id: 8, name: "Mosaic" },
-    { id: 9, name: "Sunnova" },
-    { id: 10, name: "Sunrun" },
-    { id: 11, name: "Ygrene" },
+    { id: 3, name: "Lightreach" },
+    { id: 4, name: "Sunnova" },
+
+
     { id: 12, name: "Lightreach" },
   ]);
 
